@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RootNamespace>GGroupp.Internal.Timesheet</RootNamespace>
+    <AssemblyName>GGroupp.Internal.Timesheet.TimesheetCollection.Get.Api</AssemblyName>
+    <Version>1.0.0-build.4</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GGroupp.Core.Functional.AsyncPipeline" Version="1.1.0-build.1" />
+    <PackageReference Include="GGroupp.Infra.Dataverse.Api.Abstractions" Version="1.0.0" />
+    <PackageReference Include="GGroupp.Internal.Timesheet.TimesheetCollection.Get.InOut" Version="1.0.0-build.2" />
+    <PackageReference Include="PrimeFuncPack.Core" Version="1.1.1" />
+    <PackageReference Include="PrimeFuncPack.Dependency.Core" Version="1.1.0" />
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+  </ItemGroup>
+
+</Project>
