@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace GGroupp.Internal.Timesheet
 {
-    public sealed record TimesheetJsonOut
+    internal sealed record TimesheetJsonOut
     {
         [JsonPropertyName(TimesheetJsonFieldName.Id)]
         public Guid Id { get; init; }

@@ -30,27 +30,27 @@ jobs:
     - name: Add GGroupp NuGet Source
       run: dotnet nuget add source ${{ secrets.GGROUPP_NUGET_SOURCE_URL }} -n ggroupp -u ${{ secrets.GGROUPP_NUGET_SOURCE_USER_NAME }} -p ${{ secrets.GGROUPP_NUGET_SOURCE_USER_PASSWORD }} --store-password-in-clear-text
 
-    # TimesheetCollection.Get.InOut
+    # TimesheetSet.Get.InOut
     
-    - name: Restore TimesheetCollection.Get.InOut
-      run: dotnet restore ./src/*/TimesheetCollection.Get.InOut.csproj
+    - name: Restore TimesheetSet.Get.InOut
+      run: dotnet restore ./src/*/TimesheetSet.Get.InOut.csproj
 
-    - name: Build TimesheetCollection.Get.InOut
-      run: dotnet build ./src/*/TimesheetCollection.Get.InOut.csproj --no-restore  -c Release
+    - name: Build TimesheetSet.Get.InOut
+      run: dotnet build ./src/*/TimesheetSet.Get.InOut.csproj --no-restore  -c Release
 
-    - name: Pack TimesheetCollection.Get.InOut
-      run: dotnet pack ./src/*/TimesheetCollection.Get.InOut.csproj --no-restore -o ~/nuget  -c Release
+    - name: Pack TimesheetSet.Get.InOut
+      run: dotnet pack ./src/*/TimesheetSet.Get.InOut.csproj --no-restore -o ~/nuget  -c Release
       
-    # TimesheetCollection.Get.Api
+    # TimesheetSet.Get.Api
 
-    - name: Restore TimesheetCollection.Get.Api
-      run: dotnet restore ./src/*/TimesheetCollection.Get.Api.csproj
+    - name: Restore TimesheetSet.Get.Api
+      run: dotnet restore ./src/*/TimesheetSet.Get.Api.csproj
 
-    - name: Build TimesheetCollection.Get.Api
-      run: dotnet build ./src/*/TimesheetCollection.Get.Api.csproj --no-restore  -c Release
+    - name: Build TimesheetSet.Get.Api
+      run: dotnet build ./src/*/TimesheetSet.Get.Api.csproj --no-restore  -c Release
 
-    - name: Pack TimesheetCollection.Get.Api
-      run: dotnet pack ./src/*/TimesheetCollection.Get.Api.csproj --no-restore -o ~/nuget  -c Release
+    - name: Pack TimesheetSet.Get.Api
+      run: dotnet pack ./src/*/TimesheetSet.Get.Api.csproj --no-restore -o ~/nuget  -c Release
       
     # Push
       

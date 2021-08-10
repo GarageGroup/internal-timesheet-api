@@ -10,17 +10,17 @@ using static System.FormattableString;
 
 namespace GGroupp.Internal.Timesheet
 {
-    partial class TimesheetCollectionGetFunc
+    partial class TimesheetSetGetFunc
     {
-        public ValueTask<Result<TimesheetCollectionGetOut, Failure<Unit>>> InvokeAsync(
-            TimesheetCollectionGetIn input, CancellationToken cancellationToken = default)
+        public ValueTask<Result<TimesheetSetGetOut, Failure<Unit>>> InvokeAsync(
+            TimesheetSetGetIn input, CancellationToken cancellationToken = default)
             =>
             AsyncPipeline.Start(
                 input ?? throw new ArgumentNullException(nameof(input)),
                 cancellationToken)
             .Pipe(
-                @in => new DataverseEntitiesGetIn(
-                    entitiesName: "gg_timesheetactivities",
+                @in => new DataverseEntitySetGetIn(
+                    entitySetName: "gg_timesheetactivities",
                     selectFields: new[]
                     {
                         TimesheetJsonFieldName.Id,
@@ -32,14 +32,14 @@ namespace GGroupp.Internal.Timesheet
                     },
                     filter: BuildFilter(input)))
             .PipeValue(
-                dataverseEntitiesGetSupplier.GetEntitiesAsync<TimesheetJsonOut>)
+                dataverseEntitySetGetSupplier.GetEntitySetAsync<TimesheetJsonOut>)
             .MapFailure(
                 failure => failure.MapFailureCode(_ => Unit.Value))
             .MapSuccess(
-                dataverseOut => new TimesheetCollectionGetOut(
+                dataverseOut => new TimesheetSetGetOut(
                     timesheets: dataverseOut.Value.Select(MapTimesheetJson).ToArray()));
 
-        private static string BuildFilter(TimesheetCollectionGetIn input)
+        private static string BuildFilter(TimesheetSetGetIn input)
             =>
             Pipeline.Pipe(
                 new StringBuilder())

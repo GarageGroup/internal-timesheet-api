@@ -6,9 +6,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GGroupp.Internal.Timesheet
 {
-    public sealed record TimesheetCollectionGetOut
+    public sealed record TimesheetSetGetOut
     {
-        public TimesheetCollectionGetOut([AllowNull] IReadOnlyCollection<TimesheetItemGetOut> timesheets)
+        public TimesheetSetGetOut([AllowNull] IReadOnlyCollection<TimesheetItemGetOut> timesheets)
             =>
             Timesheets = timesheets ?? Array.Empty<TimesheetItemGetOut>();
 

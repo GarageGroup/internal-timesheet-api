@@ -2,7 +2,7 @@
 
 namespace GGroupp.Internal.Timesheet
 {
-    public static class TimesheetJsonFieldName
+    internal static class TimesheetJsonFieldName
     {
         public const string Id = "activityid";
 

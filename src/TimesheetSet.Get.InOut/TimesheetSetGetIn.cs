@@ -4,9 +4,9 @@ using System;
 
 namespace GGroupp.Internal.Timesheet
 {
-    public sealed record TimesheetCollectionGetIn
+    public sealed record TimesheetSetGetIn
     {
-        public TimesheetCollectionGetIn(Guid userId, DateTimeOffset dateFrom, DateTimeOffset dateTo)
+        public TimesheetSetGetIn(Guid userId, DateTimeOffset dateFrom, DateTimeOffset dateTo)
         {
             UserId = userId;
             DateFrom = dateFrom;
