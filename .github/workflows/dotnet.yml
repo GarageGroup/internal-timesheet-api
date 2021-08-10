@@ -1,0 +1,59 @@
+name: .NET
+
+on:
+  push:
+    branches: [ main ]
+    
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+        
+     # Add NuGet Sources
+
+    - name: Create Local NuGet Directory
+      run: mkdir ~/nuget
+
+    - name: Add Local Nuget Source
+      run: dotnet nuget add source ~/nuget
+
+    - name: Add GGroupp NuGet Source
+      run: dotnet nuget add source ${{ secrets.GGROUPP_NUGET_SOURCE_URL }} -n ggroupp -u ${{ secrets.GGROUPP_NUGET_SOURCE_USER_NAME }} -p ${{ secrets.GGROUPP_NUGET_SOURCE_USER_PASSWORD }} --store-password-in-clear-text
+
+    # TimesheetSet.Get.InOut
+    
+    - name: Restore TimesheetSet.Get.InOut
+      run: dotnet restore ./src/*/TimesheetSet.Get.InOut.csproj
+
+    - name: Build TimesheetSet.Get.InOut
+      run: dotnet build ./src/*/TimesheetSet.Get.InOut.csproj --no-restore  -c Release
+
+    - name: Pack TimesheetSet.Get.InOut
+      run: dotnet pack ./src/*/TimesheetSet.Get.InOut.csproj --no-restore -o ~/nuget  -c Release
+      
+    # TimesheetSet.Get.Api
+
+    - name: Restore TimesheetSet.Get.Api
+      run: dotnet restore ./src/*/TimesheetSet.Get.Api.csproj
+
+    - name: Build TimesheetSet.Get.Api
+      run: dotnet build ./src/*/TimesheetSet.Get.Api.csproj --no-restore  -c Release
+
+    - name: Pack TimesheetSet.Get.Api
+      run: dotnet pack ./src/*/TimesheetSet.Get.Api.csproj --no-restore -o ~/nuget  -c Release
+      
+    # Push
+      
+    - name: Push Packages
+      if: ${{ github.event_name == 'push' }}
+      run: dotnet nuget push "../../../nuget/*.nupkg" -s ${{ secrets.GGROUPP_NUGET_SOURCE_URL }} -k ${{ secrets.GGROUPP_NUGET_SOURCE_USER_PASSWORD }} --skip-duplicate
