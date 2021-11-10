@@ -1,6 +1,9 @@
 ﻿using GGroupp.Infra;
 using PrimeFuncPack;
 using System;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("GGroupp.Internal.Timesheet.Test")]
 
 namespace GGroupp.Internal.Timesheet;
 
