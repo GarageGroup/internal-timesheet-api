@@ -19,11 +19,10 @@ internal sealed partial class TimesheetCreateGetFunc : ITimesheetCreateFunc
     private readonly IDataverseEntityCreateSupplier entityCreateSupplier;
 
     private TimesheetCreateGetFunc(IDataverseEntityCreateSupplier entityCreateSupplier)
-    =>
+        =>
     this.entityCreateSupplier = entityCreateSupplier;
 
     public static TimesheetCreateGetFunc Create(IDataverseEntityCreateSupplier entityCreateSupplier)
         =>
-        new(
-            entityCreateSupplier ?? throw new ArgumentNullException(nameof(entityCreateSupplier)));
+        new(entityCreateSupplier ?? throw new ArgumentNullException(nameof(entityCreateSupplier)));
 }
