@@ -5,13 +5,13 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<IsPackable>false</IsPackable>
-		<IsPackable>false</IsPackable>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<RootNamespace>GGroupp.Internal.Timesheet</RootNamespace>
-		<AssemblyName>GGroupp.Internal.Timesheet.Test</AssemblyName>
+		<RootNamespace>GGroupp.Internal.Timesheet.Create.Api.Test</RootNamespace>
+		<AssemblyName>GGroupp.Internal.Timesheet.Create.Api.Test</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="DeepEqual" Version="2.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
 		<PackageReference Include="Moq" Version="4.16.1" />
 		<PackageReference Include="xunit" Version="2.4.1" />

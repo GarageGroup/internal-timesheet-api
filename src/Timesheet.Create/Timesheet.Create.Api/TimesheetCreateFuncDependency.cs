@@ -3,7 +3,7 @@ using PrimeFuncPack;
 using System;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("GGroupp.Internal.Timesheet.Test")]
+[assembly: InternalsVisibleTo("GGroupp.Internal.Timesheet.Create.Api.Test")]
 
 namespace GGroupp.Internal.Timesheet;
 

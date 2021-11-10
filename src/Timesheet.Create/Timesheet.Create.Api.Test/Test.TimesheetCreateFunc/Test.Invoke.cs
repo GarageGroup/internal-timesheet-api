@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Xunit;
 using Moq;
+using DeepEqual.Syntax;
 
-namespace GGroupp.Internal.Timesheet;
+namespace GGroupp.Internal.Timesheet.Create.Api.Test;
 
 partial class TimesheetCreateGetFuncTest
 {
@@ -79,6 +80,7 @@ partial class TimesheetCreateGetFuncTest
                     ["gg_duration"] = duration,
                     [$"regardingobjectid_{projectEntityName}@odata.bind"] = $"/{projectEntityPluralName}({projectId})"
                 });
+            actual.ShouldDeepEqual(expected);
         }
     }
 
