@@ -29,32 +29,32 @@ jobs:
     # Timesheet.Create.InOut
     
     - name: Restore Timesheet.Create.InOut
-      run: dotnet restore ./src/*/Timesheet.Create.InOut.csproj
+      run: dotnet restore ./src/*/*/Timesheet.Create.InOut.csproj
 
     - name: Build Timesheet.Create.InOut
-      run: dotnet build ./src/*/Timesheet.Create.InOut.csproj --no-restore  -c Release
+      run: dotnet build ./src/*/*/Timesheet.Create.InOut.csproj --no-restore  -c Release
 
     - name: Pack Timesheet.Create.InOut
-      run: dotnet pack ./src/*/Timesheet.Create.InOut.csproj --no-restore -o ~/nuget  -c Release
+      run: dotnet pack ./src/*/*/Timesheet.Create.InOut.csproj --no-restore -o ~/nuget  -c Release
       
     # Timesheet.Create.Api
 
     - name: Restore Timesheet.Create.Api
-      run: dotnet restore ./src/*/Timesheet.Create.Api.csproj
+      run: dotnet restore ./src/*/*/Timesheet.Create.Api.csproj
 
     - name: Build Timesheet.Create.Api
-      run: dotnet build ./src/*/Timesheet.Create.Api.csproj --no-restore  -c Release
+      run: dotnet build ./src/*/*/Timesheet.Create.Api.csproj --no-restore  -c Release
 
     - name: Pack Timesheet.Create.Api
-      run: dotnet pack ./src/*/Timesheet.Create.Api.csproj --no-restore -o ~/nuget  -c Release
+      run: dotnet pack ./src/*/*/Timesheet.Create.Api.csproj --no-restore -o ~/nuget  -c Release
 
     # Timesheet.Create.Api.Tests
 
     - name: Restore Timesheet.Create.Api.Test
-      run: dotnet restore ./src/*/Timesheet.Create.Api.Test.csproj
+      run: dotnet restore ./src/*/*/Timesheet.Create.Api.Test.csproj
 
     - name: Test Timesheet.Create.Api.Test
-      run: dotnet test ./src/*/Timesheet.Create.Api.Test.csproj --no-restore  -c Release
+      run: dotnet test ./src/*/*/Timesheet.Create.Api.Test.csproj --no-restore  -c Release
       
     # Push
 
