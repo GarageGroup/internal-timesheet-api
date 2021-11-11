@@ -39,7 +39,7 @@ partial class TimesheetCreateGetFuncTest
         const int duration = 8;
         const string projectId = "7583b4e6-23f5-eb11-94ef-00224884a588";
 
-        var success = new DataverseEntityCreateOut<TimesheetJsonOut>(null);
+        var success = new DataverseEntityCreateOut<TimesheetJsonOut>(default);
         var mockDataverseApiClient = CreateMockDataverseApiClient(success, IsMatchDataverseInput);
 
         var func = CreateFunc(mockDataverseApiClient.Object);
@@ -112,9 +112,9 @@ partial class TimesheetCreateGetFuncTest
     }
 
     [Fact]
-    public async Task InvokeAsync_DataverseResultIsSuccessNullValue_ExpectSuccess()
+    public async Task InvokeAsync_DataverseResultIsSuccessNullDefault_ExpectSuccess()
     {
-        var success = new DataverseEntityCreateOut<TimesheetJsonOut>(null);
+        var success = new DataverseEntityCreateOut<TimesheetJsonOut>(default);
         var mockDataverseApiClient = CreateMockDataverseApiClient(success);
 
         var func = CreateFunc(mockDataverseApiClient.Object);

@@ -25,8 +25,7 @@ partial class TimesheetCreateGetFunc
         .MapFailure(
             failure => failure.MapFailureCode(MapDataverseFailureCode))
         .MapSuccess(
-            entityCreateOut => new TimesheetCreateOut(
-                timesheetId: entityCreateOut?.Value?.TimesheetId ?? default));
+            entityCreateOut => new TimesheetCreateOut(entityCreateOut.Value.TimesheetId));
 
     private static Dictionary<string, object?> MapJsonIn(TimesheetCreateIn input)
     {
