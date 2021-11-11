@@ -4,10 +4,14 @@ using System.Collections.ObjectModel;
 
 namespace GGroupp.Internal.Timesheet;
 
-using ITimesheetCreateFunc = IAsyncValueFunc<TimeSheetCreateIn, Result<TimesheetCreateOut, Failure<TimesheetCreateFailureCode>>>;
+using ITimesheetCreateFunc = IAsyncValueFunc<TimesheetCreateIn, Result<TimesheetCreateOut, Failure<TimesheetCreateFailureCode>>>;
 
 internal sealed partial class TimesheetCreateGetFunc : ITimesheetCreateFunc
 {
+    public static TimesheetCreateGetFunc Create(IDataverseEntityCreateSupplier entityCreateSupplier)
+        =>
+        new(entityCreateSupplier ?? throw new ArgumentNullException(nameof(entityCreateSupplier)));
+
     private const int NotFoundFailureCode = -2147220969;
 
     private static readonly ReadOnlyCollection<string> selectedFields;
@@ -21,8 +25,4 @@ internal sealed partial class TimesheetCreateGetFunc : ITimesheetCreateFunc
     private TimesheetCreateGetFunc(IDataverseEntityCreateSupplier entityCreateSupplier)
         =>
         this.entityCreateSupplier = entityCreateSupplier;
-
-    public static TimesheetCreateGetFunc Create(IDataverseEntityCreateSupplier entityCreateSupplier)
-        =>
-        new(entityCreateSupplier ?? throw new ArgumentNullException(nameof(entityCreateSupplier)));
 }
