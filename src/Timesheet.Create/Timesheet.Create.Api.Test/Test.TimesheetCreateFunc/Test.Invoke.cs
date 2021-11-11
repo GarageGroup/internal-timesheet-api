@@ -44,7 +44,7 @@ partial class TimesheetCreateGetFuncTest
 
         var func = CreateFunc(mockDataverseApiClient.Object);
 
-        var _input = new TimesheetCreateIn(
+        var input = new TimesheetCreateIn(
             ownerId: Guid.Parse(ownerId),
             date: DateOnly.Parse(date),
             projectId: Guid.Parse(projectId),
@@ -53,7 +53,7 @@ partial class TimesheetCreateGetFuncTest
             description: description);
 
         var token = new CancellationToken(false);
-        _ = await func.InvokeAsync(_input, token);
+        _ = await func.InvokeAsync(input, token);
 
         mockDataverseApiClient.Verify(
             c => c.CreateEntityAsync<Dictionary<string, object?>, TimesheetJsonOut>(
