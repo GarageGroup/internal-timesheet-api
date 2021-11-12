@@ -3,11 +3,11 @@ using PrimeFuncPack;
 using System;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("GGroupp.Internal.Timesheet.Create.Api.Test")]
+[assembly: InternalsVisibleTo("GGroupp.Internal.Timesheet.Timesheet.Create.Api.Test")]
 
 namespace GGroupp.Internal.Timesheet;
 
-using ITimesheetCreateFunc = IAsyncValueFunc<TimeSheetCreateIn, Result<TimesheetCreateOut, Failure<TimesheetCreateFailureCode>>>;
+using ITimesheetCreateFunc = IAsyncValueFunc<TimesheetCreateIn, Result<TimesheetCreateOut, Failure<TimesheetCreateFailureCode>>>;
 
 public static class TimesheetCreateFuncDependency
 {

@@ -14,7 +14,8 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-        
+        include-prerelease: false
+
      # Add NuGet Sources
 
     - name: Create Local NuGet Directory
@@ -27,7 +28,7 @@ jobs:
       run: dotnet nuget add source ${{ secrets.GGROUPP_NUGET_SOURCE_URL }} -n ggroupp -u ${{ secrets.GGROUPP_NUGET_SOURCE_USER_NAME }} -p ${{ secrets.GGROUPP_NUGET_SOURCE_USER_PASSWORD }} --store-password-in-clear-text
 
     # Timesheet.Create.InOut
-    
+
     - name: Restore Timesheet.Create.InOut
       run: dotnet restore ./src/*/*/Timesheet.Create.InOut.csproj
 
@@ -36,7 +37,7 @@ jobs:
 
     - name: Pack Timesheet.Create.InOut
       run: dotnet pack ./src/*/*/Timesheet.Create.InOut.csproj --no-restore -o ~/nuget  -c Release
-      
+
     # Timesheet.Create.Api
 
     - name: Restore Timesheet.Create.Api
@@ -55,7 +56,7 @@ jobs:
 
     - name: Test Timesheet.Create.Api.Test
       run: dotnet test ./src/*/*/Timesheet.Create.Api.Test.csproj --no-restore  -c Release
-      
+
     # Push
 
     - name: Push Packages

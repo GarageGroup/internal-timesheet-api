@@ -11,11 +11,10 @@ namespace GGroupp.Internal.Timesheet;
 partial class TimesheetCreateGetFunc
 {
     public ValueTask<Result<TimesheetCreateOut, Failure<TimesheetCreateFailureCode>>> InvokeAsync(
-        TimeSheetCreateIn input, CancellationToken cancellationToken)
+        TimesheetCreateIn input, CancellationToken cancellationToken)
         =>
         AsyncPipeline.Pipe(
-            input ?? throw new ArgumentNullException(nameof(input)),
-            cancellationToken)
+            input, cancellationToken)
         .Pipe(
             @in => new DataverseEntityCreateIn<Dictionary<string, object?>>(
                 entityPluralName: "gg_timesheetactivities",
@@ -26,20 +25,11 @@ partial class TimesheetCreateGetFunc
         .MapFailure(
             failure => failure.MapFailureCode(MapDataverseFailureCode))
         .MapSuccess(
-            entityCreateOut => new TimesheetCreateOut(
-                id: entityCreateOut?.Value?.TimesheetId ?? default));
+            entityCreateOut => new TimesheetCreateOut(entityCreateOut.Value.TimesheetId));
 
-    private static TimesheetCreateFailureCode MapDataverseFailureCode(int dataverseFailureCode)
-        =>
-        dataverseFailureCode switch
-        {
-            NotFoundFailureCode => TimesheetCreateFailureCode.NotFound,
-            _ => TimesheetCreateFailureCode.Unknown
-        };
-
-    private static Dictionary<string, object?> MapJsonIn(TimeSheetCreateIn input)
+    private static Dictionary<string, object?> MapJsonIn(TimesheetCreateIn input)
     {
-        var json = new Dictionary<string, object?>()
+        var json = new Dictionary<string, object?>
         {
             ["ownerid@odata.bind"] = Invariant($"/systemusers({input.OwnerId:D})"),
             ["gg_date"] = input.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
@@ -60,5 +50,13 @@ partial class TimesheetCreateGetFunc
             TimesheetProjectType.Lead => ("lead", "leads"),
             TimesheetProjectType.Opportunity => ("opportunity", "opportunities"),
             _ => ("gg_project", "gg_projects")
+        };
+
+    private static TimesheetCreateFailureCode MapDataverseFailureCode(int dataverseFailureCode)
+        =>
+        dataverseFailureCode switch
+        {
+            NotFoundFailureCode => TimesheetCreateFailureCode.NotFound,
+            _ => TimesheetCreateFailureCode.Unknown
         };
 }

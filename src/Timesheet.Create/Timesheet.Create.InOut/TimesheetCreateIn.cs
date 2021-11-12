@@ -2,15 +2,15 @@ using System;
 
 namespace GGroupp.Internal.Timesheet;
 
-public sealed record class TimeSheetCreateIn
+public readonly record struct TimesheetCreateIn
 {
-    public TimeSheetCreateIn(
+    public TimesheetCreateIn(
         Guid ownerId,
         DateOnly date,
-        string? description,
-        decimal duration,
         Guid projectId,
-        TimesheetProjectType projectType)
+        TimesheetProjectType projectType,
+        decimal duration,
+        string? description)
     {
         OwnerId = ownerId;
         Date = date;
@@ -24,11 +24,11 @@ public sealed record class TimeSheetCreateIn
 
     public DateOnly Date { get; }
 
-    public string? Description { get; }
-
-    public decimal Duration { get; }
-
     public Guid ProjectId { get; }
 
     public TimesheetProjectType ProjectType { get; }
+
+    public decimal Duration { get; }
+
+    public string? Description { get; }
 }
