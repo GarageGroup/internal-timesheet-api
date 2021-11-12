@@ -97,7 +97,7 @@ partial class TimesheetCreateGetFuncTest
     }
 
     [Fact]
-    public async Task InvokeAsync_DataverseResultIsSuccessNotNullValue_ExpectSuccess()
+    public async Task InvokeAsync_DataverseResultIsSuccess_ExpectSuccess()
     {
         var incidentId = Guid.Parse("1203c0e2-3648-4596-80dd-127fdd2610b6");
 
@@ -108,19 +108,6 @@ partial class TimesheetCreateGetFuncTest
         var actual = await func.InvokeAsync(SomeInput, default);
 
         var expected = new TimesheetCreateOut(incidentId);
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public async Task InvokeAsync_DataverseResultIsSuccessNullDefault_ExpectSuccess()
-    {
-        var success = new DataverseEntityCreateOut<TimesheetJsonOut>(default);
-        var mockDataverseApiClient = CreateMockDataverseApiClient(success);
-
-        var func = CreateFunc(mockDataverseApiClient.Object);
-        var actual = await func.InvokeAsync(SomeInput, CancellationToken.None);
-
-        var expected = new TimesheetCreateOut(default);
         Assert.Equal(expected, actual);
     }
 }
