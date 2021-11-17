@@ -55,6 +55,36 @@ jobs:
 
     - name: Test Timesheet.Create.Api.Test
       run: dotnet test ./src/*/*/Timesheet.Create.Api.Test.csproj --no-restore  -c Release
+
+    # ProjectSet.Search.InOut
+    
+    - name: Restore ProjectSet.Search.InOut
+      run: dotnet restore ./src/*/*/ProjectSet.Search.InOut.csproj
+
+    - name: Build ProjectSet.Search.InOut
+      run: dotnet build ./src/*/*/ProjectSet.Search.InOut.csproj --no-restore  -c Release
+
+    - name: Pack ProjectSet.Search.InOut
+      run: dotnet pack ./src/*/*/ProjectSet.Search.InOut.csproj --no-restore -o ~/nuget  -c Release
+      
+    # ProjectSet.Search.Api
+
+    - name: Restore ProjectSet.Search.Api
+      run: dotnet restore ./src/*/*/ProjectSet.Search.Api.csproj
+
+    - name: Build ProjectSet.Search.Api
+      run: dotnet build ./src/*/*/ProjectSet.Search.Api.csproj --no-restore  -c Release
+
+    - name: Pack ProjectSet.Search.Api
+      run: dotnet pack ./src/*/*/ProjectSet.Search.Api.csproj --no-restore -o ~/nuget  -c Release
+
+    # ProjectSet.Search.Api.Tests
+
+    - name: Restore ProjectSet.Search.Api.Test
+      run: dotnet restore ./src/*/*/ProjectSet.Search.Api.Test.csproj
+
+    - name: Test ProjectSet.Search.Api.Test
+      run: dotnet test ./src/*/*/ProjectSet.Search.Api.Test.csproj --no-restore  -c Release
       
     # Push
 
