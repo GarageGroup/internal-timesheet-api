@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	<InvariantGlobalization>true</InvariantGlobalization>
     <IsPackable>false</IsPackable>
     <RootNamespace>GGroupp.Internal.Timesheet</RootNamespace>
     <AssemblyName>GGroupp.Internal.Timesheet.ProjectSet.Search.Api.Test</AssemblyName>
