@@ -22,7 +22,7 @@ partial class ProjectSetSearchFunc
         .PipeValue(
             dataverseSearchSupplier.SearchAsync)
         .MapFailure(
-            failure => failure.MapFailureCode(fail => ProjectSetSearchFailureCode.Unknown))
+            failure => failure.MapFailureCode( _ => ProjectSetSearchFailureCode.Unknown))
         .MapSuccess(
             @out => new ProjectSetSearchOut(
                 @out.Value.Where(IsActualEntityName).Select(MapItemSearch).ToArray()));
@@ -35,7 +35,7 @@ partial class ProjectSetSearchFunc
         =>
         new(
             id: item.ObjectId,
-            name: item.ExtensionData?.GetValueOrAbsent("name").OrDefault()?.ToString(),
+            name: item.ExtensionData.GetValueOrAbsent("name").OrDefault()?.ToString(),
             type: entityTypes[item.EntityName]);
 
 }

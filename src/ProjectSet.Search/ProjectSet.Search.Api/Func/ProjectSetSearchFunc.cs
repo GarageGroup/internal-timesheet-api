@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace GGroupp.Internal.Timesheet;
 
-internal sealed partial class ProjectSetSearchFunc : IAsyncValueFunc<ProjectSetSearchIn, Result<ProjectSetSearchOut, Failure<ProjectSetSearchFailureCode>>>
+using IProjectSetSearch = IAsyncValueFunc<ProjectSetSearchIn, Result<ProjectSetSearchOut, Failure<ProjectSetSearchFailureCode>>>;
+internal sealed partial class ProjectSetSearchFunc : IProjectSetSearch
 {
     private static readonly ReadOnlyDictionary<string, ProjectTypeSearchOut> entityTypes;
     private static readonly ReadOnlyCollection<string> entityNames;

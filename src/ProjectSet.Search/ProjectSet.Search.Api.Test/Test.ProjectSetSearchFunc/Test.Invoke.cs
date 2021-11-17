@@ -40,7 +40,6 @@ partial class ProjectSetSearchFuncTest
 
         mockDataverseApiClient.Verify(c => c.SearchAsync(It.IsAny<DataverseSearchIn>(), token), Times.Once);
 
-
         static void IsMatchDataverseInput(DataverseSearchIn actual)
         {
             var expected = new DataverseSearchIn($"**")
@@ -63,7 +62,7 @@ partial class ProjectSetSearchFuncTest
             extensionData: default);
 
         var secondProjectId = Guid.Parse("93877469-68ca-eb11-bacc-000d3a47050c");
-        var secondProjectName = "екеек";
+        var secondProjectName = "some second project name";
 
         var secondDataverseSearchItem = new DataverseSearchItem(
             searchScore: 16.482242584228516,
@@ -90,16 +89,16 @@ partial class ProjectSetSearchFuncTest
             entityName: "Some",
             extensionData: default);
 
-        var fivthProjectId = Guid.Parse("93877469-68ca-eb11-bacc-000d3a47050c");
-        var fivthProjectName = "Some test";
+        var fifthProjectId = Guid.Parse("07dedef2-951c-4405-8e17-4338e7408690");
+        var fifthProjectName = "Some test";
 
-        var fivthDataverseSearchItem = new DataverseSearchItem(
+        var fifthDataverseSearchItem = new DataverseSearchItem(
             searchScore: 2000,
-            objectId: fivthProjectId,
+            objectId: fifthProjectId,
             entityName: "lead",
             extensionData: new Dictionary<string, DataverseSearchJsonValue>
             {
-                ["name"] = new(JsonSerializer.SerializeToElement(fivthProjectName))
+                ["name"] = new(JsonSerializer.SerializeToElement(fifthProjectName))
             });
 
         var dataverseOut = new DataverseSearchOut(
@@ -110,7 +109,7 @@ partial class ProjectSetSearchFuncTest
                 secondDataverseSearchItem,
                 thirdDataverseSearchItem,
                 fourthDataverseSearchItem,
-                fivthDataverseSearchItem
+                fifthDataverseSearchItem
             });
 
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
@@ -125,7 +124,7 @@ partial class ProjectSetSearchFuncTest
         {
             new(firstProjectId, string.Empty, ProjectTypeSearchOut.Opportunity),
             new(secondProjectId, secondProjectName, ProjectTypeSearchOut.Project),
-            new(fivthProjectId, fivthProjectName, ProjectTypeSearchOut.Lead)
+            new(fifthProjectId, fifthProjectName, ProjectTypeSearchOut.Lead)
         };
         Assert.Equal(expected, actual);
     }

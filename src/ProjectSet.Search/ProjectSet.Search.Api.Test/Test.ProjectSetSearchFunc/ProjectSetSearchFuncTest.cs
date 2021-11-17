@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GGroupp.Internal.Timesheet;
 
-using IProjectSetSearchFunc = IAsyncValueFunc<ProjectSetSearchIn, Result<ProjectSetSearchOut, Failure<ProjectSetSearchFailureCode>>>;
+using IProjectSetSearch = IAsyncValueFunc<ProjectSetSearchIn, Result<ProjectSetSearchOut, Failure<ProjectSetSearchFailureCode>>>;
 
 public sealed partial class ProjectSetSearchFuncTest
 {
@@ -25,7 +25,7 @@ public sealed partial class ProjectSetSearchFuncTest
             searchText: "Some search project name",
             top: 10);
 
-    private static IProjectSetSearchFunc CreateFunc(IDataverseSearchSupplier dataverseSearchSupplier)
+    private static IProjectSetSearch CreateFunc(IDataverseSearchSupplier dataverseSearchSupplier)
         =>
         Dependency.Of(dataverseSearchSupplier)
         .UseProjectSetSearchApi()
