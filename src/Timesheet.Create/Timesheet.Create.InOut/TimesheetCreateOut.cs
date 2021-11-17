@@ -4,10 +4,7 @@ namespace GGroupp.Internal.Timesheet;
 
 public readonly record struct TimesheetCreateOut
 {
-    public TimesheetCreateOut(Guid id)
-    {
-        TimesheetId = id;
-    }
+    public TimesheetCreateOut(Guid timesheetId) => TimesheetId = timesheetId;
 
     public Guid TimesheetId { get; }
 }
