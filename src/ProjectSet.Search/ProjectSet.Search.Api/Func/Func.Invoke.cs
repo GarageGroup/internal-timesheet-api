@@ -31,7 +31,7 @@ partial class ProjectSetSearchFunc
         =>
         entityTypes.ContainsKey(item.EntityName);
 
-    private static ProjectsItemSearchOut MapItemSearch(DataverseSearchItem item)
+    private static ProjectItemSearchOut MapItemSearch(DataverseSearchItem item)
         =>
         new(
             id: item.ObjectId,
