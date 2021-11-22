@@ -3,9 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GGroupp.Internal.Timesheet;
 
-public sealed record class ProjectsItemSearchOut
+public sealed record class ProjectItemSearchOut
 {
-    public ProjectsItemSearchOut(Guid id, [AllowNull] string name, ProjectTypeSearchOut type)
+    public ProjectItemSearchOut(Guid id, [AllowNull] string name, ProjectTypeSearchOut type)
     {
         Id = id;
         Name = name ?? string.Empty;

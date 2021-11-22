@@ -7,16 +7,14 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <InvariantGlobalization>true</InvariantGlobalization>
     <IsPackable>false</IsPackable>
-    <RootNamespace>GGroupp.Internal.Timesheet</RootNamespace>
+    <RootNamespace>GGroupp.Internal.Timesheet.ProjectSet.Search.Api.Test</RootNamespace>
     <AssemblyName>GGroupp.Internal.Timesheet.ProjectSet.Search.Api.Test</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="DeepEqual" Version="2.0.0" />
-    <PackageReference Include="GGroupp.Infra.Dataverse.Api.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
-    <PackageReference Include="PrimeFuncPack.Core" Version="1.1.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

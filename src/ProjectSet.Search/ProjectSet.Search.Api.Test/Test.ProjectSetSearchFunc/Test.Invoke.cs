@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace GGroupp.Internal.Timesheet;
+namespace GGroupp.Internal.Timesheet.ProjectSet.Search.Api.Test;
 
 partial class ProjectSetSearchFuncTest
 {
@@ -120,7 +120,7 @@ partial class ProjectSetSearchFuncTest
         Assert.True(actualResult.IsSuccess);
         var actual = actualResult.SuccessOrThrow().Projects;
 
-        var expected = new ProjectsItemSearchOut[]
+        var expected = new ProjectItemSearchOut[]
         {
             new(firstProjectId, string.Empty, ProjectTypeSearchOut.Opportunity),
             new(secondProjectId, secondProjectName, ProjectTypeSearchOut.Project),
