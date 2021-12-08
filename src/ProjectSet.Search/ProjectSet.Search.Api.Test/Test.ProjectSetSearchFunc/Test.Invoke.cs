@@ -122,9 +122,9 @@ partial class ProjectSetSearchFuncTest
 
         var expected = new ProjectItemSearchOut[]
         {
-            new(firstProjectId, string.Empty, ProjectTypeSearchOut.Opportunity),
-            new(secondProjectId, secondProjectName, ProjectTypeSearchOut.Project),
-            new(fifthProjectId, fifthProjectName, ProjectTypeSearchOut.Lead)
+            new(firstProjectId, string.Empty, TimesheetProjectType.Opportunity),
+            new(secondProjectId, secondProjectName, TimesheetProjectType.Project),
+            new(fifthProjectId, fifthProjectName, TimesheetProjectType.Lead)
         };
         Assert.Equal(expected, actual);
     }

@@ -9,18 +9,20 @@ using System.Threading.Tasks;
 namespace GGroupp.Internal.Timesheet;
 
 using IProjectSetSearch = IAsyncValueFunc<ProjectSetSearchIn, Result<ProjectSetSearchOut, Failure<ProjectSetSearchFailureCode>>>;
+
 internal sealed partial class ProjectSetSearchFunc : IProjectSetSearch
 {
-    private static readonly ReadOnlyDictionary<string, ProjectTypeSearchOut> entityTypes;
+    private static readonly ReadOnlyDictionary<string, TimesheetProjectType> entityTypes;
+
     private static readonly ReadOnlyCollection<string> entityNames;
 
     static ProjectSetSearchFunc()
     {
-        entityTypes = new(new Dictionary<string, ProjectTypeSearchOut>
+        entityTypes = new(new Dictionary<string, TimesheetProjectType>
         {
-            ["gg_project"] = ProjectTypeSearchOut.Project,
-            ["lead"] = ProjectTypeSearchOut.Lead,
-            ["opportunity"] = ProjectTypeSearchOut.Opportunity
+            ["gg_project"] = TimesheetProjectType.Project,
+            ["lead"] = TimesheetProjectType.Lead,
+            ["opportunity"] = TimesheetProjectType.Opportunity
         });
 
         entityNames = new(entityTypes.Keys.ToArray());

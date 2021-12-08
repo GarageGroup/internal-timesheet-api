@@ -5,7 +5,7 @@ namespace GGroupp.Internal.Timesheet;
 
 public sealed record class ProjectItemSearchOut
 {
-    public ProjectItemSearchOut(Guid id, [AllowNull] string name, ProjectTypeSearchOut type)
+    public ProjectItemSearchOut(Guid id, [AllowNull] string name, TimesheetProjectType type)
     {
         Id = id;
         Name = name ?? string.Empty;
@@ -16,5 +16,5 @@ public sealed record class ProjectItemSearchOut
 
     public string Name { get; }
 
-    public ProjectTypeSearchOut Type { get; }
+    public TimesheetProjectType Type { get; }
 }
