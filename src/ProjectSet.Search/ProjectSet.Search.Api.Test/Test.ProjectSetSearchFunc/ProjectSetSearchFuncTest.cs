@@ -33,7 +33,7 @@ public sealed partial class ProjectSetSearchFuncTest
 
     private static Mock<IDataverseSearchSupplier> CreateMockDataverseApiClient(
     Result<DataverseSearchOut, Failure<int>> result,
-    Action<DataverseSearchIn>? callBack = default)
+    Action<DataverseSearchIn>? callback = default)
     {
         var mock = new Mock<IDataverseSearchSupplier>();
 
@@ -41,10 +41,10 @@ public sealed partial class ProjectSetSearchFuncTest
             .Setup(s => s.SearchAsync(It.IsAny<DataverseSearchIn>(), It.IsAny<CancellationToken>()))
             .Returns(result.Pipe(ValueTask.FromResult));
 
-        if (callBack is not null)
+        if (callback is not null)
         {
             m.Callback<DataverseSearchIn, CancellationToken>(
-                (@in, _) => callBack.Invoke(@in));
+                (@in, _) => callback.Invoke(@in));
         }
 
         return mock;

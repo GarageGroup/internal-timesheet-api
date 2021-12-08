@@ -27,6 +27,17 @@ jobs:
     - name: Add GGroupp NuGet Source
       run: dotnet nuget add source ${{ secrets.GGROUPP_NUGET_SOURCE_URL }} -n ggroupp -u ${{ secrets.GGROUPP_NUGET_SOURCE_USER_NAME }} -p ${{ secrets.GGROUPP_NUGET_SOURCE_USER_PASSWORD }} --store-password-in-clear-text
 
+    # Core.ProjectType
+
+    - name: Restore Core.ProjectType
+      run: dotnet restore ./src/*/*/Core.ProjectType.csproj
+
+    - name: Build Core.ProjectType
+      run: dotnet build ./src/*/*/Core.ProjectType.csproj --no-restore  -c Release
+
+    - name: Pack Core.ProjectType
+      run: dotnet pack ./src/*/*/Core.ProjectType.csproj --no-restore -o ~/nuget  -c Release
+
     # Timesheet.Create.InOut
 
     - name: Restore Timesheet.Create.InOut

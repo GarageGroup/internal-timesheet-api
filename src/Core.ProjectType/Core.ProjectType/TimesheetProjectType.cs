@@ -1,6 +1,6 @@
 ﻿namespace GGroupp.Internal.Timesheet;
 
-public enum ProjectTypeSearchOut
+public enum TimesheetProjectType
 {
     Project,
     Opportunity,
