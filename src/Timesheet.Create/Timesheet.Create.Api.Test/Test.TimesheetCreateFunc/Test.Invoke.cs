@@ -33,7 +33,6 @@ partial class TimesheetCreateGetFuncTest
     public async Task InvokeAsync_CancellationTokenIsNotCanceled_ExpectCallDataVerseApiClientOnce(
         TimesheetProjectType projectType, string projectEntityName, string projectEntityPluralName)
     {
-        const string ownerId = "edd9a08d-8927-ec11-b6e5-6045bd8c1b4d";
         const string date = "2021-10-07";
         const string description = "Some message!";
         const int duration = 8;
@@ -45,7 +44,6 @@ partial class TimesheetCreateGetFuncTest
         var func = CreateFunc(mockDataverseApiClient.Object);
 
         var input = new TimesheetCreateIn(
-            ownerId: Guid.Parse(ownerId),
             date: DateOnly.Parse(date),
             projectId: Guid.Parse(projectId),
             projectType: projectType,
@@ -67,7 +65,6 @@ partial class TimesheetCreateGetFuncTest
                 selectFields: new[] { "activityid" },
                 entityData: new()
                 {
-                    ["ownerid@odata.bind"] = $"/systemusers({ownerId})",
                     ["gg_date"] = date,
                     ["gg_description"] = description,
                     ["gg_duration"] = duration,
