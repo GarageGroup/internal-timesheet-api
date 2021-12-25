@@ -29,18 +29,14 @@ partial class TimesheetCreateGetFunc
 
     private static Dictionary<string, object?> MapJsonIn(TimesheetCreateIn input)
     {
-        var json = new Dictionary<string, object?>
+        var entityData = GetProjectEntityData(input.ProjectType);
+        return new()
         {
-            ["ownerid@odata.bind"] = Invariant($"/systemusers({input.OwnerId:D})"),
+            [$"regardingobjectid_{entityData.Name}@odata.bind"] = Invariant($"/{entityData.PluralName}({input.ProjectId:D})"),
             ["gg_date"] = input.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
             ["gg_description"] = input.Description,
             ["gg_duration"] = input.Duration
         };
-
-        var entityData = GetProjectEntityData(input.ProjectType);
-        json[$"regardingobjectid_{entityData.Name}@odata.bind"] = Invariant($"/{entityData.PluralName}({input.ProjectId:D})");
-
-        return json;
     }
 
     private static (string Name, string PluralName) GetProjectEntityData(TimesheetProjectType projectType)
