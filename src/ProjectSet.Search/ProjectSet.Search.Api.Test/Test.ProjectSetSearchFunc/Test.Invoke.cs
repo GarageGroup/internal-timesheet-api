@@ -98,7 +98,7 @@ partial class ProjectSetSearchFuncTest
             entityName: "lead",
             extensionData: new Dictionary<string, DataverseSearchJsonValue>
             {
-                ["fullname"] = new(JsonSerializer.SerializeToElement(fifthProjectName))
+                ["subject"] = new(JsonSerializer.SerializeToElement(fifthProjectName))
             });
 
         var dataverseOut = new DataverseSearchOut(
