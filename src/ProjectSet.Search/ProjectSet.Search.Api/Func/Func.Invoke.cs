@@ -42,7 +42,7 @@ partial class ProjectSetSearchFunc
         =>
         projectType switch
         {
-            TimesheetProjectType.Lead => "fullname",
+            TimesheetProjectType.Lead => "subject",
             TimesheetProjectType.Project => "gg_name",
             TimesheetProjectType.Opportunity => "name",
             _ => string.Empty
