@@ -32,10 +32,19 @@ partial class ProjectSetSearchFunc
         entityTypes.ContainsKey(item.EntityName);
 
     private static ProjectItemSearchOut MapItemSearch(DataverseSearchItem item)
-        =>
+        => 
         new(
             id: item.ObjectId,
-            name: item.ExtensionData.GetValueOrAbsent("name").OrDefault()?.ToString(),
+            name: item.ExtensionData.GetValueOrAbsent(GetName(entityTypes[item.EntityName])).OrDefault()?.ToString(),
             type: entityTypes[item.EntityName]);
 
+    private static string GetName(TimesheetProjectType projectType)
+        =>
+        projectType switch
+        {
+            TimesheetProjectType.Lead => "fullname",
+            TimesheetProjectType.Project => "gg_name",
+            TimesheetProjectType.Opportunity => "name",
+            _ => string.Empty
+        };
 }

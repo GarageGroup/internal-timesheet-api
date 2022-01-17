@@ -70,7 +70,7 @@ partial class ProjectSetSearchFuncTest
             entityName: "gg_project",
             extensionData: new Dictionary<string, DataverseSearchJsonValue>
             {
-                ["name"] = new(JsonSerializer.SerializeToElement(secondProjectName))
+                ["gg_name"] = new(JsonSerializer.SerializeToElement(secondProjectName))
             });
 
         var thirdProjectId = Guid.Parse("5660cb5b-e3de-465a-9c2a-5a445c1faa1a");
@@ -98,7 +98,7 @@ partial class ProjectSetSearchFuncTest
             entityName: "lead",
             extensionData: new Dictionary<string, DataverseSearchJsonValue>
             {
-                ["name"] = new(JsonSerializer.SerializeToElement(fifthProjectName))
+                ["fullname"] = new(JsonSerializer.SerializeToElement(fifthProjectName))
             });
 
         var dataverseOut = new DataverseSearchOut(
