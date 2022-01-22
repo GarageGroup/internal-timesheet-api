@@ -4,17 +4,15 @@ namespace GGroupp.Internal.Timesheet;
 
 public readonly record struct TimesheetSetGetIn
 {
-    private readonly string? searchText;
-        
     public TimesheetSetGetIn(
         DateOnly date,
-        Guid id)
+        Guid userId)
     {
-        this.date = Date;
-        Id = id;
+        Date = date;
+        UserId = userId;
     }
 
     public DateOnly Date { get; }
 
-    public Guid Id { get; }
+    public Guid UserId { get; }
 }
