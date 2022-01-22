@@ -5,26 +5,23 @@ namespace GGroupp.Internal.Timesheet;
 
 public sealed record class TimesheetSetItemGetOut
 {
-    public TimesheetSetItemGetOut(DateOnly date,
-        Guid projectId,
-        TimesheetProjectType projectType,
+    public TimesheetSetItemGetOut(
+        DateOnly date,
         decimal duration,
-        string? description)
+        [AllowNull] string projectName,
+        [AllowNull] string description)
     {
         Date = date;
-        Description = description;
         Duration = duration;
-        ProjectId = projectId;
-        ProjectType = projectType;
+        ProjectName = projectName ?? string.Empty;
+        Description = description ?? string.Empty;
     }
 
     public DateOnly Date { get; }
 
-    public Guid ProjectId { get; }
-
-    public TimesheetProjectType ProjectType { get; }
-
     public decimal Duration { get; }
 
-    public string? Description { get; }
+    public string ProjectName { get; }
+
+    public string Description { get; }
 }

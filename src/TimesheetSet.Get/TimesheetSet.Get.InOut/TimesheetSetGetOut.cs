@@ -6,10 +6,10 @@ namespace GGroupp.Internal.Timesheet;
 
 public sealed record class TimesheetSetGetOut
 {
-    public TimesheetSetGetOut([AllowNull] IReadOnlyCollection<TimesheetItemGetOut> projects)
+    public TimesheetSetGetOut([AllowNull] IReadOnlyCollection<TimesheetSetItemGetOut> timesheets)
     {
-        Projects = projects ?? Array.Empty<TimesheetItemGetOut>();
+        Timesheets = timesheets ?? Array.Empty<TimesheetSetItemGetOut>();
     }
 
-    public IReadOnlyCollection<TimesheetItemGetOut> Projects { get; }
+    public IReadOnlyCollection<TimesheetSetItemGetOut> Timesheets { get; }
 }

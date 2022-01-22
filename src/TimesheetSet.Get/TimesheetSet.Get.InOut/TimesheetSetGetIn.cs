@@ -1,18 +1,19 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
 
 namespace GGroupp.Internal.Timesheet;
 
 public readonly record struct TimesheetSetGetIn
 {
-    public TimesheetSetGetIn(
-        DateOnly date,
-        Guid userId)
+    public TimesheetSetGetIn(Guid userId, DateOnly dateFrom, DateOnly dateTo)
     {
-        Date = date;
         UserId = userId;
+        DateFrom = dateFrom;
+        DateTo = dateTo;
     }
 
-    public DateOnly Date { get; }
-
     public Guid UserId { get; }
+
+    public DateOnly DateFrom { get; }
+
+    public DateOnly DateTo { get; }
 }
