@@ -1,6 +1,7 @@
 ﻿using GGroupp.Infra;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GGroupp.Internal.Timesheet;
 
@@ -8,11 +9,13 @@ using ITimesheetCreateFunc = IAsyncValueFunc<TimesheetCreateIn, Result<Timesheet
 
 internal sealed partial class TimesheetCreateGetFunc : ITimesheetCreateFunc
 {
-    public static TimesheetCreateGetFunc Create(IDataverseEntityCreateSupplier entityCreateSupplier)
+    public static TimesheetCreateGetFunc Create(
+        IDataverseEntityCreateSupplier entityCreateSupplier,
+        [AllowNull] TimesheetCreateApiConfiguration configuration)
         =>
-        new(entityCreateSupplier ?? throw new ArgumentNullException(nameof(entityCreateSupplier)));
-
-    private const int NotFoundFailureCode = -2147220969;
+        new(
+            entityCreateSupplier ?? throw new ArgumentNullException(nameof(entityCreateSupplier)),
+            configuration ?? new(default));
 
     private static readonly ReadOnlyCollection<string> selectedFields;
 
@@ -22,7 +25,11 @@ internal sealed partial class TimesheetCreateGetFunc : ITimesheetCreateFunc
 
     private readonly IDataverseEntityCreateSupplier entityCreateSupplier;
 
-    private TimesheetCreateGetFunc(IDataverseEntityCreateSupplier entityCreateSupplier)
-        =>
+    private readonly TimesheetCreateApiConfiguration configuration;
+
+    private TimesheetCreateGetFunc(IDataverseEntityCreateSupplier entityCreateSupplier, TimesheetCreateApiConfiguration configuration)
+    {
         this.entityCreateSupplier = entityCreateSupplier;
+        this.configuration = configuration;
+    }
 }

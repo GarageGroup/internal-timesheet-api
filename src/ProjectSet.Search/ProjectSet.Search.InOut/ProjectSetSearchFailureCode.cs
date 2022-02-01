@@ -2,5 +2,9 @@
 
 public enum ProjectSetSearchFailureCode
 {
-    Unknown
+    Unknown,
+
+    NotAllowed,
+
+    TooManyRequests
 }

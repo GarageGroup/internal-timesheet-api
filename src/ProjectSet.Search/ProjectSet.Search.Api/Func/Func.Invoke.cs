@@ -22,7 +22,7 @@ partial class ProjectSetSearchFunc
         .PipeValue(
             dataverseSearchSupplier.SearchAsync)
         .MapFailure(
-            failure => failure.MapFailureCode( _ => ProjectSetSearchFailureCode.Unknown))
+            failure => failure.MapFailureCode(MapFailureCode))
         .MapSuccess(
             @out => new ProjectSetSearchOut(
                 @out.Value.Where(IsActualEntityName).Select(MapItemSearch).ToArray()));
@@ -46,5 +46,15 @@ partial class ProjectSetSearchFunc
             TimesheetProjectType.Project => "gg_name",
             TimesheetProjectType.Opportunity => "name",
             _ => string.Empty
+        };
+
+    private static ProjectSetSearchFailureCode MapFailureCode(DataverseFailureCode failureCode)
+        =>
+        failureCode switch
+        {
+            DataverseFailureCode.UserNotEnabled => ProjectSetSearchFailureCode.NotAllowed,
+            DataverseFailureCode.SearchableEntityNotFound => ProjectSetSearchFailureCode.NotAllowed,
+            DataverseFailureCode.Throttling => ProjectSetSearchFailureCode.TooManyRequests,
+            _ => default
         };
 }

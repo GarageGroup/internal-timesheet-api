@@ -3,6 +3,8 @@
 public enum TimesheetProjectType
 {
     Project,
+
     Opportunity,
+
     Lead
 }

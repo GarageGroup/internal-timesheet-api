@@ -30,14 +30,14 @@ internal sealed partial class ProjectSetSearchFunc : IProjectSetSearch
 
     private readonly IDataverseSearchSupplier dataverseSearchSupplier;
 
-    private ProjectSetSearchFunc(IDataverseSearchSupplier dataverseEntityCreateSupplier)
+    private ProjectSetSearchFunc(IDataverseSearchSupplier dataverseSearchSupplier)
         =>
-        this.dataverseSearchSupplier = dataverseEntityCreateSupplier;
+        this.dataverseSearchSupplier = dataverseSearchSupplier;
 
-    public static ProjectSetSearchFunc Create(IDataverseSearchSupplier dataverseEntitySearchSupplier)
+    public static ProjectSetSearchFunc Create(IDataverseSearchSupplier dataverseSearchSupplier)
         =>
         new(
-            dataverseEntitySearchSupplier ?? throw new ArgumentNullException(nameof(dataverseEntitySearchSupplier)));
+            dataverseSearchSupplier ?? throw new ArgumentNullException(nameof(dataverseSearchSupplier)));
 
     public partial ValueTask<Result<ProjectSetSearchOut, Failure<ProjectSetSearchFailureCode>>> InvokeAsync(
         ProjectSetSearchIn input, CancellationToken cancellationToken = default);

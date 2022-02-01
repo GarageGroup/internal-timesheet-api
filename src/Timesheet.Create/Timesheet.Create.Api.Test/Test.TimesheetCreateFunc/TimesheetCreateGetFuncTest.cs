@@ -19,16 +19,20 @@ public sealed partial class TimesheetCreateGetFuncTest
             projectId: Guid.Parse("7583b4e6-23f5-eb11-94ef-00224884a588"),
             projectType: TimesheetProjectType.Project,
             duration: 8,
-            description: "Some message!");
+            description: "Some message!",
+            channel: TimesheetChannel.Emulator);
 
-    private static ITimesheetCreateFunc CreateFunc(IDataverseEntityCreateSupplier dataverseEntityCreateSupplier)
+    private static ITimesheetCreateFunc CreateFunc(
+        IDataverseEntityCreateSupplier dataverseEntityCreateSupplier,
+        TimesheetCreateApiConfiguration apiConfiguration)
         =>
         Dependency.Of(dataverseEntityCreateSupplier)
+        .With(apiConfiguration)
         .UseTimesheetCreateApi()
         .Resolve(Mock.Of<IServiceProvider>());
 
     private static Mock<IDataverseEntityCreateSupplier> CreateMockDataverseApiClient(
-        Result<DataverseEntityCreateOut<TimesheetJsonOut>, Failure<int>> result,
+        Result<DataverseEntityCreateOut<TimesheetJsonOut>, Failure<DataverseFailureCode>> result,
         Action<DataverseEntityCreateIn<Dictionary<string, object?>>>? callback = null)
     {
         var mock = new Mock<IDataverseEntityCreateSupplier>();
@@ -36,7 +40,7 @@ public sealed partial class TimesheetCreateGetFuncTest
         var m = mock.Setup(
             s => s.CreateEntityAsync<Dictionary<string, object?>, TimesheetJsonOut>(
                 It.IsAny<DataverseEntityCreateIn<Dictionary<string, object?>>>(), It.IsAny<CancellationToken>()))
-            .Returns(result.Pipe(ValueTask.FromResult));
+            .Returns(new ValueTask<Result<DataverseEntityCreateOut<TimesheetJsonOut>, Failure<DataverseFailureCode>>>(result));
 
         if (callback is not null)
         {
