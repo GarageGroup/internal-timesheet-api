@@ -130,20 +130,22 @@ partial class ProjectSetSearchFuncTest
     }
 
     [Theory]
-    [InlineData(404)]
-    [InlineData(int.MinValue)]
-    [InlineData(int.MaxValue)]
-    [InlineData(0)]
-    [InlineData(-2147220969)]
-    public async Task InvokeAsync_DataverseResultIsFailure_ExpectFailure(int failureCode)
+    [InlineData(DataverseFailureCode.Throttling, ProjectSetSearchFailureCode.TooManyRequests)]
+    [InlineData(DataverseFailureCode.UserNotEnabled, ProjectSetSearchFailureCode.NotAllowed)]
+    [InlineData(DataverseFailureCode.SearchableEntityNotFound, ProjectSetSearchFailureCode.NotAllowed)]
+    [InlineData(DataverseFailureCode.PicklistValueOutOfRange, ProjectSetSearchFailureCode.Unknown)]
+    [InlineData(DataverseFailureCode.RecordNotFound, ProjectSetSearchFailureCode.Unknown)]
+    [InlineData(DataverseFailureCode.Unknown, ProjectSetSearchFailureCode.Unknown)]
+    public async Task InvokeAsync_DataverseResultIsFailure_ExpectFailure(
+        DataverseFailureCode sourceFailureCode, ProjectSetSearchFailureCode expectedFailureCode)
     {
-        var dataverseFailure = Failure.Create(failureCode, "Some Failure message");
+        var dataverseFailure = Failure.Create(sourceFailureCode, "Some Failure message");
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseFailure);
 
         var func = CreateFunc(mockDataverseApiClient.Object);
         var actual = await func.InvokeAsync(SomeInput, CancellationToken.None);
 
-        var expected = Failure.Create(ProjectSetSearchFailureCode.Unknown, dataverseFailure.FailureMessage);
+        var expected = Failure.Create(expectedFailureCode, dataverseFailure.FailureMessage);
         Assert.Equal(expected, actual);
     }
 

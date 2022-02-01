@@ -29,10 +29,10 @@ partial class TimesheetCreateGetFunc
 
     private static Dictionary<string, object?> MapJsonIn(TimesheetCreateIn input)
     {
-        var entityData = GetProjectEntityData(input.ProjectType);
+        var (Name, PluralName) = GetProjectEntityData(input.ProjectType);
         return new()
         {
-            [$"regardingobjectid_{entityData.Name}@odata.bind"] = Invariant($"/{entityData.PluralName}({input.ProjectId:D})"),
+            [$"regardingobjectid_{Name}@odata.bind"] = Invariant($"/{PluralName}({input.ProjectId:D})"),
             ["gg_date"] = input.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
             ["gg_description"] = input.Description,
             ["gg_duration"] = input.Duration
@@ -48,11 +48,14 @@ partial class TimesheetCreateGetFunc
             _ => ("gg_project", "gg_projects")
         };
 
-    private static TimesheetCreateFailureCode MapDataverseFailureCode(int dataverseFailureCode)
+    private static TimesheetCreateFailureCode MapDataverseFailureCode(DataverseFailureCode dataverseFailureCode)
         =>
         dataverseFailureCode switch
         {
-            NotFoundFailureCode => TimesheetCreateFailureCode.NotFound,
-            _ => TimesheetCreateFailureCode.Unknown
+            DataverseFailureCode.RecordNotFound => TimesheetCreateFailureCode.NotFound,
+            DataverseFailureCode.UserNotEnabled => TimesheetCreateFailureCode.NotAllowed,
+            DataverseFailureCode.PrivilegeDenied => TimesheetCreateFailureCode.NotAllowed,
+            DataverseFailureCode.Throttling => TimesheetCreateFailureCode.TooManyRequests,
+            _ => default
         };
 }

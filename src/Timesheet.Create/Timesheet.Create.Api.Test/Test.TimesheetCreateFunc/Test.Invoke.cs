@@ -76,12 +76,15 @@ partial class TimesheetCreateGetFuncTest
     }
 
     [Theory]
-    [InlineData(-2147220969, TimesheetCreateFailureCode.NotFound)]
-    [InlineData(404, TimesheetCreateFailureCode.Unknown)]
-    [InlineData(0, TimesheetCreateFailureCode.Unknown)]
-    [InlineData(-2147204326, TimesheetCreateFailureCode.Unknown)]
+    [InlineData(DataverseFailureCode.Unknown, TimesheetCreateFailureCode.Unknown)]
+    [InlineData(DataverseFailureCode.SearchableEntityNotFound, TimesheetCreateFailureCode.Unknown)]
+    [InlineData(DataverseFailureCode.PicklistValueOutOfRange, TimesheetCreateFailureCode.Unknown)]
+    [InlineData(DataverseFailureCode.RecordNotFound, TimesheetCreateFailureCode.NotFound)]
+    [InlineData(DataverseFailureCode.PrivilegeDenied, TimesheetCreateFailureCode.NotAllowed)]
+    [InlineData(DataverseFailureCode.UserNotEnabled, TimesheetCreateFailureCode.NotAllowed)]
+    [InlineData(DataverseFailureCode.Throttling, TimesheetCreateFailureCode.TooManyRequests)]
     public async Task InvokeAsync_DataverseResultIsFailure_ExpectFailure(
-        int dataverseFailureCode, TimesheetCreateFailureCode expectedFailureCode)
+        DataverseFailureCode dataverseFailureCode, TimesheetCreateFailureCode expectedFailureCode)
     {
         var dataverseFailure = Failure.Create(dataverseFailureCode, "Some failure message");
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseFailure);

@@ -12,8 +12,6 @@ internal sealed partial class TimesheetCreateGetFunc : ITimesheetCreateFunc
         =>
         new(entityCreateSupplier ?? throw new ArgumentNullException(nameof(entityCreateSupplier)));
 
-    private const int NotFoundFailureCode = -2147220969;
-
     private static readonly ReadOnlyCollection<string> selectedFields;
 
     static TimesheetCreateGetFunc()

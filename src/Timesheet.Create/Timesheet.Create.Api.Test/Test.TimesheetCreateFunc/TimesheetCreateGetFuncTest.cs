@@ -28,7 +28,7 @@ public sealed partial class TimesheetCreateGetFuncTest
         .Resolve(Mock.Of<IServiceProvider>());
 
     private static Mock<IDataverseEntityCreateSupplier> CreateMockDataverseApiClient(
-        Result<DataverseEntityCreateOut<TimesheetJsonOut>, Failure<int>> result,
+        Result<DataverseEntityCreateOut<TimesheetJsonOut>, Failure<DataverseFailureCode>> result,
         Action<DataverseEntityCreateIn<Dictionary<string, object?>>>? callback = null)
     {
         var mock = new Mock<IDataverseEntityCreateSupplier>();
@@ -36,7 +36,7 @@ public sealed partial class TimesheetCreateGetFuncTest
         var m = mock.Setup(
             s => s.CreateEntityAsync<Dictionary<string, object?>, TimesheetJsonOut>(
                 It.IsAny<DataverseEntityCreateIn<Dictionary<string, object?>>>(), It.IsAny<CancellationToken>()))
-            .Returns(result.Pipe(ValueTask.FromResult));
+            .Returns(new ValueTask<Result<DataverseEntityCreateOut<TimesheetJsonOut>, Failure<DataverseFailureCode>>>(result));
 
         if (callback is not null)
         {
