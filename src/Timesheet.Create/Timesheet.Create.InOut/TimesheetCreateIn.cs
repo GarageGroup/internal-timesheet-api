@@ -9,13 +9,15 @@ public readonly record struct TimesheetCreateIn
         Guid projectId,
         TimesheetProjectType projectType,
         decimal duration,
-        string? description)
+        string? description,
+        TimesheetChannel channel = default)
     {
         Date = date;
         Description = description;
         Duration = duration;
         ProjectId = projectId;
         ProjectType = projectType;
+        Channel = channel;
     }
 
     public DateOnly Date { get; }
@@ -27,4 +29,6 @@ public readonly record struct TimesheetCreateIn
     public decimal Duration { get; }
 
     public string? Description { get; }
+
+    public TimesheetChannel Channel { get; }
 }

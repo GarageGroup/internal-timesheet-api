@@ -17,7 +17,7 @@ partial class TimesheetCreateGetFuncTest
         var success = new DataverseEntityCreateOut<TimesheetJsonOut>(default);
         var mockDataverseApiClient = CreateMockDataverseApiClient(success);
 
-        var func = CreateFunc(mockDataverseApiClient.Object);
+        var func = CreateFunc(mockDataverseApiClient.Object, new(default));
 
         var input = SomeInput;
         var token = new CancellationToken(canceled: true);
@@ -41,7 +41,7 @@ partial class TimesheetCreateGetFuncTest
         var success = new DataverseEntityCreateOut<TimesheetJsonOut>(default);
         var mockDataverseApiClient = CreateMockDataverseApiClient(success, IsMatchDataverseInput);
 
-        var func = CreateFunc(mockDataverseApiClient.Object);
+        var func = CreateFunc(mockDataverseApiClient.Object, new(default));
 
         var input = new TimesheetCreateIn(
             date: DateOnly.Parse(date),
@@ -76,6 +76,88 @@ partial class TimesheetCreateGetFuncTest
     }
 
     [Theory]
+    [InlineData(TimesheetChannel.Unknown, 150)]
+    [InlineData(TimesheetChannel.Teams, 0)]
+    [InlineData(TimesheetChannel.Teams, 100201)]
+    [InlineData(TimesheetChannel.Telegram, -571)]
+    [InlineData(TimesheetChannel.Telegram, 100205)]
+    public async Task InvokeAsync_ChannelCodeIsFromConfigurationNotNull_ExpectCallDataVerseApiClientWithChannelCodeOnce(
+        TimesheetChannel channel, int channelCode)
+    {
+        var configuration = new TimesheetCreateApiConfiguration(
+            new Dictionary<TimesheetChannel, int?>
+            {
+                [channel] = channelCode
+            });
+
+        var success = new DataverseEntityCreateOut<TimesheetJsonOut>(default);
+        var mockDataverseApiClient = CreateMockDataverseApiClient(success, IsMatchDataverseInput);
+
+        var func = CreateFunc(mockDataverseApiClient.Object, configuration);
+
+        var input = new TimesheetCreateIn(
+            date: SomeInput.Date,
+            projectId: SomeInput.ProjectId,
+            projectType: SomeInput.ProjectType,
+            duration: SomeInput.Duration,
+            description: SomeInput.Description,
+            channel: channel);
+
+        var token = new CancellationToken(false);
+        _ = await func.InvokeAsync(input, token);
+
+        mockDataverseApiClient.Verify(
+            c => c.CreateEntityAsync<Dictionary<string, object?>, TimesheetJsonOut>(
+                It.IsAny<DataverseEntityCreateIn<Dictionary<string, object?>>>(), token),
+            Times.Once);
+
+        void IsMatchDataverseInput(DataverseEntityCreateIn<Dictionary<string, object?>> actual)
+        {
+            var actualCode = actual.EntityData.GetValueOrDefault("gg_timesheetactivity_channel");
+            Assert.Equal(channelCode, actualCode);
+        }
+    }
+
+    [Fact]
+    public async Task InvokeAsync_ChannelCodeIsFromConfigurationNull_ExpectCallDataVerseApiClientWithNoChannelCodeOnce()
+    {
+        var channel = TimesheetChannel.Teams;
+
+        var configuration = new TimesheetCreateApiConfiguration(
+            new Dictionary<TimesheetChannel, int?>
+            {
+                [channel] = null,
+                [TimesheetChannel.Telegram] = 100
+            });
+
+        var success = new DataverseEntityCreateOut<TimesheetJsonOut>(default);
+        var mockDataverseApiClient = CreateMockDataverseApiClient(success, IsMatchDataverseInput);
+
+        var func = CreateFunc(mockDataverseApiClient.Object, configuration);
+
+        var input = new TimesheetCreateIn(
+            date: SomeInput.Date,
+            projectId: SomeInput.ProjectId,
+            projectType: SomeInput.ProjectType,
+            duration: SomeInput.Duration,
+            description: SomeInput.Description,
+            channel: channel);
+
+        var token = new CancellationToken(false);
+        _ = await func.InvokeAsync(input, token);
+
+        mockDataverseApiClient.Verify(
+            c => c.CreateEntityAsync<Dictionary<string, object?>, TimesheetJsonOut>(
+                It.IsAny<DataverseEntityCreateIn<Dictionary<string, object?>>>(), token),
+            Times.Once);
+
+        static void IsMatchDataverseInput(DataverseEntityCreateIn<Dictionary<string, object?>> actual)
+        {
+            Assert.False(actual.EntityData.ContainsKey("gg_timesheetactivity_channel"));
+        }
+    }
+
+    [Theory]
     [InlineData(DataverseFailureCode.Unknown, TimesheetCreateFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.SearchableEntityNotFound, TimesheetCreateFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.PicklistValueOutOfRange, TimesheetCreateFailureCode.Unknown)]
@@ -89,7 +171,7 @@ partial class TimesheetCreateGetFuncTest
         var dataverseFailure = Failure.Create(dataverseFailureCode, "Some failure message");
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseFailure);
 
-        var func = CreateFunc(mockDataverseApiClient.Object);
+        var func = CreateFunc(mockDataverseApiClient.Object, new(default));
         var actual = await func.InvokeAsync(SomeInput, CancellationToken.None);
 
         var expected = Failure.Create(expectedFailureCode, dataverseFailure.FailureMessage);
@@ -104,7 +186,7 @@ partial class TimesheetCreateGetFuncTest
         var success = new DataverseEntityCreateOut<TimesheetJsonOut>(new() { TimesheetId = incidentId });
         var mockDataverseApiClient = CreateMockDataverseApiClient(success);
 
-        var func = CreateFunc(mockDataverseApiClient.Object);
+        var func = CreateFunc(mockDataverseApiClient.Object, new(default));
         var actual = await func.InvokeAsync(SomeInput, default);
 
         var expected = new TimesheetCreateOut(incidentId);

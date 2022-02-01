@@ -19,11 +19,15 @@ public sealed partial class TimesheetCreateGetFuncTest
             projectId: Guid.Parse("7583b4e6-23f5-eb11-94ef-00224884a588"),
             projectType: TimesheetProjectType.Project,
             duration: 8,
-            description: "Some message!");
+            description: "Some message!",
+            channel: TimesheetChannel.Emulator);
 
-    private static ITimesheetCreateFunc CreateFunc(IDataverseEntityCreateSupplier dataverseEntityCreateSupplier)
+    private static ITimesheetCreateFunc CreateFunc(
+        IDataverseEntityCreateSupplier dataverseEntityCreateSupplier,
+        TimesheetCreateApiConfiguration apiConfiguration)
         =>
         Dependency.Of(dataverseEntityCreateSupplier)
+        .With(apiConfiguration)
         .UseTimesheetCreateApi()
         .Resolve(Mock.Of<IServiceProvider>());
 
