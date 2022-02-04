@@ -19,6 +19,6 @@ partial class TimesheetProjectTypeDataverseApiTest
         var first = TimesheetProjectTypeDataverseApi.EntityNames;
         var second = TimesheetProjectTypeDataverseApi.EntityNames;
 
-        Assert.Equal(first, second);
+        Assert.Same(first, second);
     }
 }
