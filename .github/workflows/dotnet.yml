@@ -38,6 +38,25 @@ jobs:
     - name: Pack Core.ProjectType
       run: dotnet pack ./src/*/*/Core.ProjectType.csproj --no-restore -o ~/nuget  -c Release
 
+    # Core.ProjectType.Api
+
+    - name: Restore Core.ProjectType.Api
+      run: dotnet restore ./src/*/*/Core.ProjectType.Api.csproj
+
+    - name: Build Core.ProjectType.Api
+      run: dotnet build ./src/*/*/Core.ProjectType.Api.csproj --no-restore  -c Release
+
+    - name: Pack Core.ProjectType.Api
+      run: dotnet pack ./src/*/*/Core.ProjectType.Api.csproj --no-restore -o ~/nuget  -c Release
+
+    # Core.ProjectType.Api.Tests
+
+    - name: Restore Core.ProjectType.Api.Test
+      run: dotnet restore ./src/*/*/Core.ProjectType.Api.Test.csproj
+
+    - name: Test Core.ProjectType.Api.Test
+      run: dotnet test ./src/*/*/Core.ProjectType.Api.Test.csproj --no-restore  -c Release
+
     # Timesheet.Create.InOut
 
     - name: Restore Timesheet.Create.InOut

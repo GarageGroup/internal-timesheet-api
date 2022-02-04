@@ -30,6 +30,7 @@ partial class TimesheetCreateGetFuncTest
     [InlineData(TimesheetProjectType.Lead, "lead", "leads")]
     [InlineData(TimesheetProjectType.Opportunity, "opportunity", "opportunities")]
     [InlineData(TimesheetProjectType.Project, "gg_project", "gg_projects")]
+    [InlineData(TimesheetProjectType.Incident, "incident", "incidents")]
     public async Task InvokeAsync_CancellationTokenIsNotCanceled_ExpectCallDataVerseApiClientOnce(
         TimesheetProjectType projectType, string projectEntityName, string projectEntityPluralName)
     {

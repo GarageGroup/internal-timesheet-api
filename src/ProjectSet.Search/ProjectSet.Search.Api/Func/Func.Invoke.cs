@@ -3,50 +3,44 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static GGroupp.Internal.Timesheet.TimesheetProjectTypeDataverseApi;
 
 namespace GGroupp.Internal.Timesheet;
 
 partial class ProjectSetSearchFunc
 {
-    public partial ValueTask<Result<ProjectSetSearchOut, Failure<ProjectSetSearchFailureCode>>> InvokeAsync(
+    public ValueTask<Result<ProjectSetSearchOut, Failure<ProjectSetSearchFailureCode>>> InvokeAsync(
         ProjectSetSearchIn input, CancellationToken cancellationToken)
         =>
         AsyncPipeline.Pipe(
             input, cancellationToken)
-        .Pipe(
-            @in => new DataverseSearchIn($"*{@in.SearchText}*")
+        .Pipe<DataverseSearchIn>(
+            @in => new($"*{@in.SearchText}*")
             {
-                Entities = entityNames,
+                Entities = EntityNames,
                 Top = @in.Top
             })
         .PipeValue(
             dataverseSearchSupplier.SearchAsync)
         .MapFailure(
             failure => failure.MapFailureCode(MapFailureCode))
-        .MapSuccess(
-            @out => new ProjectSetSearchOut(
-                @out.Value.Where(IsActualEntityName).Select(MapItemSearch).ToArray()));
+        .MapSuccess<ProjectSetSearchOut>(
+            @out => new(@out.Value.Where(IsActualEntityName).Select(MapItemSearch).ToArray()));
 
     private static bool IsActualEntityName(DataverseSearchItem item)
         =>
-        entityTypes.ContainsKey(item.EntityName);
+        EntityNames.Contains(item.EntityName);
 
     private static ProjectItemSearchOut MapItemSearch(DataverseSearchItem item)
-        => 
-        new(
-            id: item.ObjectId,
-            name: item.ExtensionData.GetValueOrAbsent(GetName(entityTypes[item.EntityName])).OrDefault()?.ToString(),
-            type: entityTypes[item.EntityName]);
+    {
+        var projectType = GetProjectTypeOrThrow(item.EntityName);
+        var fieldName = GetEntityData(projectType).FieldName;
 
-    private static string GetName(TimesheetProjectType projectType)
-        =>
-        projectType switch
-        {
-            TimesheetProjectType.Lead => "subject",
-            TimesheetProjectType.Project => "gg_name",
-            TimesheetProjectType.Opportunity => "name",
-            _ => string.Empty
-        };
+        return new(
+            id: item.ObjectId,
+            name: item.ExtensionData.GetValueOrAbsent(fieldName).OrDefault()?.ToString(),
+            type: projectType);
+    }
 
     private static ProjectSetSearchFailureCode MapFailureCode(DataverseFailureCode failureCode)
         =>

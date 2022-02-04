@@ -8,12 +8,13 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RootNamespace>GGroupp.Internal.Timesheet</RootNamespace>
     <AssemblyName>GGroupp.Internal.Timesheet.Timesheet.Create.Api</AssemblyName>
-    <Version>1.4.0</Version>
+    <Version>1.4.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="EarlyFuncPack.Core.AsyncPipeline" Version="0.1.0" />
     <PackageReference Include="GGroupp.Infra.Dataverse.Api.Abstractions.EntityCreate" Version="2.2.0" />
+    <PackageReference Include="GGroupp.Internal.Timesheet.Core.ProjectType.Api" Version="1.0.0" />
     <PackageReference Include="GGroupp.Internal.Timesheet.Timesheet.Create.InOut" Version="1.4.0" />
     <PackageReference Include="PrimeFuncPack.Core.Func.Abstractions.AsyncValue" Version="2.0.0" />
     <PackageReference Include="PrimeFuncPack.Core.Optional" Version="2.0.0" />
