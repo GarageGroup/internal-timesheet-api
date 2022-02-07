@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace GGroupp.Internal.Timesheet.TimesheetSet.Get.Api.Test.Test;
+namespace GGroupp.Internal.Timesheet.TimesheetSet.Get.Api.Test;
 
 partial class TimesheetSetGetFuncTest
 {

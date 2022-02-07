@@ -9,7 +9,7 @@ internal static class ApiNames
 
     public const string DurationFieldName = "gg_duration";
 
-    public const string HackproFieldName = "gg_hackpro";
+    public const string ProjectFieldName = "gg_hackpro";
 
     public const string DescriptionFieldName = "gg_description";
 
@@ -21,7 +21,7 @@ internal static class ApiNames
     {
         SelectedFields = new[]
         {
-            DateFieldName, DurationFieldName, HackproFieldName, DescriptionFieldName
+            DateFieldName, DurationFieldName, ProjectFieldName, DescriptionFieldName
         };
 
         OrderBy = new[]

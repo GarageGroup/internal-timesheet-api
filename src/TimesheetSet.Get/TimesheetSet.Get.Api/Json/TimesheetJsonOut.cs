@@ -11,7 +11,7 @@ internal sealed record class TimesheetJsonOut
     [JsonPropertyName(ApiNames.DurationFieldName)]
     public decimal Duration { get; init; }
 
-    [JsonPropertyName(ApiNames.HackproFieldName)]
+    [JsonPropertyName(ApiNames.ProjectFieldName)]
     public string? ProjectName { get; init; }
 
     [JsonPropertyName(ApiNames.DescriptionFieldName)]

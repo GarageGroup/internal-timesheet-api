@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GGroupp.Internal.Timesheet.TimesheetSet.Get.Api.Test.Test;
+namespace GGroupp.Internal.Timesheet.TimesheetSet.Get.Api.Test;
 
 using ITimesheetSetGetFunc = IAsyncValueFunc<TimesheetSetGetIn, Result<TimesheetSetGetOut, Failure<TimesheetSetGetFailureCode>>>;
 
@@ -34,20 +34,13 @@ public sealed partial class TimesheetSetGetFuncTest
         .Resolve(Mock.Of<IServiceProvider>());
 
     private static Mock<IDataverseEntitySetGetSupplier> CreateMockDataverseApiClient(
-        Result<DataverseEntitySetGetOut<TimesheetJsonOut>, Failure<DataverseFailureCode>> result,
-        Action<DataverseEntitySetGetIn>? callback = default)
+        Result<DataverseEntitySetGetOut<TimesheetJsonOut>, Failure<DataverseFailureCode>> result)
     {
         var mock = new Mock<IDataverseEntitySetGetSupplier>();
 
         var m = mock
             .Setup(s => s.GetEntitySetAsync<TimesheetJsonOut>(It.IsAny<DataverseEntitySetGetIn>(), It.IsAny<CancellationToken>()))
             .Returns(new ValueTask<Result<DataverseEntitySetGetOut<TimesheetJsonOut>, Failure<DataverseFailureCode>>>(result));
-
-        if (callback is not null)
-        {
-            m.Callback<DataverseEntitySetGetIn, CancellationToken>(
-                (@in, _) => callback.Invoke(@in));
-        }
 
         return mock;
     }
