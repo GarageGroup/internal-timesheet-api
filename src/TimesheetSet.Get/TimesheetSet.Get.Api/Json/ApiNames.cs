@@ -13,13 +13,20 @@ internal static class ApiNames
 
     public const string DescriptionFieldName = "gg_description";
 
-    public static readonly IReadOnlyCollection<string> SelectedFields = new[] 
-    {
-        DateFieldName, DurationFieldName, HackproFieldName, DescriptionFieldName 
-    };
+    public static readonly IReadOnlyCollection<string> SelectedFields;
 
-    public static readonly IReadOnlyCollection<DataverseOrderParameter> OrderBy = new[]
+    public static readonly IReadOnlyCollection<DataverseOrderParameter> OrderBy;
+
+    static ApiNames()
     {
-        new DataverseOrderParameter("createdon", DataverseOrderDirection.Descending)
-    };
+        SelectedFields = new[]
+        {
+            DateFieldName, DurationFieldName, HackproFieldName, DescriptionFieldName
+        };
+
+        OrderBy = new[]
+        {
+            new DataverseOrderParameter("createdon", DataverseOrderDirection.Descending)
+        };
+    }
 }
