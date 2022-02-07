@@ -5,15 +5,15 @@ namespace GGroupp.Internal.Timesheet;
 
 internal sealed record class TimesheetJsonOut
 {
-    [JsonPropertyName("")] // TODO: Вставить названия согласно контракту Dataverse
+    [JsonPropertyName(ApiNames.DateFieldName)]
     public DateTimeOffset Date { get; init; }
 
-    [JsonPropertyName("")]
+    [JsonPropertyName(ApiNames.DurationFieldName)]
     public decimal Duration { get; init; }
 
-    [JsonPropertyName("")]
+    [JsonPropertyName(ApiNames.HackproFieldName)]
     public string? ProjectName { get; init; }
 
-    [JsonPropertyName("")]
+    [JsonPropertyName(ApiNames.DescriptionFieldName)]
     public string? Description { get; init; }
 }

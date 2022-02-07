@@ -2,5 +2,7 @@
 
 public enum TimesheetSetGetFailureCode
 {
-    Unknown
+    Unknown,
+
+    NotAllowed
 }

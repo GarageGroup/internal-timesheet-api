@@ -97,6 +97,36 @@ jobs:
 
     - name: Test ProjectSet.Search.Api.Test
       run: dotnet test ./src/*/*/ProjectSet.Search.Api.Test.csproj --no-restore  -c Release
+
+    # TimesheetSet.Get.InOut
+    
+    - name: Restore TimesheetSet.Get.InOut
+      run: dotnet restore ./src/*/*/TimesheetSet.Get.InOut.csproj
+
+    - name: Build TimesheetSet.Get.InOut
+      run: dotnet build ./src/*/*/TimesheetSet.Get.InOut.csproj --no-restore  -c Release
+
+    - name: Pack TimesheetSet.Get.InOut
+      run: dotnet pack ./src/*/*/TimesheetSet.Get.InOut.csproj --no-restore -o ~/nuget  -c Release
+      
+    # TimesheetSet.Get.Api
+
+    - name: Restore TimesheetSet.Get.Api
+      run: dotnet restore ./src/*/*/TimesheetSet.Get.Api.csproj
+
+    - name: Build TimesheetSet.Get.Api
+      run: dotnet build ./src/*/*/TimesheetSet.Get.Api.csproj --no-restore  -c Release
+
+    - name: Pack TimesheetSet.Get.Api
+      run: dotnet pack ./src/*/*/TimesheetSet.Get.Api.csproj --no-restore -o ~/nuget  -c Release
+
+    # TimesheetSet.Get.Api.Tests
+
+    - name: Restore TimesheetSet.Get.Api.Test
+      run: dotnet restore ./src/*/*/TimesheetSet.Get.Api.Test.csproj
+
+    - name: Test TimesheetSet.Get.Api.Test
+      run: dotnet test ./src/*/*/TimesheetSet.Get.Api.Test.csproj --no-restore  -c Release
       
     # Push
 
