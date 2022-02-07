@@ -32,7 +32,7 @@ partial class FavoriteProjectSetGetFunc
             success => new FavoriteProjectSetGetOut(
                 projects: success.Value
                 .Where(
-                    x => ApiNames.EntityTypes.ContainsKey(x.TimesheetProjectType.OrEmpty()))
+                    x => ApiNames.EntityTypes.ContainsKey(x.TimesheetProjectType ?? string.Empty))
                 .GroupBy(
                     x => x.TimesheetProjectId)
                 .Select(
@@ -41,7 +41,7 @@ partial class FavoriteProjectSetGetFunc
                     x => new FavoriteProjectItemGetOut(
                         id: x.TimesheetProjectId,
                         name: x.TimesheetProjectName,
-                        type: ApiNames.EntityTypes[x.TimesheetProjectType.OrEmpty()]))
+                        type: ApiNames.EntityTypes[x.TimesheetProjectType ?? string.Empty]))
                 .ToArray())
             );
 

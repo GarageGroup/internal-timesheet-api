@@ -16,9 +16,8 @@
     <PackageReference Include="GGroupp.Infra.Dataverse.Api.Abstractions.EntitySetGet" Version="2.3.1" />
     <PackageReference Include="GGroupp.Internal.Timesheet.Core.ProjectType" Version="1.0.1" />
     <PackageReference Include="GGroupp.Internal.Timesheet.FavoriteProjectSet.Get.InOut" Version="1.8.0" />
-    <PackageReference Include="PrimeFuncPack.Core.Func" Version="1.1.1" />
-    <PackageReference Include="PrimeFuncPack.Core.Optional" Version="1.1.1" />
-    <PackageReference Include="PrimeFuncPack.Dependency.Core" Version="2.0.0" />
+    <PackageReference Include="PrimeFuncPack.Core" Version="2.0.0" />
+    <PackageReference Include="PrimeFuncPack.Dependency.Core" Version="2.0.1" />
   </ItemGroup>
 
 </Project>
