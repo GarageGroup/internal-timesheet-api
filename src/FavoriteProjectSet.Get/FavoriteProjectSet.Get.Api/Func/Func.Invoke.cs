@@ -23,7 +23,7 @@ partial class FavoriteProjectSetGetFunc
                 top: configuration.CountTimesheetItems)
             {
                 IncludeAnnotations = "*"
-            }) // Count Timesheet Items
+            })
         .PipeValue(
             dataverseEntitySetGetSupplier.GetEntitySetAsync<TimesheetItemJson>)
         .MapFailure(

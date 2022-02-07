@@ -98,6 +98,36 @@ jobs:
     - name: Test ProjectSet.Search.Api.Test
       run: dotnet test ./src/*/*/ProjectSet.Search.Api.Test.csproj --no-restore  -c Release
       
+      # FavoriteProjectSet.Get.InOut
+    
+    - name: Restore FavoriteProjectSet.Get.InOut
+      run: dotnet restore ./src/*/*/FavoriteProjectSet.Get.InOut.csproj
+
+    - name: Build FavoriteProjectSet.Get.InOut
+      run: dotnet build ./src/*/*/FavoriteProjectSet.Get.InOut.csproj --no-restore  -c Release
+
+    - name: Pack FavoriteProjectSet.Get.InOut
+      run: dotnet pack ./src/*/*/FavoriteProjectSet.Get.InOut.csproj --no-restore -o ~/nuget  -c Release
+      
+    # FavoriteProjectSet.Get.Api
+
+    - name: Restore FavoriteProjectSet.Get.Api
+      run: dotnet restore ./src/*/*/FavoriteProjectSet.Get.Api.csproj
+
+    - name: Build FavoriteProjectSet.Get.Api
+      run: dotnet build ./src/*/*/FavoriteProjectSet.Get.Api.csproj --no-restore  -c Release
+
+    - name: Pack FavoriteProjectSet.Get.Api
+      run: dotnet pack ./src/*/*/FavoriteProjectSet.Get.Api.csproj --no-restore -o ~/nuget  -c Release
+
+    # FavoriteProjectSet.Get.Api.Tests
+
+    - name: Restore FavoriteProjectSet.Get.Api.Test
+      run: dotnet restore ./src/*/*/FavoriteProjectSet.Get.Api.Test.csproj
+
+    - name: Test FavoriteProjectSet.Get.Api.Test
+      run: dotnet test ./src/*/*/FavoriteProjectSet.Get.Api.Test.csproj --no-restore  -c Release
+      
     # Push
 
     - name: Push Packages
