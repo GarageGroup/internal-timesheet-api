@@ -8,11 +8,11 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <RootNamespace>GGroupp.Internal.Timesheet</RootNamespace>
     <AssemblyName>GGroupp.Internal.Timesheet.FavoriteProjectSet.Get.InOut</AssemblyName>
-    <Version>1.6.0</Version>
+    <Version>1.8.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GGroupp.Internal.Timesheet.Core.ProjectType" Version="1.0.0" />
+    <PackageReference Include="GGroupp.Internal.Timesheet.Core.ProjectType" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

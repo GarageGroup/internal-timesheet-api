@@ -1,6 +1,8 @@
 ﻿using GGroupp.Infra;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GGroupp.Internal.Timesheet;
 
@@ -25,7 +27,4 @@ internal sealed partial class FavoriteProjectSetGetFunc : IFavoriteProjectSetGet
         new(
             dataverseEntitySetGetSupplier ?? throw new ArgumentNullException(nameof(dataverseEntitySetGetSupplier)),
             configuration);
-
-    //public partial ValueTask<Result<ProjectSetGetOut, Failure<FavoriteProjectSetGetFailureCode>>> InvokeAsync(
-    //    FavoriteProjectSetGetIn input, CancellationToken cancellationToken = default);
 }
