@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static GGroupp.Internal.Timesheet.TimesheetProjectTypeDataverseApi;
 using static System.FormattableString;
 
 namespace GGroupp.Internal.Timesheet;
@@ -30,10 +31,14 @@ partial class TimesheetCreateGetFunc
 
     private Dictionary<string, object?> CreateEntityData(TimesheetCreateIn input)
     {
-        var (Name, PluralName) = GetProjectEntityData(input.ProjectType);
+        var projectTypeEntityData = GetEntityData(input.ProjectType);
+
+        var name = projectTypeEntityData.EntityName;
+        var pluralName = projectTypeEntityData.EntityPluralName;
+
         var entityData = new Dictionary<string, object?>
         {
-            [$"regardingobjectid_{Name}@odata.bind"] = Invariant($"/{PluralName}({input.ProjectId:D})"),
+            [$"regardingobjectid_{name}@odata.bind"] = Invariant($"/{pluralName}({input.ProjectId:D})"),
             ["gg_date"] = input.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
             ["gg_description"] = input.Description,
             ["gg_duration"] = input.Duration
@@ -47,15 +52,6 @@ partial class TimesheetCreateGetFunc
 
         return entityData;
     }
-
-    private static (string Name, string PluralName) GetProjectEntityData(TimesheetProjectType projectType)
-        =>
-        projectType switch
-        {
-            TimesheetProjectType.Lead => ("lead", "leads"),
-            TimesheetProjectType.Opportunity => ("opportunity", "opportunities"),
-            _ => ("gg_project", "gg_projects")
-        };
 
     private static TimesheetCreateFailureCode MapDataverseFailureCode(DataverseFailureCode dataverseFailureCode)
         =>

@@ -1,5 +1,4 @@
-﻿using DeepEqual.Syntax;
-using GGroupp.Infra;
+﻿using GGroupp.Infra;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -27,27 +26,29 @@ partial class ProjectSetSearchFuncTest
         Assert.True(valueTask.IsCanceled);
     }
 
-    [Fact]
-    public async Task InvokeAsync_CancellationTokenIsNotCanceledAndInputIsDefault_ExpectCallDataVerseApiClientOnce()
+    [Theory]
+    [InlineData(null, null)]
+    [InlineData("", 15)]
+    [InlineData("Some text", -10)]
+    public async Task InvokeAsync_CancellationTokenIsNotCanceled_ExpectCallDataVerseApiClientOnce(string? searchText, int? top)
     {
         var dataverseOut = new DataverseSearchOut(1, new[] { SomeDataverseSearchItem });
-        var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut, IsMatchDataverseInput);
-
-        var token = new CancellationToken(false);
+        var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
 
         var func = CreateFunc(mockDataverseApiClient.Object);
-        _ = await func.InvokeAsync(default, token);
 
-        mockDataverseApiClient.Verify(c => c.SearchAsync(It.IsAny<DataverseSearchIn>(), token), Times.Once);
+        var input = new ProjectSetSearchIn(searchText, top);
+        var token = new CancellationToken(false);
 
-        static void IsMatchDataverseInput(DataverseSearchIn actual)
+        _ = await func.InvokeAsync(input, token);
+
+        var expectedText = string.IsNullOrEmpty(searchText) ? "**" : "*" + searchText + "*";
+        var expected = new DataverseSearchIn("*" + searchText + "*")
         {
-            var expected = new DataverseSearchIn($"**")
-            {
-                Entities = new[] { "gg_project", "lead", "opportunity" }
-            };
-            actual.ShouldDeepEqual(expected);
-        }
+            Entities = TimesheetProjectTypeDataverseApi.EntityNames,
+            Top = top
+        };
+        mockDataverseApiClient.Verify(c => c.SearchAsync(expected, token), Times.Once);
     }
 
     [Fact]
@@ -74,12 +75,16 @@ partial class ProjectSetSearchFuncTest
             });
 
         var thirdProjectId = Guid.Parse("5660cb5b-e3de-465a-9c2a-5a445c1faa1a");
+        var thirdProjectName = "Third Project";
 
         var thirdDataverseSearchItem = new DataverseSearchItem(
             searchScore: 1000,
             objectId: thirdProjectId,
-            entityName: "some",
-            extensionData: default);
+            entityName: "incident",
+            extensionData: new Dictionary<string, DataverseSearchJsonValue>
+            {
+                ["title"] = new(JsonSerializer.SerializeToElement(thirdProjectName))
+            });
 
         var fourthProjectId = Guid.Parse("308891d9-cdca-eb11-bacc-000d3a47050c");
 
@@ -124,6 +129,7 @@ partial class ProjectSetSearchFuncTest
         {
             new(firstProjectId, string.Empty, TimesheetProjectType.Opportunity),
             new(secondProjectId, secondProjectName, TimesheetProjectType.Project),
+            new(thirdProjectId, thirdProjectName, TimesheetProjectType.Incident),
             new(fifthProjectId, fifthProjectName, TimesheetProjectType.Lead)
         };
         Assert.Equal(expected, actual);
@@ -147,18 +153,5 @@ partial class ProjectSetSearchFuncTest
 
         var expected = Failure.Create(expectedFailureCode, dataverseFailure.FailureMessage);
         Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public async Task InvokeAsync_DataverseResultIsSuccessEmpty_ExpectSuccessEmpty()
-    {
-        var dataverseOut = new DataverseSearchOut(4, Array.Empty<DataverseSearchItem>());
-        var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
-
-        var func = CreateFunc(mockDataverseApiClient.Object);
-        var actualResult = await func.InvokeAsync(SomeInput, CancellationToken.None);
-
-        Assert.True(actualResult.IsSuccess);
-        Assert.Empty(actualResult.SuccessOrThrow().Projects);
     }
 }

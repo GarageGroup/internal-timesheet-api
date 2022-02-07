@@ -1,10 +1,5 @@
 ﻿using GGroupp.Infra;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GGroupp.Internal.Timesheet;
 
@@ -12,33 +7,14 @@ using IProjectSetSearch = IAsyncValueFunc<ProjectSetSearchIn, Result<ProjectSetS
 
 internal sealed partial class ProjectSetSearchFunc : IProjectSetSearch
 {
-    private static readonly ReadOnlyDictionary<string, TimesheetProjectType> entityTypes;
-
-    private static readonly ReadOnlyCollection<string> entityNames;
-
-    static ProjectSetSearchFunc()
-    {
-        entityTypes = new(new Dictionary<string, TimesheetProjectType>
-        {
-            ["gg_project"] = TimesheetProjectType.Project,
-            ["lead"] = TimesheetProjectType.Lead,
-            ["opportunity"] = TimesheetProjectType.Opportunity
-        });
-
-        entityNames = new(entityTypes.Keys.ToArray());
-    }
+    public static ProjectSetSearchFunc Create(IDataverseSearchSupplier dataverseSearchSupplier)
+        =>
+        new(
+            dataverseSearchSupplier ?? throw new ArgumentNullException(nameof(dataverseSearchSupplier)));
 
     private readonly IDataverseSearchSupplier dataverseSearchSupplier;
 
     private ProjectSetSearchFunc(IDataverseSearchSupplier dataverseSearchSupplier)
         =>
         this.dataverseSearchSupplier = dataverseSearchSupplier;
-
-    public static ProjectSetSearchFunc Create(IDataverseSearchSupplier dataverseSearchSupplier)
-        =>
-        new(
-            dataverseSearchSupplier ?? throw new ArgumentNullException(nameof(dataverseSearchSupplier)));
-
-    public partial ValueTask<Result<ProjectSetSearchOut, Failure<ProjectSetSearchFailureCode>>> InvokeAsync(
-        ProjectSetSearchIn input, CancellationToken cancellationToken = default);
 }
