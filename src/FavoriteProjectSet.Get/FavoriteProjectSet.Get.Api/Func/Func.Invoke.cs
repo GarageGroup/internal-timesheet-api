@@ -32,7 +32,7 @@ partial class FavoriteProjectSetGetFunc
             static failure => failure.MapFailureCode(MapFailureCode))
         .MapSuccess(
             success => new FavoriteProjectSetGetOut(
-                projects: MapProjects(success.Value)));
+                projects: MapProjects(success.Value, input.Top)));
 
     private string BuildFilter(Guid userId)
     {
@@ -47,8 +47,8 @@ partial class FavoriteProjectSetGetFunc
         return filterBuilder.ToString();
     }
 
-    private IReadOnlyCollection<FavoriteProjectItemGetOut> MapProjects(
-        IReadOnlyCollection<TimesheetItemJson> itemsJson)
+    private static IReadOnlyCollection<FavoriteProjectItemGetOut> MapProjects(
+        IReadOnlyCollection<TimesheetItemJson> itemsJson, int? top)
         =>
         itemsJson.Where(
             static x => EntityNames.Contains(x.TimesheetProjectType.OrEmpty()))
@@ -62,7 +62,7 @@ partial class FavoriteProjectSetGetFunc
                 name: x.TimesheetProjectName,
                 type: GetProjectTypeOrThrow(x.TimesheetProjectType.OrEmpty())))
         .Top(
-            configuration.CountTimesheetItems)
+            top)
         .ToArray();
 
     private static FavoriteProjectSetGetFailureCode MapFailureCode(DataverseFailureCode code)

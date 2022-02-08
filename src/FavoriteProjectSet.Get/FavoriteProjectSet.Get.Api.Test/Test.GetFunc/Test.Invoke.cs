@@ -45,7 +45,9 @@ partial class FavoriteProjectSetGetFuncTest
         var todayValue = DateOnly.Parse(today);
         var mockTodayProvider = CreateMockTodayProvider(todayValue);
 
-        var configuration = new FavoriteProjectSetGetApiConfiguration(150, countTimesheetDays);
+        const int countTimesheetItems = 151;
+        var configuration = new FavoriteProjectSetGetApiConfiguration(countTimesheetItems, countTimesheetDays);
+
         var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, configuration);
         _ = await func.InvokeAsync(input, token);
 
@@ -54,7 +56,7 @@ partial class FavoriteProjectSetGetFuncTest
             orderBy: ApiNames.OrderFiels,
             selectFields: ApiNames.AllFields,
             filter: expectedFilter,
-            top: configuration.CountTimesheetItems)
+            top: countTimesheetItems)
         {
             IncludeAnnotations = "*"
         };
@@ -70,11 +72,13 @@ partial class FavoriteProjectSetGetFuncTest
         var mockTodayProvider = CreateMockTodayProvider(SomeDate);
 
         var configuration = new FavoriteProjectSetGetApiConfiguration(
-            countTimesheetItems: top,
+            countTimesheetItems: 120,
             countTimesheetDays: 11);
 
         var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, configuration);
-        var actualResult = await func.InvokeAsync(SomeInput, default);
+
+        var input = new FavoriteProjectSetGetIn(Guid.Parse("a6de79a6-6a0c-481c-9f5b-c4e7af5ea1be"), top);
+        var actualResult = await func.InvokeAsync(input, default);
 
         Assert.True(actualResult.IsSuccess);
         var actual = actualResult.SuccessOrThrow();
