@@ -85,6 +85,7 @@ partial class FavoriteProjectSetGetFuncTest
     [Theory]
     [InlineData(DataverseFailureCode.Throttling, FavoriteProjectSetGetFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.UserNotEnabled, FavoriteProjectSetGetFailureCode.NotAllowed)]
+    [InlineData(DataverseFailureCode.PrivilegeDenied, FavoriteProjectSetGetFailureCode.NotAllowed)]
     [InlineData(DataverseFailureCode.SearchableEntityNotFound, FavoriteProjectSetGetFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.PicklistValueOutOfRange, FavoriteProjectSetGetFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.RecordNotFound, FavoriteProjectSetGetFailureCode.Unknown)]
