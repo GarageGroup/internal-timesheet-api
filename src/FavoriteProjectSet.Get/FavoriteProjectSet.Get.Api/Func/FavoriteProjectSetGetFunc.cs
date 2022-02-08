@@ -1,8 +1,5 @@
 ﻿using GGroupp.Infra;
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GGroupp.Internal.Timesheet;
 
@@ -10,21 +7,27 @@ using IFavoriteProjectSetGet = IAsyncValueFunc<FavoriteProjectSetGetIn, Result<F
 
 internal sealed partial class FavoriteProjectSetGetFunc : IFavoriteProjectSetGet
 {
+    internal static FavoriteProjectSetGetFunc InternalCreate(
+        IDataverseEntitySetGetSupplier dataverseEntitySetGetSupplier,
+        ITodayProvider todayProvider,
+        FavoriteProjectSetGetApiConfiguration configuration)
+        =>
+        new(
+            dataverseEntitySetGetSupplier, todayProvider, configuration);
+
     private readonly IDataverseEntitySetGetSupplier dataverseEntitySetGetSupplier;
+
+    private readonly ITodayProvider todayProvider;
 
     private readonly FavoriteProjectSetGetApiConfiguration configuration;
 
-    private FavoriteProjectSetGetFunc(IDataverseEntitySetGetSupplier dataverseEntitySetGetSupplier, FavoriteProjectSetGetApiConfiguration configuration)
+    private FavoriteProjectSetGetFunc(
+        IDataverseEntitySetGetSupplier dataverseEntitySetGetSupplier,
+        ITodayProvider todayProvider,
+        FavoriteProjectSetGetApiConfiguration configuration)
     {
         this.dataverseEntitySetGetSupplier = dataverseEntitySetGetSupplier;
+        this.todayProvider = todayProvider;
         this.configuration = configuration;
     }
-
-    public static FavoriteProjectSetGetFunc Create(
-        IDataverseEntitySetGetSupplier dataverseEntitySetGetSupplier, 
-        [AllowNull] FavoriteProjectSetGetApiConfiguration configuration)
-        =>
-        new(
-            dataverseEntitySetGetSupplier ?? throw new ArgumentNullException(nameof(dataverseEntitySetGetSupplier)),
-            configuration);
 }

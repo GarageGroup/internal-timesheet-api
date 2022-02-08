@@ -1,4 +1,5 @@
-﻿using GGroupp.Infra;
+﻿using DeepEqual.Syntax;
+using GGroupp.Infra;
 using Moq;
 using System;
 using System.Threading;
@@ -15,7 +16,8 @@ partial class FavoriteProjectSetGetFuncTest
         var dataverseOut = new DataverseEntitySetGetOut<TimesheetItemJson>(new[] { SomeProjectItemOut });
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
 
-        var func = CreateFunc(mockDataverseApiClient.Object, new FavoriteProjectSetGetApiConfiguration(countTimesheetItems: 50, countTimesheetDays: 7));
+        var mockTodayProvider = CreateMockTodayProvider(SomeDate);
+        var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, new(50, 7));
 
         var input = SomeInput;
         var token = new CancellationToken(canceled: true);
@@ -24,29 +26,34 @@ partial class FavoriteProjectSetGetFuncTest
         Assert.True(valueTask.IsCanceled);
     }
 
-    [Fact]
-    public async Task InvokeAsync_CancellationTokenIsNotCanceled_ExpectCallDataVerseApiClientOnce()
+    [Theory]
+    [InlineData(
+        "bef33be0-99f5-4018-ba80-3366ec9ec1fd", "2022-02-01", 5,
+        "_ownerid_value eq 'bef33be0-99f5-4018-ba80-3366ec9ec1fd' and gg_date gt 2022-01-27")]
+    [InlineData(
+        "e0ede566-276c-4d56-b8d7-aed2f411463e", "2022-01-17", null,
+        "_ownerid_value eq 'e0ede566-276c-4d56-b8d7-aed2f411463e'")]
+    public async Task InvokeAsync_CancellationTokenIsNotCanceled_ExpectCallDataverseApiClientOnce(
+        string userId, string today, int? countTimesheetDays, string expectedFilter)
     {
-
         var dataverseOut = new DataverseEntitySetGetOut<TimesheetItemJson>(new[] { SomeProjectItemOut });
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
 
         var token = new CancellationToken(false);
+        var input = new FavoriteProjectSetGetIn(Guid.Parse(userId), 5);
 
-        const string userGuid = "c7624366-1493-47ee-9f23-ac3fde28bbe2";
-        var input = new FavoriteProjectSetGetIn(
-            userGuid: Guid.Parse(userGuid),
-            top: 5);
+        var todayValue = DateOnly.Parse(today);
+        var mockTodayProvider = CreateMockTodayProvider(todayValue);
 
-        var configuration = new FavoriteProjectSetGetApiConfiguration(countTimesheetItems: 150, countTimesheetDays: 7);
-        var func = CreateFunc(mockDataverseApiClient.Object, configuration);
+        var configuration = new FavoriteProjectSetGetApiConfiguration(150, countTimesheetDays);
+        var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, configuration);
         _ = await func.InvokeAsync(input, token);
 
         var expected = new DataverseEntitySetGetIn(
             entityPluralName: ApiNames.TimesheetEntityPluralName,
             orderBy: ApiNames.OrderFiels,
             selectFields: ApiNames.AllFields,
-            filter: $"{ApiNames.OwnerIdField} eq '{userGuid}' and {ApiNames.DateField} ge {DateTime.Today.AddDays(configuration.CountTimesheetDays * -1):yyyy-MM-dd}",
+            filter: expectedFilter,
             top: configuration.CountTimesheetItems)
         {
             IncludeAnnotations = "*"
@@ -54,180 +61,25 @@ partial class FavoriteProjectSetGetFuncTest
         mockDataverseApiClient.Verify(c => c.GetEntitySetAsync<TimesheetItemJson>(expected, token), Times.Once);
     }
 
-    [Fact]
-    public async Task InvokeAsync_DataverseResultIsSuccessNotEmpty_ExpectSuccessNotEmpty()
+    [Theory]
+    [MemberData(nameof(TestDataSource.GetResponseTestData), MemberType = typeof(TestDataSource))]
+    internal async Task InvokeAsync_DataverseResultIsSuccess_ExpectSuccess(
+        DataverseEntitySetGetOut<TimesheetItemJson> dataverseOut, int? top, FavoriteProjectSetGetOut expected)
     {
-        const string firstProjectId = "c7624366-1493-47ee-9f23-ac3fde28bbe2";
-        const string firstProjectName = "X5";
-        const string firstProjectType = "gg_project";
-        var firstDate = DateTime.Today;
-        var dataverseItem1 = new TimesheetItemJson() 
-        {
-            TimesheetProjectId = Guid.Parse(firstProjectId),
-            TimesheetProjectName = firstProjectName,
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = firstDate,
-        };
-
-        var dataverseItem2 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse(firstProjectId),
-            TimesheetProjectName = firstProjectName,
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = firstDate,
-        };
-
-        var dataverseItem3 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse(firstProjectId),
-            TimesheetProjectName = firstProjectName,
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = firstDate,
-        };
-
-        var dataverseItem4 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse(firstProjectId),
-            TimesheetProjectName = firstProjectName,
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = firstDate,
-        };
-
-        var dataverseItem5 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse(firstProjectId),
-            TimesheetProjectName = firstProjectName,
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = firstDate,
-        };
-
-        var dataverseItem6 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse(firstProjectId),
-            TimesheetProjectName = firstProjectName,
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = firstDate,
-        };
-
-        var dataverseItem7 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse(firstProjectId),
-            TimesheetProjectName = firstProjectName,
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = firstDate,
-        };
-
-        var dataverseItem8 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse(firstProjectId),
-            TimesheetProjectName = firstProjectName,
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = firstDate,
-        };
-
-
-        var dataverseItem9 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse("26c8c7e7-264e-4be8-8621-0da780663ab1"),
-            TimesheetProjectName = "Timesheet",
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = firstDate,
-        };
-
-        var dataverseItem10 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse("26c8c7e7-264e-4be8-8621-0da780663ab1"),
-            TimesheetProjectName = "Timesheet",
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = new DateTime(2020, 01, 01),
-        };
-
-        var dataverseItem11 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse("25c8c7e7-264e-4be8-8621-0da780663ab1"),
-            TimesheetProjectName = "TestProject1",
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = new DateTime(2022, 01, 01),
-        };
-
-        var dataverseItem12 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse("25c8c7e7-264e-4be8-8621-0da780663ab2"),
-            TimesheetProjectName = "TestProject2",
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = new DateTime(2022, 01, 01),
-        };
-
-        var dataverseItem13 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse("25c8c7e7-264e-4be8-8621-0da780663ab3"),
-            TimesheetProjectName = "TestProject3",
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = new DateTime(2022, 01, 01),
-        };
-
-        var dataverseItem14 = new TimesheetItemJson()
-        {
-            TimesheetProjectId = Guid.Parse("25c8c7e7-264e-4be8-8621-0da780663ab4"),
-            TimesheetProjectName = "TestProject4",
-            TimesheetProjectType = firstProjectType,
-            TimesheetDate = new DateTime(2020, 01, 01),
-        };
-
-        var dataverseOut = new DataverseEntitySetGetOut<TimesheetItemJson>(value: new[]
-            {
-                dataverseItem1,
-                dataverseItem2,
-                dataverseItem3,
-                dataverseItem4,
-                dataverseItem5,
-                dataverseItem6,
-                dataverseItem7,
-                dataverseItem8,
-                dataverseItem9,
-                dataverseItem10,
-                dataverseItem11,
-                dataverseItem12,
-                dataverseItem13,
-                dataverseItem14,
-            });
-
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
-        var func = CreateFunc(mockDataverseApiClient.Object, new FavoriteProjectSetGetApiConfiguration(countTimesheetItems: 50, countTimesheetDays: 7));
+        var mockTodayProvider = CreateMockTodayProvider(SomeDate);
 
+        var configuration = new FavoriteProjectSetGetApiConfiguration(
+            countTimesheetItems: top,
+            countTimesheetDays: 11);
+
+        var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, configuration);
         var actualResult = await func.InvokeAsync(SomeInput, default);
 
         Assert.True(actualResult.IsSuccess);
-        var actual = actualResult.SuccessOrThrow().Projects;
+        var actual = actualResult.SuccessOrThrow();
 
-        var expected = new FavoriteProjectItemGetOut[]
-        {
-            new(
-                id: Guid.Parse(firstProjectId),
-                name: firstProjectName,
-                type: TimesheetProjectType.Project),
-            new(
-                id: Guid.Parse("26c8c7e7-264e-4be8-8621-0da780663ab1"),
-                name: "Timesheet",
-                type: TimesheetProjectType.Project),
-            new(
-                id: Guid.Parse("25c8c7e7-264e-4be8-8621-0da780663ab1"),
-                name: "TestProject1",
-                type: TimesheetProjectType.Project),
-            new(
-                id: Guid.Parse("25c8c7e7-264e-4be8-8621-0da780663ab2"),
-                name: "TestProject2",
-                type: TimesheetProjectType.Project),
-            new(
-                id: Guid.Parse("25c8c7e7-264e-4be8-8621-0da780663ab3"),
-                name: "TestProject3",
-                type: TimesheetProjectType.Project),
-            new(
-                id: Guid.Parse("25c8c7e7-264e-4be8-8621-0da780663ab4"),
-                name: "TestProject4",
-                type: TimesheetProjectType.Project)
-        };
-        Assert.Equal(expected, actual);
+        expected.ShouldDeepEqual(actual);
     }
 
     [Theory]
@@ -243,28 +95,13 @@ partial class FavoriteProjectSetGetFuncTest
         var dataverseFailure = Failure.Create(sourceFailureCode, "Some Failure message");
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseFailure);
 
-        var configuration = new FavoriteProjectSetGetApiConfiguration(countTimesheetItems: 150, countTimesheetDays: 7);
+        var mockTodayProvider = CreateMockTodayProvider(SomeDate);
+        var configuration = new FavoriteProjectSetGetApiConfiguration(150, 7);
 
-        var func = CreateFunc(mockDataverseApiClient.Object, new(countTimesheetItems: configuration.CountTimesheetItems, countTimesheetDays: configuration.CountTimesheetDays));
+        var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, configuration);
         var actual = await func.InvokeAsync(SomeInput, CancellationToken.None);
 
         var expected = Failure.Create(expectedFailureCode, dataverseFailure.FailureMessage);
         Assert.Equal(expected, actual);
     }
-
-    [Fact]
-    public async Task InvokeAsync_DataverseResultIsSuccessEmpty_ExpectSuccessEmpty()
-    {
-        var dataverseOut = new DataverseEntitySetGetOut<TimesheetItemJson>(Array.Empty<TimesheetItemJson>());
-        var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
-
-        var configuration = new FavoriteProjectSetGetApiConfiguration(countTimesheetItems: 150, countTimesheetDays: 7);
-
-        var func = CreateFunc(mockDataverseApiClient.Object, new FavoriteProjectSetGetApiConfiguration(countTimesheetItems: configuration.CountTimesheetItems, countTimesheetDays: configuration.CountTimesheetDays));
-        var actualResult = await func.InvokeAsync(SomeInput, CancellationToken.None);
-
-        Assert.True(actualResult.IsSuccess);
-        Assert.Empty(actualResult.SuccessOrThrow().Projects);
-    }
-
 }

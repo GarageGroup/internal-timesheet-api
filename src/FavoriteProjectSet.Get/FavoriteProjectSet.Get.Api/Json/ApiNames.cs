@@ -1,5 +1,4 @@
 ﻿using GGroupp.Infra;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace GGroupp.Internal.Timesheet;
@@ -18,22 +17,13 @@ internal static class ApiNames
 
     public const string DateField = "gg_date";
 
-    public static readonly ReadOnlyDictionary<string, TimesheetProjectType> EntityTypes;
-
     public static readonly ReadOnlyCollection<string> AllFields;
+
     public static readonly ReadOnlyCollection<DataverseOrderParameter> OrderFiels;
 
     static ApiNames()
     {
-        EntityTypes = new(new Dictionary<string, TimesheetProjectType>
-        {
-            ["gg_project"] = TimesheetProjectType.Project,
-            ["lead"] = TimesheetProjectType.Lead,
-            ["opportunity"] = TimesheetProjectType.Opportunity
-        });
-
         AllFields = new(new[] { ProjectIdField, DateField });
-
         OrderFiels = new(new[] { new DataverseOrderParameter(DateField, DataverseOrderDirection.Descending) });
     }
 }
