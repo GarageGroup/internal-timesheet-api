@@ -8,11 +8,11 @@ using System.Runtime.CompilerServices;
 
 namespace GGroupp.Internal.Timesheet;
 
-using IProjectSetGetFunc = IAsyncValueFunc<FavoriteProjectSetGetIn, Result<FavoriteProjectSetGetOut, Failure<FavoriteProjectSetGetFailureCode>>>;
+using IFunc = IAsyncValueFunc<FavoriteProjectSetGetIn, Result<FavoriteProjectSetGetOut, Failure<FavoriteProjectSetGetFailureCode>>>;
 
 public static class FavoriteProjectSetGetDependency
 {
-    public static Dependency<IProjectSetGetFunc> UseFavoriteProjectSetGetApi<TDataverseApiClient>(
+    public static Dependency<IFunc> UseFavoriteProjectSetGetApi<TDataverseApiClient>(
         this Dependency<TDataverseApiClient> dependency,
         Func<IServiceProvider, FavoriteProjectSetGetApiConfiguration> configurationResolver)
         where TDataverseApiClient : IDataverseEntitySetGetSupplier
@@ -21,33 +21,32 @@ public static class FavoriteProjectSetGetDependency
             dependency ?? throw new ArgumentNullException(nameof(dependency)),
             configurationResolver ?? throw new ArgumentNullException(nameof(configurationResolver)));
 
-    public static Dependency<IProjectSetGetFunc> UseFavoriteProjectSetGetApi<TDataverseApiClient>(
+    public static Dependency<IFunc> UseFavoriteProjectSetGetApi<TDataverseApiClient>(
         this Dependency<TDataverseApiClient, FavoriteProjectSetGetApiConfiguration> dependency)
         where TDataverseApiClient : IDataverseEntitySetGetSupplier
         =>
         InnerUseFavoriteProjectSetGetApi(
             dependency ?? throw new ArgumentNullException(nameof(dependency)));
 
-    private static Dependency<IProjectSetGetFunc> InnerUseFavoriteProjectSetGetApi<TDataverseApiClient>(
+    private static Dependency<IFunc> InnerUseFavoriteProjectSetGetApi<TDataverseApiClient>(
         Dependency<TDataverseApiClient> dependency,
         Func<IServiceProvider, FavoriteProjectSetGetApiConfiguration> configurationResolver)
         where TDataverseApiClient : IDataverseEntitySetGetSupplier
         =>
         dependency.With(configurationResolver).InnerUseFavoriteProjectSetGetApi();
 
-    private static Dependency<IProjectSetGetFunc> InnerUseFavoriteProjectSetGetApi<TDataverseApiClient>(
+    private static Dependency<IFunc> InnerUseFavoriteProjectSetGetApi<TDataverseApiClient>(
         this Dependency<TDataverseApiClient, FavoriteProjectSetGetApiConfiguration> dependency)
         where TDataverseApiClient : IDataverseEntitySetGetSupplier
         =>
         dependency.Fold(CreateFavoriteProjectSetGetFunc);
 
-    private static IProjectSetGetFunc CreateFavoriteProjectSetGetFunc<TDataverseApiClient>(
+    private static IFunc CreateFavoriteProjectSetGetFunc<TDataverseApiClient>(
         TDataverseApiClient dataverseApiClient, FavoriteProjectSetGetApiConfiguration apiConfiguration)
         where TDataverseApiClient : IDataverseEntitySetGetSupplier
     {
         _ = dataverseApiClient ?? throw new ArgumentNullException(nameof(dataverseApiClient));
 
-        return FavoriteProjectSetGetFunc.InternalCreate(
-            dataverseApiClient, TodayProviderImpl.Instance, apiConfiguration);
+        return new FavoriteProjectSetGetFunc(dataverseApiClient, TodayProviderImpl.Instance, apiConfiguration);
     }
 }
