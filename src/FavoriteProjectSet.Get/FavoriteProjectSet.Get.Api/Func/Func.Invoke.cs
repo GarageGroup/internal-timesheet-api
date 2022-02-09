@@ -44,6 +44,8 @@ partial class FavoriteProjectSetGetFunc
             filterBuilder = filterBuilder.Append($" and {ApiNames.DateField} gt {minDate:yyyy-MM-dd}");
         }
 
+        filterBuilder = filterBuilder.Append($" and {ApiNames.ProjectIdField} ne null");
+
         return filterBuilder.ToString();
     }
 
