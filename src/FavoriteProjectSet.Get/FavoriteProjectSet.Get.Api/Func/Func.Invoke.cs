@@ -36,15 +36,19 @@ partial class FavoriteProjectSetGetFunc
 
     private string BuildFilter(Guid userId)
     {
-        var filterBuilder = new StringBuilder($"{ApiNames.OwnerIdField} eq '{userId}'");
+        var today = todayProvider.GetToday();
+        var maxDate = today.AddDays(1);
+
+        var filterBuilder = new StringBuilder()
+            .Append($"{ApiNames.OwnerIdField} eq '{userId}'")
+            .Append($" and {ApiNames.ProjectIdField} ne null")
+            .Append($" and {ApiNames.DateField} lt {maxDate:yyyy-MM-dd}");
 
         if (configuration.CountTimesheetDays is not null)
         {
-            var minDate = todayProvider.GetToday().AddDays(configuration.CountTimesheetDays.Value * -1);
+            var minDate = today.AddDays(configuration.CountTimesheetDays.Value * -1);
             filterBuilder = filterBuilder.Append($" and {ApiNames.DateField} gt {minDate:yyyy-MM-dd}");
         }
-
-        filterBuilder = filterBuilder.Append($" and {ApiNames.ProjectIdField} ne null");
 
         return filterBuilder.ToString();
     }

@@ -17,6 +17,8 @@ internal static class ApiNames
 
     public const string DateField = "gg_date";
 
+    private const string CreatedOnField = "createdon";
+
     public static readonly ReadOnlyCollection<string> AllFields;
 
     public static readonly ReadOnlyCollection<DataverseOrderParameter> OrderFiels;
@@ -24,6 +26,10 @@ internal static class ApiNames
     static ApiNames()
     {
         AllFields = new(new[] { ProjectIdField, DateField });
-        OrderFiels = new(new[] { new DataverseOrderParameter(DateField, DataverseOrderDirection.Descending) });
+        OrderFiels = new(new[]
+        {
+            new DataverseOrderParameter(DateField, DataverseOrderDirection.Descending),
+            new DataverseOrderParameter(CreatedOnField, DataverseOrderDirection.Descending)
+        });
     }
 }
