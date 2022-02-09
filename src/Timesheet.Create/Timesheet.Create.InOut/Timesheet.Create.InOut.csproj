@@ -8,11 +8,11 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RootNamespace>GGroupp.Internal.Timesheet</RootNamespace>
     <AssemblyName>GGroupp.Internal.Timesheet.Timesheet.Create.InOut</AssemblyName>
-    <Version>1.4.0</Version>
+    <Version>1.4.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GGroupp.Internal.Timesheet.Core.ProjectType" Version="1.0.0" />
+    <PackageReference Include="GGroupp.Internal.Timesheet.Core.ProjectType" Version="1.0.1" />
   </ItemGroup>
 
 </Project>
