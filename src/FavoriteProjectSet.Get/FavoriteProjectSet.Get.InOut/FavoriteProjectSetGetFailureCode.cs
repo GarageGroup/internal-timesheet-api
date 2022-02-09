@@ -3,5 +3,6 @@
 public enum FavoriteProjectSetGetFailureCode
 {
     Unknown,
+
     NotAllowed
 }

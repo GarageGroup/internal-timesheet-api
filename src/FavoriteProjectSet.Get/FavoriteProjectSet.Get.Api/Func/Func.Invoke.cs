@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static GGroupp.Internal.Timesheet.TimesheetProjectTypeDataverseApi;
 
 namespace GGroupp.Internal.Timesheet;
 
@@ -19,7 +21,7 @@ partial class FavoriteProjectSetGetFunc
                 entityPluralName: ApiNames.TimesheetEntityPluralName,
                 selectFields: ApiNames.AllFields,
                 orderBy: ApiNames.OrderFiels,
-                filter: $"{ApiNames.OwnerIdField} eq '{@in.UserGuid}' and {ApiNames.DateField} ge {DateTime.Today.AddDays(configuration.CountTimesheetDays * -1):yyyy-MM-dd}",
+                filter: BuildFilter(@in.UserId),
                 top: configuration.CountTimesheetItems)
             {
                 IncludeAnnotations = "*"
@@ -27,23 +29,41 @@ partial class FavoriteProjectSetGetFunc
         .PipeValue(
             dataverseEntitySetGetSupplier.GetEntitySetAsync<TimesheetItemJson>)
         .MapFailure(
-            failure => failure.MapFailureCode(MapFailureCode))
+            static failure => failure.MapFailureCode(MapFailureCode))
         .MapSuccess(
             success => new FavoriteProjectSetGetOut(
-                projects: success.Value
-                .Where(
-                    x => ApiNames.EntityTypes.ContainsKey(x.TimesheetProjectType ?? string.Empty))
-                .GroupBy(
-                    x => x.TimesheetProjectId)
-                .Select(
-                    x => x.First())
-                .Select(
-                    x => new FavoriteProjectItemGetOut(
-                        id: x.TimesheetProjectId,
-                        name: x.TimesheetProjectName,
-                        type: ApiNames.EntityTypes[x.TimesheetProjectType ?? string.Empty]))
-                .ToArray())
-            );
+                projects: MapProjects(success.Value, input.Top)));
+
+    private string BuildFilter(Guid userId)
+    {
+        var filterBuilder = new StringBuilder($"{ApiNames.OwnerIdField} eq '{userId}'");
+
+        if (configuration.CountTimesheetDays is not null)
+        {
+            var minDate = todayProvider.GetToday().AddDays(configuration.CountTimesheetDays.Value * -1);
+            filterBuilder = filterBuilder.Append($" and {ApiNames.DateField} gt {minDate:yyyy-MM-dd}");
+        }
+
+        return filterBuilder.ToString();
+    }
+
+    private static IReadOnlyCollection<FavoriteProjectItemGetOut> MapProjects(
+        IReadOnlyCollection<TimesheetItemJson> itemsJson, int? top)
+        =>
+        itemsJson.Where(
+            static x => EntityNames.Contains(x.TimesheetProjectType.OrEmpty()))
+        .GroupBy(
+            static x => x.TimesheetProjectId)
+        .Select(
+            static x => x.First())
+        .Select(
+            static x => new FavoriteProjectItemGetOut(
+                id: x.TimesheetProjectId,
+                name: x.TimesheetProjectName,
+                type: GetProjectTypeOrThrow(x.TimesheetProjectType.OrEmpty())))
+        .Top(
+            top)
+        .ToArray();
 
     private static FavoriteProjectSetGetFailureCode MapFailureCode(DataverseFailureCode code)
         =>

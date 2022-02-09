@@ -5,6 +5,8 @@ namespace GGroupp.Internal.Timesheet;
 
 internal static class ApiNames
 {
+    public const string TimesheetEntityPluralName = "gg_timesheetactivities";
+
     public const string DateFieldName = "gg_date";
 
     public const string DurationFieldName = "gg_duration";

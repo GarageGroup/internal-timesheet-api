@@ -12,5 +12,6 @@ public static class ProjectSetSearchDependency
         this Dependency<IDataVerseApiClient> dependency)
         where IDataVerseApiClient : IDataverseSearchSupplier
         =>
-        dependency.Map<IProjectSetSearchFunc>(apiClient => ProjectSetSearchFunc.Create(apiClient));
+        dependency.Map<IProjectSetSearchFunc>(
+            static apiClient => ProjectSetSearchFunc.Create(apiClient));
 }

@@ -15,7 +15,7 @@ partial class ProjectSetSearchFunc
         AsyncPipeline.Pipe(
             input, cancellationToken)
         .Pipe<DataverseSearchIn>(
-            @in => new($"*{@in.SearchText}*")
+            static @in => new($"*{@in.SearchText}*")
             {
                 Entities = EntityNames,
                 Top = @in.Top
@@ -23,9 +23,9 @@ partial class ProjectSetSearchFunc
         .PipeValue(
             dataverseSearchSupplier.SearchAsync)
         .MapFailure(
-            failure => failure.MapFailureCode(MapFailureCode))
+            static failure => failure.MapFailureCode(MapFailureCode))
         .MapSuccess<ProjectSetSearchOut>(
-            @out => new(@out.Value.Where(IsActualEntityName).Select(MapItemSearch).ToArray()));
+            static @out => new(@out.Value.Where(IsActualEntityName).Select(MapItemSearch).ToArray()));
 
     private static bool IsActualEntityName(DataverseSearchItem item)
         =>
