@@ -29,10 +29,10 @@ partial class FavoriteProjectSetGetFuncTest
     [Theory]
     [InlineData(
         "bef33be0-99f5-4018-ba80-3366ec9ec1fd", "2022-02-01", 5,
-        "_ownerid_value eq 'bef33be0-99f5-4018-ba80-3366ec9ec1fd' and gg_date gt 2022-01-27")]
+        "_ownerid_value eq 'bef33be0-99f5-4018-ba80-3366ec9ec1fd' and gg_date gt 2022-01-27 and _regardingobjectid_value ne null")]
     [InlineData(
         "e0ede566-276c-4d56-b8d7-aed2f411463e", "2022-01-17", null,
-        "_ownerid_value eq 'e0ede566-276c-4d56-b8d7-aed2f411463e'")]
+        "_ownerid_value eq 'e0ede566-276c-4d56-b8d7-aed2f411463e' and _regardingobjectid_value ne null")]
     public async Task InvokeAsync_CancellationTokenIsNotCanceled_ExpectCallDataverseApiClientOnce(
         string userId, string today, int? countTimesheetDays, string expectedFilter)
     {
