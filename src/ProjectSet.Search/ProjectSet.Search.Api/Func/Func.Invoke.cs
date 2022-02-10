@@ -1,6 +1,8 @@
 ﻿using GGroupp.Infra;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static GGroupp.Internal.Timesheet.TimesheetProjectTypeDataverseApi;
@@ -38,8 +40,27 @@ partial class ProjectSetSearchFunc
 
         return new(
             id: item.ObjectId,
-            name: item.ExtensionData.GetValueOrAbsent(fieldName).OrDefault()?.ToString(),
+            name: ExtractNameByProjectType(item.ExtensionData, projectType),
             type: projectType);
+    }
+
+    private static string? ExtractNameByProjectType(
+        IReadOnlyCollection<KeyValuePair<string, DataverseSearchJsonValue>> extensionData,
+        TimesheetProjectType projectType)
+    {
+        var entityData = GetEntityData(projectType);
+        var projectName = extensionData.GetValueOrAbsent(entityData.FieldName).OrDefault()?.ToString();
+        var stringBuilder = new StringBuilder(projectName);
+
+        if(entityData.SecondFieldName is not null)
+        {
+            var secondField = extensionData.GetValueOrAbsent(entityData.SecondFieldName).OrDefault()?.ToString();
+            if(string.IsNullOrEmpty(secondField) is false)
+            {
+                stringBuilder.Append(" (").Append(secondField).Append(')');
+            }
+        }
+        return stringBuilder.ToString();
     }
 
     private static ProjectSetSearchFailureCode MapFailureCode(DataverseFailureCode failureCode)

@@ -18,7 +18,7 @@ public static partial class TimesheetProjectTypeDataverseApi
         var types = new Dictionary<TimesheetProjectType, TimesheetProjectTypeEntityData>
         {
             [TimesheetProjectType.Project] = new("gg_project", "gg_projects", "gg_name"),
-            [TimesheetProjectType.Lead] = new("lead", "leads", "subject"),
+            [TimesheetProjectType.Lead] = new("lead", "leads", "subject", "companyname"),
             [TimesheetProjectType.Opportunity] = new("opportunity", "opportunities", "name"),
             [TimesheetProjectType.Incident] = new("incident", "incidents", "title")
         };

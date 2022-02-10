@@ -96,6 +96,7 @@ partial class ProjectSetSearchFuncTest
 
         var fifthProjectId = Guid.Parse("07dedef2-951c-4405-8e17-4338e7408690");
         var fifthProjectName = "Some test";
+        var fifthProjectName_companyname = "Some company name";
 
         var fifthDataverseSearchItem = new DataverseSearchItem(
             searchScore: 2000,
@@ -103,7 +104,19 @@ partial class ProjectSetSearchFuncTest
             entityName: "lead",
             extensionData: new Dictionary<string, DataverseSearchJsonValue>
             {
-                ["subject"] = new(JsonSerializer.SerializeToElement(fifthProjectName))
+                ["subject"] = new(JsonSerializer.SerializeToElement(fifthProjectName)),
+                ["companyname"] = new(JsonSerializer.SerializeToElement(fifthProjectName_companyname))
+            });
+
+        var sixthProjectId = Guid.Parse("07dedef2-951c-4405-8e17-4338e7408287");
+        var sixthProjectName = "Some test with empty companyname";
+        var sixthDataverseSearchItem = new DataverseSearchItem(
+            searchScore: 238,
+            objectId: sixthProjectId,
+            entityName: "lead",
+            extensionData: new Dictionary<string, DataverseSearchJsonValue>
+            {
+                ["subject"] = new(JsonSerializer.SerializeToElement(sixthProjectName))
             });
 
         var dataverseOut = new DataverseSearchOut(
@@ -114,7 +127,8 @@ partial class ProjectSetSearchFuncTest
                 secondDataverseSearchItem,
                 thirdDataverseSearchItem,
                 fourthDataverseSearchItem,
-                fifthDataverseSearchItem
+                fifthDataverseSearchItem, 
+                sixthDataverseSearchItem
             });
 
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
@@ -130,7 +144,8 @@ partial class ProjectSetSearchFuncTest
             new(firstProjectId, string.Empty, TimesheetProjectType.Opportunity),
             new(secondProjectId, secondProjectName, TimesheetProjectType.Project),
             new(thirdProjectId, thirdProjectName, TimesheetProjectType.Incident),
-            new(fifthProjectId, fifthProjectName, TimesheetProjectType.Lead)
+            new(fifthProjectId, $"{fifthProjectName} ({fifthProjectName_companyname})", TimesheetProjectType.Lead),
+            new(sixthProjectId, sixthProjectName, TimesheetProjectType.Lead)
         };
         Assert.Equal(expected, actual);
     }
