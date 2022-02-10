@@ -119,6 +119,24 @@ partial class ProjectSetSearchFuncTest
                 ["subject"] = new(JsonSerializer.SerializeToElement(sixthProjectName))
             });
 
+        var seventhProjectId = Guid.Parse("07dedef2-951c-4405-8e17-4338e7408237");
+        var seventhProjectName = "Some test with empty subject";
+        var seventhDataverseSearchItem = new DataverseSearchItem(
+            searchScore: 238,
+            objectId: seventhProjectId,
+            entityName: "lead",
+            extensionData: new Dictionary<string, DataverseSearchJsonValue>
+            {
+                ["companyname"] = new(JsonSerializer.SerializeToElement(seventhProjectName))
+            });
+
+        var eighthsProjectId = Guid.Parse("07dedef2-951c-4405-8e17-4338e7408238");
+        var eighthsDataverseSearchItem = new DataverseSearchItem(
+            searchScore: 238,
+            objectId: eighthsProjectId,
+            entityName: "lead",
+            extensionData: default);
+
         var dataverseOut = new DataverseSearchOut(
             totalRecordCount: 0,
             value: new[] 
@@ -128,7 +146,9 @@ partial class ProjectSetSearchFuncTest
                 thirdDataverseSearchItem,
                 fourthDataverseSearchItem,
                 fifthDataverseSearchItem, 
-                sixthDataverseSearchItem
+                sixthDataverseSearchItem,
+                seventhDataverseSearchItem,
+                eighthsDataverseSearchItem
             });
 
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
@@ -145,7 +165,9 @@ partial class ProjectSetSearchFuncTest
             new(secondProjectId, secondProjectName, TimesheetProjectType.Project),
             new(thirdProjectId, thirdProjectName, TimesheetProjectType.Incident),
             new(fifthProjectId, $"{fifthProjectName} ({fifthProjectName_companyname})", TimesheetProjectType.Lead),
-            new(sixthProjectId, sixthProjectName, TimesheetProjectType.Lead)
+            new(sixthProjectId, sixthProjectName, TimesheetProjectType.Lead),
+            new(seventhProjectId, $" ({seventhProjectName})", TimesheetProjectType.Lead),
+            new(eighthsProjectId, string.Empty, TimesheetProjectType.Lead)
         };
         Assert.Equal(expected, actual);
     }
