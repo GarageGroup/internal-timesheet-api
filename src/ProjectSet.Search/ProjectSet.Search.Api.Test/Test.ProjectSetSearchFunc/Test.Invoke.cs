@@ -96,7 +96,7 @@ partial class ProjectSetSearchFuncTest
 
         var fifthProjectId = Guid.Parse("07dedef2-951c-4405-8e17-4338e7408690");
         var fifthProjectName = "Some test";
-        var fifthProjectName_companyname = "Some company name";
+        var fifthProjectNameCompanyName = "Some company name";
 
         var fifthDataverseSearchItem = new DataverseSearchItem(
             searchScore: 2000,
@@ -105,7 +105,7 @@ partial class ProjectSetSearchFuncTest
             extensionData: new Dictionary<string, DataverseSearchJsonValue>
             {
                 ["subject"] = new(JsonSerializer.SerializeToElement(fifthProjectName)),
-                ["companyname"] = new(JsonSerializer.SerializeToElement(fifthProjectName_companyname))
+                ["companyname"] = new(JsonSerializer.SerializeToElement(fifthProjectNameCompanyName))
             });
 
         var sixthProjectId = Guid.Parse("07dedef2-951c-4405-8e17-4338e7408287");
@@ -164,7 +164,7 @@ partial class ProjectSetSearchFuncTest
             new(firstProjectId, string.Empty, TimesheetProjectType.Opportunity),
             new(secondProjectId, secondProjectName, TimesheetProjectType.Project),
             new(thirdProjectId, thirdProjectName, TimesheetProjectType.Incident),
-            new(fifthProjectId, $"{fifthProjectName} ({fifthProjectName_companyname})", TimesheetProjectType.Lead),
+            new(fifthProjectId, $"{fifthProjectName} ({fifthProjectNameCompanyName})", TimesheetProjectType.Lead),
             new(sixthProjectId, sixthProjectName, TimesheetProjectType.Lead),
             new(seventhProjectId, $" ({seventhProjectName})", TimesheetProjectType.Lead),
             new(eighthsProjectId, string.Empty, TimesheetProjectType.Lead)
