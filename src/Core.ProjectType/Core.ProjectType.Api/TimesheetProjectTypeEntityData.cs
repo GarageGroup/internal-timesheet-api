@@ -1,10 +1,8 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace GGroupp.Internal.Timesheet;
 
 public sealed record class TimesheetProjectTypeEntityData
 {
-    public TimesheetProjectTypeEntityData(string entityName, string entityPluralName, string fieldName, [AllowNull]string secondFieldName = null)
+    public TimesheetProjectTypeEntityData(string entityName, string entityPluralName, string fieldName, string? secondFieldName = null)
     {
         EntityName = entityName ?? string.Empty;
         EntityPluralName = entityPluralName ?? string.Empty;
