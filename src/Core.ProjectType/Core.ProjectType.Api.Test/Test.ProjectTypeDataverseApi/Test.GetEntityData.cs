@@ -25,7 +25,8 @@ partial class TimesheetProjectTypeDataverseApiTest
         var expected = new TimesheetProjectTypeEntityData(
             entityName: "lead",
             entityPluralName: "leads",
-            fieldName: "subject");
+            fieldName: "subject",
+            secondFieldName: "companyname");
 
         Assert.Equal(expected, actual);
     }
