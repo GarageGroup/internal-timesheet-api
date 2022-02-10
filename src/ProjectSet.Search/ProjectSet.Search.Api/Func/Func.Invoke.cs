@@ -50,17 +50,25 @@ partial class ProjectSetSearchFunc
     {
         var entityData = GetEntityData(projectType);
         var projectName = extensionData.GetValueOrAbsent(entityData.FieldName).OrDefault()?.ToString();
-        var stringBuilder = new StringBuilder(projectName);
 
-        if(entityData.SecondFieldName is not null)
+        if (entityData.SecondFieldName is null)
         {
-            var secondField = extensionData.GetValueOrAbsent(entityData.SecondFieldName).OrDefault()?.ToString();
-            if(string.IsNullOrEmpty(secondField) is false)
-            {
-                stringBuilder.Append(" (").Append(secondField).Append(')');
-            }
+            return projectName;
         }
-        return stringBuilder.ToString();
+
+        var secondField = extensionData.GetValueOrAbsent(entityData.SecondFieldName).OrDefault()?.ToString();
+        if (string.IsNullOrEmpty(secondField))
+        {
+            return projectName;
+        }
+
+        var stringBuilder = new StringBuilder(projectName);
+        if(string.IsNullOrEmpty(projectName) is false)
+        {
+            stringBuilder.Append(' ');
+        }
+    
+        return stringBuilder.Append('(').Append(secondField).Append(')').ToString();
     }
 
     private static ProjectSetSearchFailureCode MapFailureCode(DataverseFailureCode failureCode)

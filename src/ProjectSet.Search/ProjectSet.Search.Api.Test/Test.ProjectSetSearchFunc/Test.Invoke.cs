@@ -166,7 +166,7 @@ partial class ProjectSetSearchFuncTest
             new(thirdProjectId, thirdProjectName, TimesheetProjectType.Incident),
             new(fifthProjectId, $"{fifthProjectName} ({fifthProjectNameCompanyName})", TimesheetProjectType.Lead),
             new(sixthProjectId, sixthProjectName, TimesheetProjectType.Lead),
-            new(seventhProjectId, $" ({seventhProjectName})", TimesheetProjectType.Lead),
+            new(seventhProjectId, $"({seventhProjectName})", TimesheetProjectType.Lead),
             new(eighthsProjectId, string.Empty, TimesheetProjectType.Lead)
         };
         Assert.Equal(expected, actual);
