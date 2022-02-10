@@ -35,11 +35,11 @@ partial class TimesheetSetGetFunc
         .Append(
             " and ")
         .Append(
-            $"createdon gt '{from:yyyy-MM-dd}'")
+            $"gg_date gt '{from:yyyy-MM-dd}'")
         .Append(
             " and ")
         .Append(
-            $"createdon lt '{to:yyyy-MM-dd}'")
+            $"gg_date lt '{to:yyyy-MM-dd}'")
         .ToString();
 
     private static TimesheetSetItemGetOut MapItemSuccess(TimesheetJsonOut itemJson)
