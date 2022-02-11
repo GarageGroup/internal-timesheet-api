@@ -45,7 +45,7 @@ partial class TimesheetSetGetFuncTest
         var expected = new DataverseEntitySetGetIn(
             entityPluralName: "gg_timesheetactivities",
             selectFields: ApiNames.SelectedFields,
-            filter: $"_ownerid_value eq '{userId}' and gg_date gt '2022-02-05' and gg_date lt '2022-02-06'",
+            filter: $"_ownerid_value eq '{userId}' and gg_date eq 2022-02-05",
             orderBy: ApiNames.OrderBy);
         mockDataverseApiClient.Verify(c => c.GetEntitySetAsync<TimesheetJsonOut>(expected, token), Times.Once);
     }
