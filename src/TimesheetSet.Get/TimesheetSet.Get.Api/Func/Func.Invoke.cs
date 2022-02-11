@@ -18,7 +18,7 @@ partial class TimesheetSetGetFunc
             static @in => new DataverseEntitySetGetIn(
                 entityPluralName: ApiNames.TimesheetEntityPluralName,
                 selectFields: ApiNames.SelectedFields,
-                filter: BuildFilter(@in.UserId, @in.Date, @in.Date.AddDays(1)),
+                filter: BuildFilter(@in.UserId, @in.Date),
                 orderBy: ApiNames.OrderBy))
         .PipeValue(
             entitySetGetSupplier.GetEntitySetAsync<TimesheetJsonOut>)
@@ -28,18 +28,14 @@ partial class TimesheetSetGetFunc
             succsess => new TimesheetSetGetOut(
                 timesheets: succsess.Value.Select(MapItemSuccess).ToArray()));
 
-    private static string BuildFilter(Guid userId, DateOnly from, DateOnly to)
+    private static string BuildFilter(Guid userId, DateOnly date)
         =>
         new StringBuilder(
             $"_ownerid_value eq '{userId}'")
         .Append(
             " and ")
         .Append(
-            $"gg_date gt '{from:yyyy-MM-dd}'")
-        .Append(
-            " and ")
-        .Append(
-            $"gg_date lt '{to:yyyy-MM-dd}'")
+            $"gg_date eq {date:yyyy-MM-dd}")
         .ToString();
 
     private static TimesheetSetItemGetOut MapItemSuccess(TimesheetJsonOut itemJson)
