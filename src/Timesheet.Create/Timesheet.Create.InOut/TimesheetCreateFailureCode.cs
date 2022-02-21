@@ -4,5 +4,9 @@ public enum TimesheetCreateFailureCode
 {
     Unknown,
 
-    NotFound
+    NotFound,
+
+    NotAllowed,
+
+    TooManyRequests
 }

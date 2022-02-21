@@ -1,50 +1,83 @@
 ﻿using GGroupp.Infra;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static GGroupp.Internal.Timesheet.TimesheetProjectTypeDataverseApi;
 
 namespace GGroupp.Internal.Timesheet;
 
 partial class ProjectSetSearchFunc
 {
-    public partial ValueTask<Result<ProjectSetSearchOut, Failure<ProjectSetSearchFailureCode>>> InvokeAsync(
+    public ValueTask<Result<ProjectSetSearchOut, Failure<ProjectSetSearchFailureCode>>> InvokeAsync(
         ProjectSetSearchIn input, CancellationToken cancellationToken)
         =>
         AsyncPipeline.Pipe(
             input, cancellationToken)
-        .Pipe(
-            @in => new DataverseSearchIn($"*{@in.SearchText}*")
+        .Pipe<DataverseSearchIn>(
+            static @in => new($"*{@in.SearchText}*")
             {
-                Entities = entityNames,
+                Entities = EntityNames,
                 Top = @in.Top
             })
         .PipeValue(
             dataverseSearchSupplier.SearchAsync)
         .MapFailure(
-            failure => failure.MapFailureCode( _ => ProjectSetSearchFailureCode.Unknown))
-        .MapSuccess(
-            @out => new ProjectSetSearchOut(
-                @out.Value.Where(IsActualEntityName).Select(MapItemSearch).ToArray()));
+            static failure => failure.MapFailureCode(MapFailureCode))
+        .MapSuccess<ProjectSetSearchOut>(
+            static @out => new(@out.Value.Where(IsActualEntityName).Select(MapItemSearch).ToArray()));
 
     private static bool IsActualEntityName(DataverseSearchItem item)
         =>
-        entityTypes.ContainsKey(item.EntityName);
+        EntityNames.Contains(item.EntityName);
 
     private static ProjectItemSearchOut MapItemSearch(DataverseSearchItem item)
-        => 
-        new(
-            id: item.ObjectId,
-            name: item.ExtensionData.GetValueOrAbsent(GetName(entityTypes[item.EntityName])).OrDefault()?.ToString(),
-            type: entityTypes[item.EntityName]);
+    {
+        var projectType = GetProjectTypeOrThrow(item.EntityName);
+        var fieldName = GetEntityData(projectType).FieldName;
 
-    private static string GetName(TimesheetProjectType projectType)
-        =>
-        projectType switch
+        return new(
+            id: item.ObjectId,
+            name: ExtractNameByProjectType(item.ExtensionData, projectType),
+            type: projectType);
+    }
+
+    private static string? ExtractNameByProjectType(
+        IReadOnlyCollection<KeyValuePair<string, DataverseSearchJsonValue>> extensionData,
+        TimesheetProjectType projectType)
+    {
+        var entityData = GetEntityData(projectType);
+        var projectName = extensionData.GetValueOrAbsent(entityData.FieldName).OrDefault()?.ToString();
+
+        if (entityData.SecondFieldName is null)
         {
-            TimesheetProjectType.Lead => "subject",
-            TimesheetProjectType.Project => "gg_name",
-            TimesheetProjectType.Opportunity => "name",
-            _ => string.Empty
+            return projectName;
+        }
+
+        var secondField = extensionData.GetValueOrAbsent(entityData.SecondFieldName).OrDefault()?.ToString();
+        if (string.IsNullOrEmpty(secondField))
+        {
+            return projectName;
+        }
+
+        var stringBuilder = new StringBuilder(projectName);
+        if(string.IsNullOrEmpty(projectName) is false)
+        {
+            stringBuilder.Append(' ');
+        }
+    
+        return stringBuilder.Append('(').Append(secondField).Append(')').ToString();
+    }
+
+    private static ProjectSetSearchFailureCode MapFailureCode(DataverseFailureCode failureCode)
+        =>
+        failureCode switch
+        {
+            DataverseFailureCode.UserNotEnabled => ProjectSetSearchFailureCode.NotAllowed,
+            DataverseFailureCode.SearchableEntityNotFound => ProjectSetSearchFailureCode.NotAllowed,
+            DataverseFailureCode.Throttling => ProjectSetSearchFailureCode.TooManyRequests,
+            _ => default
         };
 }
