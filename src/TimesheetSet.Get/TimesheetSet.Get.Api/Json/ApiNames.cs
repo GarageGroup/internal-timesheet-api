@@ -26,7 +26,7 @@ internal static class ApiNames
 
         OrderBy = new[]
         {
-            new DataverseOrderParameter("createdon", DataverseOrderDirection.Descending)
+            new DataverseOrderParameter("createdon", DataverseOrderDirection.Ascending)
         };
     }
 }
