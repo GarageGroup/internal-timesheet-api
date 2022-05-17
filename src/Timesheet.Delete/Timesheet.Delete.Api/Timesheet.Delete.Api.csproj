@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RootNamespace>GGroupp.Internal.Timesheet</RootNamespace>
+    <AssemblyName>GGroupp.Internal.Timesheet.Timesheet.Delete.Api</AssemblyName>
+    <Version>1.0.0-build.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GGroupp.Core.Functional.AsyncPipeline" Version="1.1.0" />
+    <PackageReference Include="GGroupp.Infra.Dataverse.Api.Abstractions.EntityDelete" Version="2.2.0" />
+    <PackageReference Include="GGroupp.Internal.Timesheet.Timesheet.Delete.InOut" Version="1.0.0-build.1" />
+    <PackageReference Include="PrimeFuncPack.Core" Version="2.0.0" />
+    <PackageReference Include="PrimeFuncPack.Dependency.Core" Version="2.0.1" />
+  </ItemGroup>
+
+</Project>
