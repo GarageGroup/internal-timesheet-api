@@ -15,6 +15,8 @@ internal static class ApiNames
 
     public const string DescriptionFieldName = "gg_description";
 
+    public const string ActivityIdFieldName = "activityid";
+
     public static readonly IReadOnlyCollection<string> SelectedFields;
 
     public static readonly IReadOnlyCollection<DataverseOrderParameter> OrderBy;

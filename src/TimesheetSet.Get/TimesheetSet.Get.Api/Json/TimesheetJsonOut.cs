@@ -5,6 +5,9 @@ namespace GGroupp.Internal.Timesheet;
 
 internal sealed record class TimesheetJsonOut
 {
+    [JsonPropertyName(ApiNames.ActivityIdFieldName)]
+    public Guid TimesheetId { get; init; }
+
     [JsonPropertyName(ApiNames.DateFieldName)]
     public DateTimeOffset Date { get; init; }
 

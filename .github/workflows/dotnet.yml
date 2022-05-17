@@ -176,7 +176,36 @@ jobs:
 
     - name: Test FavoriteProjectSet.Get.Api.Test
       run: dotnet test ./src/*/*/FavoriteProjectSet.Get.Api.Test.csproj --no-restore  -c Release
+    
+      # Timesheet.Delete.InOut
+    
+    - name: Restore Timesheet.Delete.InOut
+      run: dotnet restore ./src/*/*/Timesheet.Delete.InOut.csproj
+
+    - name: Build Timesheet.Delete.InOut
+      run: dotnet build ./src/*/*/Timesheet.Delete.InOut.csproj --no-restore  -c Release
+
+    - name: Pack Timesheet.Delete.InOut
+      run: dotnet pack ./src/*/*/Timesheet.Delete.InOut.csproj --no-restore -o ~/nuget  -c Release
       
+    # Timesheet.Delete.Api
+
+    - name: Restore Timesheet.Delete.Api
+      run: dotnet restore ./src/*/*/Timesheet.Delete.Api.csproj
+
+    - name: Build Timesheet.Delete.Api
+      run: dotnet build ./src/*/*/Timesheet.Delete.Api.csproj --no-restore  -c Release
+
+    - name: Pack Timesheet.Delete.Api
+      run: dotnet pack ./src/*/*/Timesheet.Delete.Api.csproj --no-restore -o ~/nuget  -c Release
+
+    # Timesheet.Delete.Api.Tests
+
+    - name: Restore Timesheet.Delete.Api.Test
+      run: dotnet restore ./src/*/*/Timesheet.Delete.Api.Test.csproj
+
+    - name: Test Timesheet.Delete.Api.Test
+      run: dotnet test ./src/*/*/Timesheet.Delete.Api.Test.csproj --no-restore  -c Release
     # Push
 
     - name: Push Packages
