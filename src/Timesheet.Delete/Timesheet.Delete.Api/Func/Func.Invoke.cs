@@ -12,7 +12,7 @@ partial class TimesheetDeleteFunc
     public ValueTask<Result<Unit, Failure<TimesheetDeleteFailureCode>>> InvokeAsync(
         TimesheetDeleteIn input, CancellationToken cancellationToken = default)
         =>
-        AsyncPipeline.Start(
+        AsyncPipeline.Pipe(
             input, cancellationToken)
         .Pipe(
             static @in => new DataverseEntityDeleteIn(
