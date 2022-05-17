@@ -41,7 +41,7 @@ partial class TimesheetSetGetFunc
     private static TimesheetSetItemGetOut MapItemSuccess(TimesheetJsonOut itemJson)
         =>
         new(
-            activityId: itemJson.ActivityId,
+            timesheetId: itemJson.TimesheetId,
             date: new(itemJson.Date.Year, itemJson.Date.Month, itemJson.Date.Day),
             duration: itemJson.Duration,
             projectName: itemJson.ProjectName, 
