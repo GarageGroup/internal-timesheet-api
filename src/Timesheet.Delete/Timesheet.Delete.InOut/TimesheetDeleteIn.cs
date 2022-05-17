@@ -9,5 +9,4 @@ public readonly record struct TimesheetDeleteIn
         TimesheetId = timesheetId;
 
     public Guid TimesheetId { get; }
-
 }
