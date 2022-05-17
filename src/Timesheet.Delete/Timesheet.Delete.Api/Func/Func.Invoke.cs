@@ -17,7 +17,7 @@ partial class TimesheetDeleteFunc
         .Pipe(
             static @in => new DataverseEntityDeleteIn(
                 entityPluralName: TimesheetActivityEntityPluralName,
-                entityKey: new DataversePrimaryKey(@in.ActivityId)))
+                entityKey: new DataversePrimaryKey(@in.TimesheetId)))
         .PipeValue(
             entityDeleteSupplier.DeleteEntityAsync)
         .MapFailure(

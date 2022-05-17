@@ -4,10 +4,10 @@ namespace GGroupp.Internal.Timesheet;
 
 public readonly record struct TimesheetDeleteIn
 {
-    public TimesheetDeleteIn(Guid activityId)
+    public TimesheetDeleteIn(Guid timesheetId)
         =>
-        ActivityId = activityId;
+        TimesheetId = timesheetId;
 
-    public Guid ActivityId { get; }
+    public Guid TimesheetId { get; }
 
 }

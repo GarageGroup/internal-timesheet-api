@@ -16,7 +16,6 @@ internal sealed partial class TimesheetDeleteFunc : ITimesheetDeleteFunc
     private const string TimesheetActivityEntityPluralName = "gg_timesheetactivities";
 
     private TimesheetDeleteFunc(IDataverseEntityDeleteSupplier entityDeleteSupplier)
-    {
+        =>
         this.entityDeleteSupplier = entityDeleteSupplier;
-    }
 }
