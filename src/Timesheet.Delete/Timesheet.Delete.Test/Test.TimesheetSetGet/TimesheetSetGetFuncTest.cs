@@ -19,8 +19,6 @@ public sealed partial class TimesheetDeleteFuncTest
     
     private static readonly Guid guid4 = Guid.Parse("e679fa77-3d52-40a7-8faf-eb54ed25ade7");
     
-    private static readonly Guid guid5 = Guid.Parse("50a43b39-0821-48f1-9137-06b57cd26a08");
-    
     private static ITimesheetDeleteFunc CreateFunc(IDataverseEntityDeleteSupplier dataverseDeleteSupplier)
         =>
         Dependency.Of(dataverseDeleteSupplier)
