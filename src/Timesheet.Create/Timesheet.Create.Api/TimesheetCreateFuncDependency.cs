@@ -13,31 +13,27 @@ public static class TimesheetCreateFuncDependency
 {
     public static Dependency<ITimesheetCreateFunc> UseTimesheetCreateApi<TDataverseApiClient>(
         this Dependency<TDataverseApiClient> dependency,
-        Func<IServiceProvider, TimesheetCreateApiConfiguration> configurationResolver)
+        Func<IServiceProvider, TimesheetCreateApiOption> optionResolver)
         where TDataverseApiClient : IDataverseEntityCreateSupplier
-        =>
-        InnerUseTimesheetCreateApi(
-            dependency ?? throw new ArgumentNullException(nameof(dependency)),
-            configurationResolver ?? throw new ArgumentNullException(nameof(configurationResolver)));
+    {
+        _ = dependency ?? throw new ArgumentNullException(nameof(dependency));
+        _ = optionResolver ?? throw new ArgumentNullException(nameof(optionResolver));
+
+        return dependency.With(optionResolver).Fold<ITimesheetCreateFunc>(CreateTimesheetCreateFunc);
+    }
 
     public static Dependency<ITimesheetCreateFunc> UseTimesheetCreateApi<TDataverseApiClient>(
-        this Dependency<TDataverseApiClient, TimesheetCreateApiConfiguration> dependency)
+        this Dependency<TDataverseApiClient, TimesheetCreateApiOption> dependency)
         where TDataverseApiClient : IDataverseEntityCreateSupplier
-        =>
-        InnerUseTimesheetCreateApi(
-            dependency ?? throw new ArgumentNullException(nameof(dependency)));
+    {
+        _ = dependency ?? throw new ArgumentNullException(nameof(dependency));
 
-    private static Dependency<ITimesheetCreateFunc> InnerUseTimesheetCreateApi<TDataverseApiClient>(
-        Dependency<TDataverseApiClient> dependency,
-        Func<IServiceProvider, TimesheetCreateApiConfiguration> configurationResolver)
-        where TDataverseApiClient : IDataverseEntityCreateSupplier
-        =>
-        dependency.With(configurationResolver).InnerUseTimesheetCreateApi();
+        return dependency.Fold<ITimesheetCreateFunc>(CreateTimesheetCreateFunc);
+    }
 
-    private static Dependency<ITimesheetCreateFunc> InnerUseTimesheetCreateApi<TDataverseApiClient>(
-        this Dependency<TDataverseApiClient, TimesheetCreateApiConfiguration> dependency)
+    private static TimesheetCreateFunc CreateTimesheetCreateFunc<TDataverseApiClient>(
+        TDataverseApiClient apiClient, TimesheetCreateApiOption option)
         where TDataverseApiClient : IDataverseEntityCreateSupplier
         =>
-        dependency.Fold<ITimesheetCreateFunc>(
-            (apiClient, configuration) => TimesheetCreateGetFunc.Create(apiClient, configuration));
+        TimesheetCreateFunc.Create(apiClient, option);
 }

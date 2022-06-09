@@ -31,9 +31,9 @@ public sealed partial class FavoriteProjectSetGetFuncTest
     private static FavoriteProjectSetGetFunc CreateFunc(
         IDataverseEntitySetGetSupplier dataverseEntitySetGetSupplier,
         ITodayProvider todayProvider,
-        FavoriteProjectSetGetApiConfiguration apiConfiguration)
+        FavoriteProjectSetGetApiOption option)
         =>
-        new(dataverseEntitySetGetSupplier, todayProvider, apiConfiguration);
+        new(dataverseEntitySetGetSupplier, todayProvider, option);
 
     private static Mock<IDataverseEntitySetGetSupplier> CreateMockDataverseApiClient(
         Result<DataverseEntitySetGetOut<TimesheetItemJson>, Failure<DataverseFailureCode>> result)

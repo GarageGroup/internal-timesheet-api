@@ -16,13 +16,14 @@ partial class FavoriteProjectSetGetFunc
         =>
         AsyncPipeline.Pipe(
             input, cancellationToken)
+        .HandleCancellation()
         .Pipe(
             @in => new DataverseEntitySetGetIn(
                 entityPluralName: ApiNames.TimesheetEntityPluralName,
                 selectFields: ApiNames.AllFields,
                 orderBy: ApiNames.OrderFiels,
                 filter: BuildFilter(@in.UserId),
-                top: configuration.CountTimesheetItems)
+                top: option.CountTimesheetItems)
             {
                 IncludeAnnotations = "*"
             })
@@ -44,9 +45,9 @@ partial class FavoriteProjectSetGetFunc
             .Append($" and {ApiNames.ProjectIdField} ne null")
             .Append($" and {ApiNames.DateField} lt {maxDate:yyyy-MM-dd}");
 
-        if (configuration.CountTimesheetDays is not null)
+        if (option.CountTimesheetDays is not null)
         {
-            var minDate = today.AddDays(configuration.CountTimesheetDays.Value * -1);
+            var minDate = today.AddDays(option.CountTimesheetDays.Value * -1);
             filterBuilder = filterBuilder.Append($" and {ApiNames.DateField} gt {minDate:yyyy-MM-dd}");
         }
 

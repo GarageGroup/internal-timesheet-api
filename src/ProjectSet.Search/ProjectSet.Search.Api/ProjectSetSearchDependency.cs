@@ -8,10 +8,16 @@ using IProjectSetSearchFunc = IAsyncValueFunc<ProjectSetSearchIn, Result<Project
 
 public static class ProjectSetSearchDependency
 {
-    public static Dependency<IProjectSetSearchFunc> UseProjectSetSearchApi<IDataVerseApiClient>(
-        this Dependency<IDataVerseApiClient> dependency)
-        where IDataVerseApiClient : IDataverseSearchSupplier
-        =>
-        dependency.Map<IProjectSetSearchFunc>(
-            static apiClient => ProjectSetSearchFunc.Create(apiClient));
+    public static Dependency<IProjectSetSearchFunc> UseProjectSetSearchApi<TDataVerseApiClient>(
+        this Dependency<TDataVerseApiClient> dependency)
+        where TDataVerseApiClient : IDataverseSearchSupplier
+    {
+        _ = dependency ?? throw new ArgumentNullException(nameof(dependency));
+
+        return dependency.Map<IProjectSetSearchFunc>(CreateFunc);
+
+        static ProjectSetSearchFunc CreateFunc(TDataVerseApiClient apiClient)
+            =>
+            ProjectSetSearchFunc.Create(apiClient);
+    }
 }

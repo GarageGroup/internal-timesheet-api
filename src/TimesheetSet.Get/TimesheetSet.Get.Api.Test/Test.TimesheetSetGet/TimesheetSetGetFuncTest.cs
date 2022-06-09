@@ -38,7 +38,7 @@ public sealed partial class TimesheetSetGetFuncTest
     {
         var mock = new Mock<IDataverseEntitySetGetSupplier>();
 
-        var m = mock
+        _ = mock
             .Setup(s => s.GetEntitySetAsync<TimesheetJsonOut>(It.IsAny<DataverseEntitySetGetIn>(), It.IsAny<CancellationToken>()))
             .Returns(new ValueTask<Result<DataverseEntitySetGetOut<TimesheetJsonOut>, Failure<DataverseFailureCode>>>(result));
 

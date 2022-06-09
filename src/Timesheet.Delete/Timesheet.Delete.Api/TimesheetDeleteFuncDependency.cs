@@ -13,6 +13,13 @@ public static class TimesheetDeleteFuncDependency
 {
     public static Dependency<ITimesheetDeleteFunc> UseTimesheetDeleteApi<TDataverseApiClient>(this Dependency<TDataverseApiClient> dependency)
         where TDataverseApiClient : IDataverseEntityDeleteSupplier
-        =>
-        dependency.Map<ITimesheetDeleteFunc>(apiClient => TimesheetDeleteFunc.Create(apiClient));
+    {
+        _ = dependency ?? throw new ArgumentNullException(nameof(dependency));
+
+        return dependency.Map<ITimesheetDeleteFunc>(CreateFunc);
+
+        static TimesheetDeleteFunc CreateFunc(TDataverseApiClient apiClient)
+            =>
+            TimesheetDeleteFunc.Create(apiClient);
+    }
 }

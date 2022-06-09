@@ -9,7 +9,7 @@ using DeepEqual.Syntax;
 
 namespace GGroupp.Internal.Timesheet.Create.Api.Test;
 
-partial class TimesheetCreateGetFuncTest
+partial class TimesheetCreateFuncTest
 {
     [Fact]
     public void InvokeAsync_CancellationTokenIsCanceled_ExpectValueTaskIsCanceled()
@@ -85,7 +85,7 @@ partial class TimesheetCreateGetFuncTest
     public async Task InvokeAsync_ChannelCodeIsFromConfigurationNotNull_ExpectCallDataVerseApiClientWithChannelCodeOnce(
         TimesheetChannel channel, int channelCode)
     {
-        var configuration = new TimesheetCreateApiConfiguration(
+        var option = new TimesheetCreateApiOption(
             new Dictionary<TimesheetChannel, int?>
             {
                 [channel] = channelCode
@@ -94,7 +94,7 @@ partial class TimesheetCreateGetFuncTest
         var success = new DataverseEntityCreateOut<TimesheetJsonOut>(default);
         var mockDataverseApiClient = CreateMockDataverseApiClient(success, IsMatchDataverseInput);
 
-        var func = CreateFunc(mockDataverseApiClient.Object, configuration);
+        var func = CreateFunc(mockDataverseApiClient.Object, option);
 
         var input = new TimesheetCreateIn(
             date: SomeInput.Date,
@@ -124,7 +124,7 @@ partial class TimesheetCreateGetFuncTest
     {
         var channel = TimesheetChannel.Teams;
 
-        var configuration = new TimesheetCreateApiConfiguration(
+        var option = new TimesheetCreateApiOption(
             new Dictionary<TimesheetChannel, int?>
             {
                 [channel] = null,
@@ -134,7 +134,7 @@ partial class TimesheetCreateGetFuncTest
         var success = new DataverseEntityCreateOut<TimesheetJsonOut>(default);
         var mockDataverseApiClient = CreateMockDataverseApiClient(success, IsMatchDataverseInput);
 
-        var func = CreateFunc(mockDataverseApiClient.Object, configuration);
+        var func = CreateFunc(mockDataverseApiClient.Object, option);
 
         var input = new TimesheetCreateIn(
             date: SomeInput.Date,

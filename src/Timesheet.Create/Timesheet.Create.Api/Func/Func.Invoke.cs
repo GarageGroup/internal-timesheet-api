@@ -10,13 +10,14 @@ using static System.FormattableString;
 
 namespace GGroupp.Internal.Timesheet;
 
-partial class TimesheetCreateGetFunc
+partial class TimesheetCreateFunc
 {
     public ValueTask<Result<TimesheetCreateOut, Failure<TimesheetCreateFailureCode>>> InvokeAsync(
         TimesheetCreateIn input, CancellationToken cancellationToken)
         =>
         AsyncPipeline.Pipe(
             input, cancellationToken)
+        .HandleCancellation()
         .Pipe(
             @in => new DataverseEntityCreateIn<Dictionary<string, object?>>(
                 entityPluralName: "gg_timesheetactivities",
@@ -44,7 +45,7 @@ partial class TimesheetCreateGetFunc
             ["gg_duration"] = input.Duration
         };
 
-        var channelCode = configuration.ChannelCodes.GetValueOrAbsent(input.Channel).OrDefault();
+        var channelCode = option.ChannelCodes.GetValueOrAbsent(input.Channel).OrDefault();
         if (channelCode is not null)
         {
             entityData.Add("gg_timesheetactivity_channel", channelCode);

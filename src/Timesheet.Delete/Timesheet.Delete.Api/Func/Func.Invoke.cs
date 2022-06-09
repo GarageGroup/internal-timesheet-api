@@ -14,6 +14,7 @@ partial class TimesheetDeleteFunc
         =>
         AsyncPipeline.Pipe(
             input, cancellationToken)
+        .HandleCancellation()
         .Pipe(
             static @in => new DataverseEntityDeleteIn(
                 entityPluralName: TimesheetActivityEntityPluralName,
