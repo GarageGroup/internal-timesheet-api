@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GGroupp.Internal.Timesheet;
 
@@ -9,11 +10,11 @@ public readonly record struct TimesheetCreateIn
         Guid projectId,
         TimesheetProjectType projectType,
         decimal duration,
-        string? description,
+        [AllowNull] string description,
         TimesheetChannel channel = default)
     {
         Date = date;
-        Description = description;
+        Description = string.IsNullOrEmpty(description) ? null: description;
         Duration = duration;
         ProjectId = projectId;
         ProjectType = projectType;

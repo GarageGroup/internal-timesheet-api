@@ -1,8 +1,8 @@
 ﻿namespace GGroupp.Internal.Timesheet;
 
-public readonly record struct FavoriteProjectSetGetApiConfiguration
+public readonly record struct FavoriteProjectSetGetApiOption
 {
-    public FavoriteProjectSetGetApiConfiguration(int? countTimesheetItems, int? countTimesheetDays)
+    public FavoriteProjectSetGetApiOption(int? countTimesheetItems, int? countTimesheetDays)
         =>
         (CountTimesheetItems, CountTimesheetDays) = (countTimesheetItems, countTimesheetDays);
 

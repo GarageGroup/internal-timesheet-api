@@ -13,6 +13,13 @@ public static class TimesheetSetGetFuncDependency
 {
     public static Dependency<ITimesheetSetGetFunc> UseTimesheetSetGetApi<TDataverseApiClient>(this Dependency<TDataverseApiClient> dependency)
         where TDataverseApiClient : IDataverseEntitySetGetSupplier
-        =>
-        dependency.Map<ITimesheetSetGetFunc>(apiClient => TimesheetSetGetFunc.Create(apiClient));
+    {
+        _ = dependency ?? throw new ArgumentNullException(nameof(dependency));
+
+        return dependency.Map<ITimesheetSetGetFunc>(CreateFunc);
+
+        static TimesheetSetGetFunc CreateFunc(TDataverseApiClient apiClient)
+            =>
+            TimesheetSetGetFunc.Create(apiClient);
+    }
 }

@@ -16,6 +16,7 @@ partial class ProjectSetSearchFunc
         =>
         AsyncPipeline.Pipe(
             input, cancellationToken)
+        .HandleCancellation()
         .Pipe<DataverseSearchIn>(
             static @in => new($"*{@in.SearchText}*")
             {

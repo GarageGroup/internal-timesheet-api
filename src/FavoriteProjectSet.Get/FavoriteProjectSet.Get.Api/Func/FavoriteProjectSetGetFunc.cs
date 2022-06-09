@@ -11,15 +11,15 @@ internal sealed partial class FavoriteProjectSetGetFunc : IGetFunc
 
     private readonly ITodayProvider todayProvider;
 
-    private readonly FavoriteProjectSetGetApiConfiguration configuration;
+    private readonly FavoriteProjectSetGetApiOption option;
 
     internal FavoriteProjectSetGetFunc(
         IDataverseEntitySetGetSupplier dataverseEntitySetGetSupplier,
         ITodayProvider todayProvider,
-        FavoriteProjectSetGetApiConfiguration configuration)
+        FavoriteProjectSetGetApiOption option)
     {
         this.dataverseEntitySetGetSupplier = dataverseEntitySetGetSupplier;
         this.todayProvider = todayProvider;
-        this.configuration = configuration;
+        this.option = option;
     }
 }

@@ -4,9 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GGroupp.Internal.Timesheet;
 
-public sealed record class TimesheetCreateApiConfiguration
+public sealed record class TimesheetCreateApiOption
 {
-    public TimesheetCreateApiConfiguration([AllowNull] IReadOnlyCollection<KeyValuePair<TimesheetChannel, int?>> channelCodes)
+    public TimesheetCreateApiOption([AllowNull] IReadOnlyCollection<KeyValuePair<TimesheetChannel, int?>> channelCodes)
         =>
         ChannelCodes = channelCodes ?? Array.Empty<KeyValuePair<TimesheetChannel, int?>>();
 

@@ -46,9 +46,9 @@ partial class FavoriteProjectSetGetFuncTest
         var mockTodayProvider = CreateMockTodayProvider(todayValue);
 
         const int countTimesheetItems = 151;
-        var configuration = new FavoriteProjectSetGetApiConfiguration(countTimesheetItems, countTimesheetDays);
+        var option = new FavoriteProjectSetGetApiOption(countTimesheetItems, countTimesheetDays);
 
-        var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, configuration);
+        var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, option);
         _ = await func.InvokeAsync(input, token);
 
         var expected = new DataverseEntitySetGetIn(
@@ -71,11 +71,11 @@ partial class FavoriteProjectSetGetFuncTest
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
         var mockTodayProvider = CreateMockTodayProvider(SomeDate);
 
-        var configuration = new FavoriteProjectSetGetApiConfiguration(
+        var option = new FavoriteProjectSetGetApiOption(
             countTimesheetItems: 120,
             countTimesheetDays: 11);
 
-        var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, configuration);
+        var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, option);
 
         var input = new FavoriteProjectSetGetIn(Guid.Parse("a6de79a6-6a0c-481c-9f5b-c4e7af5ea1be"), top);
         var actualResult = await func.InvokeAsync(input, default);
@@ -101,9 +101,9 @@ partial class FavoriteProjectSetGetFuncTest
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseFailure);
 
         var mockTodayProvider = CreateMockTodayProvider(SomeDate);
-        var configuration = new FavoriteProjectSetGetApiConfiguration(150, 7);
+        var option = new FavoriteProjectSetGetApiOption(150, 7);
 
-        var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, configuration);
+        var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, option);
         var actual = await func.InvokeAsync(SomeInput, CancellationToken.None);
 
         var expected = Failure.Create(expectedFailureCode, dataverseFailure.FailureMessage);

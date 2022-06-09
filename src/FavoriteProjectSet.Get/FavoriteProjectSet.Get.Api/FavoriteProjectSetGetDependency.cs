@@ -14,35 +14,26 @@ public static class FavoriteProjectSetGetDependency
 {
     public static Dependency<IFunc> UseFavoriteProjectSetGetApi<TDataverseApiClient>(
         this Dependency<TDataverseApiClient> dependency,
-        Func<IServiceProvider, FavoriteProjectSetGetApiConfiguration> configurationResolver)
+        Func<IServiceProvider, FavoriteProjectSetGetApiOption> optionResolver)
         where TDataverseApiClient : IDataverseEntitySetGetSupplier
-        =>
-        InnerUseFavoriteProjectSetGetApi(
-            dependency ?? throw new ArgumentNullException(nameof(dependency)),
-            configurationResolver ?? throw new ArgumentNullException(nameof(configurationResolver)));
+    {
+        _ = dependency ?? throw new ArgumentNullException(nameof(dependency));
+        _ = optionResolver ?? throw new ArgumentNullException(nameof(optionResolver));
+
+        return dependency.With(optionResolver).Fold(CreateFavoriteProjectSetGetFunc);
+    }
 
     public static Dependency<IFunc> UseFavoriteProjectSetGetApi<TDataverseApiClient>(
-        this Dependency<TDataverseApiClient, FavoriteProjectSetGetApiConfiguration> dependency)
+        this Dependency<TDataverseApiClient, FavoriteProjectSetGetApiOption> dependency)
         where TDataverseApiClient : IDataverseEntitySetGetSupplier
-        =>
-        InnerUseFavoriteProjectSetGetApi(
-            dependency ?? throw new ArgumentNullException(nameof(dependency)));
+    {
+        _ = dependency ?? throw new ArgumentNullException(nameof(dependency));
 
-    private static Dependency<IFunc> InnerUseFavoriteProjectSetGetApi<TDataverseApiClient>(
-        Dependency<TDataverseApiClient> dependency,
-        Func<IServiceProvider, FavoriteProjectSetGetApiConfiguration> configurationResolver)
-        where TDataverseApiClient : IDataverseEntitySetGetSupplier
-        =>
-        dependency.With(configurationResolver).InnerUseFavoriteProjectSetGetApi();
-
-    private static Dependency<IFunc> InnerUseFavoriteProjectSetGetApi<TDataverseApiClient>(
-        this Dependency<TDataverseApiClient, FavoriteProjectSetGetApiConfiguration> dependency)
-        where TDataverseApiClient : IDataverseEntitySetGetSupplier
-        =>
-        dependency.Fold(CreateFavoriteProjectSetGetFunc);
+        return dependency.Fold(CreateFavoriteProjectSetGetFunc);
+    }
 
     private static IFunc CreateFavoriteProjectSetGetFunc<TDataverseApiClient>(
-        TDataverseApiClient dataverseApiClient, FavoriteProjectSetGetApiConfiguration apiConfiguration)
+        TDataverseApiClient dataverseApiClient, FavoriteProjectSetGetApiOption apiConfiguration)
         where TDataverseApiClient : IDataverseEntitySetGetSupplier
     {
         _ = dataverseApiClient ?? throw new ArgumentNullException(nameof(dataverseApiClient));

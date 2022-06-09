@@ -14,6 +14,7 @@ partial class TimesheetSetGetFunc
         =>
         AsyncPipeline.Pipe(
             input, cancellationToken)
+        .HandleCancellation()
         .Pipe(
             static @in => new DataverseEntitySetGetIn(
                 entityPluralName: ApiNames.TimesheetEntityPluralName,

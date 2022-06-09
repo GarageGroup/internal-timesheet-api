@@ -10,7 +10,7 @@ namespace GGroupp.Internal.Timesheet.Create.Api.Test;
 
 using ITimesheetCreateFunc = IAsyncValueFunc<TimesheetCreateIn, Result<TimesheetCreateOut, Failure<TimesheetCreateFailureCode>>>;
 
-public sealed partial class TimesheetCreateGetFuncTest
+public sealed partial class TimesheetCreateFuncTest
 {
     private static readonly TimesheetCreateIn SomeInput
         =
@@ -23,13 +23,9 @@ public sealed partial class TimesheetCreateGetFuncTest
             channel: TimesheetChannel.Emulator);
 
     private static ITimesheetCreateFunc CreateFunc(
-        IDataverseEntityCreateSupplier dataverseEntityCreateSupplier,
-        TimesheetCreateApiConfiguration apiConfiguration)
+        IDataverseEntityCreateSupplier dataverseEntityCreateSupplier, TimesheetCreateApiOption option)
         =>
-        Dependency.Of(dataverseEntityCreateSupplier)
-        .With(apiConfiguration)
-        .UseTimesheetCreateApi()
-        .Resolve(Mock.Of<IServiceProvider>());
+        Dependency.Of(dataverseEntityCreateSupplier).With(option).UseTimesheetCreateApi().Resolve(Mock.Of<IServiceProvider>());
 
     private static Mock<IDataverseEntityCreateSupplier> CreateMockDataverseApiClient(
         Result<DataverseEntityCreateOut<TimesheetJsonOut>, Failure<DataverseFailureCode>> result,
