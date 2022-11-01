@@ -17,20 +17,13 @@ internal static class ApiNames
 
     public const string ActivityIdFieldName = "activityid";
 
-    public static readonly IReadOnlyCollection<string> SelectedFields;
+    public static readonly FlatArray<string> SelectedFields;
 
-    public static readonly IReadOnlyCollection<DataverseOrderParameter> OrderBy;
+    public static readonly FlatArray<DataverseOrderParameter> OrderBy;
 
     static ApiNames()
     {
-        SelectedFields = new[]
-        {
-            DateFieldName, DurationFieldName, ProjectFieldName, DescriptionFieldName
-        };
-
-        OrderBy = new[]
-        {
-            new DataverseOrderParameter("createdon", DataverseOrderDirection.Ascending)
-        };
+        SelectedFields = new(DateFieldName, DurationFieldName, ProjectFieldName, DescriptionFieldName);
+        OrderBy = new(new DataverseOrderParameter("createdon", DataverseOrderDirection.Ascending));
     }
 }

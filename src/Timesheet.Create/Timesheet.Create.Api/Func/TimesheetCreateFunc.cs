@@ -1,6 +1,6 @@
 ﻿using GGroupp.Infra;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace GGroupp.Internal.Timesheet;
@@ -17,7 +17,7 @@ internal sealed partial class TimesheetCreateFunc : ITimesheetCreateFunc
             entityCreateSupplier ?? throw new ArgumentNullException(nameof(entityCreateSupplier)),
             option ?? new(default));
 
-    private static readonly ReadOnlyCollection<string> selectedFields;
+    private static readonly FlatArray<string> selectedFields;
 
     static TimesheetCreateFunc()
         =>

@@ -7,7 +7,7 @@ namespace GGroupp.Internal.Timesheet;
 
 public static partial class TimesheetProjectTypeDataverseApi
 {
-    private static readonly ReadOnlyCollection<string> entityNames;
+    private static readonly FlatArray<string> entityNames;
 
     private static readonly ReadOnlyDictionary<string, TimesheetProjectType> entityTypes;
 

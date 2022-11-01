@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <InvariantGlobalization>true</InvariantGlobalization>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RootNamespace>GGroupp.Internal.Timesheet</RootNamespace>
     <AssemblyName>GGroupp.Internal.Timesheet.TimesheetSet.Get.Api</AssemblyName>
-    <Version>1.1.0</Version>
+    <Version>2.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="EarlyFuncPack.Core.AsyncPipeline" Version="0.2.0" />
-    <PackageReference Include="GGroupp.Infra.Dataverse.Api.Abstractions.EntitySetGet" Version="2.3.1" />
-    <PackageReference Include="GGroupp.Internal.Timesheet.TimesheetSet.Get.InOut" Version="1.0.2" />
+    <PackageReference Include="GGroupp.Infra.Dataverse.Api.Abstractions.EntitySetGet" Version="3.0.0" />
+    <PackageReference Include="GGroupp.Internal.Timesheet.TimesheetSet.Get.InOut" Version="2.0.0" />
     <PackageReference Include="PrimeFuncPack.Core.Func.Abstractions.AsyncValue" Version="2.0.0" />
     <PackageReference Include="PrimeFuncPack.Dependency.Core" Version="2.0.2" />
   </ItemGroup>

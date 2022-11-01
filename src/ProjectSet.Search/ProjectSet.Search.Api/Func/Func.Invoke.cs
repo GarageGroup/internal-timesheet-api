@@ -28,7 +28,7 @@ partial class ProjectSetSearchFunc
         .MapFailure(
             static failure => failure.MapFailureCode(MapFailureCode))
         .MapSuccess<ProjectSetSearchOut>(
-            static @out => new(@out.Value.Where(IsActualEntityName).Select(MapItemSearch).ToArray()));
+            static @out => new(@out.Value.Where(IsActualEntityName).Select(MapItemSearch).ToFlatArray()));
 
     private static bool IsActualEntityName(DataverseSearchItem item)
         =>

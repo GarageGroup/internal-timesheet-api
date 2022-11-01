@@ -54,7 +54,7 @@ partial class FavoriteProjectSetGetFunc
         return filterBuilder.ToString();
     }
 
-    private static IReadOnlyCollection<FavoriteProjectItemGetOut> MapProjects(
+    private static FlatArray<FavoriteProjectItemGetOut> MapProjects(
         IReadOnlyCollection<TimesheetItemJson> itemsJson, int? top)
         =>
         itemsJson.Where(
@@ -70,7 +70,7 @@ partial class FavoriteProjectSetGetFunc
                 type: GetProjectTypeOrThrow(x.TimesheetProjectType.OrEmpty())))
         .Top(
             top)
-        .ToArray();
+        .ToFlatArray();
 
     private static FavoriteProjectSetGetFailureCode MapFailureCode(DataverseFailureCode code)
         =>

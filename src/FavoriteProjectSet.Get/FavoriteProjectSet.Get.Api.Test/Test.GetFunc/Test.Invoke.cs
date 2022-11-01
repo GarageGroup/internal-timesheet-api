@@ -1,5 +1,4 @@
-﻿using DeepEqual.Syntax;
-using GGroupp.Infra;
+﻿using GGroupp.Infra;
 using Moq;
 using System;
 using System.Threading;
@@ -60,6 +59,7 @@ partial class FavoriteProjectSetGetFuncTest
         {
             IncludeAnnotations = "*"
         };
+
         mockDataverseApiClient.Verify(c => c.GetEntitySetAsync<TimesheetItemJson>(expected, token), Times.Once);
     }
 
@@ -78,16 +78,14 @@ partial class FavoriteProjectSetGetFuncTest
         var func = CreateFunc(mockDataverseApiClient.Object, mockTodayProvider.Object, option);
 
         var input = new FavoriteProjectSetGetIn(Guid.Parse("a6de79a6-6a0c-481c-9f5b-c4e7af5ea1be"), top);
-        var actualResult = await func.InvokeAsync(input, default);
+        var actual = await func.InvokeAsync(input, default);
 
-        Assert.True(actualResult.IsSuccess);
-        var actual = actualResult.SuccessOrThrow();
-
-        expected.ShouldDeepEqual(actual);
+        Assert.Equal(expected, actual);
     }
 
     [Theory]
     [InlineData(DataverseFailureCode.Throttling, FavoriteProjectSetGetFailureCode.Unknown)]
+    [InlineData(DataverseFailureCode.Unauthorized, FavoriteProjectSetGetFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.UserNotEnabled, FavoriteProjectSetGetFailureCode.NotAllowed)]
     [InlineData(DataverseFailureCode.PrivilegeDenied, FavoriteProjectSetGetFailureCode.NotAllowed)]
     [InlineData(DataverseFailureCode.SearchableEntityNotFound, FavoriteProjectSetGetFailureCode.Unknown)]
