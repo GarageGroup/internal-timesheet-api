@@ -6,9 +6,7 @@ public readonly record struct ProjectSetSearchIn
 {
     private readonly string? searchText;
         
-    public ProjectSetSearchIn(
-        [AllowNull] string searchText,
-        int? top)
+    public ProjectSetSearchIn([AllowNull] string searchText, int? top)
     {
         this.searchText = string.IsNullOrEmpty(searchText) ? null : searchText;
         Top = top;

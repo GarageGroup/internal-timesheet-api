@@ -80,31 +80,31 @@ partial class TimesheetSetGetFuncTest
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
         var func = CreateFunc(mockDataverseApiClient.Object);
 
-        var actualResult = await func.InvokeAsync(SomeInput, default);
+        var actual = await func.InvokeAsync(SomeInput, default);
 
-        Assert.True(actualResult.IsSuccess);
-        var actual = actualResult.SuccessOrThrow().Timesheets;
+        var expected = new TimesheetSetGetOut(
+            timesheets: new TimesheetSetItemGetOut[]
+            {
+                new(
+                    timesheetId : Guid.Parse("2f65e056-01d5-ec11-a7b5-0022487fa37b"),
+                    date : new(2022, 02, 15),
+                    duration : 1,
+                    projectName : "SomeFirstProjectName",
+                    description : "Some description"),
+                new(
+                    timesheetId : Guid.Parse("a5768c20-04d5-ec11-a7b5-0022487fa37b"),
+                    date : new(2022, 03, 05),
+                    duration : 5,
+                    projectName : "SomeSecondProjectName",
+                    description : null),
+            });
 
-        var expected = new TimesheetSetItemGetOut[]
-        {
-            new(
-                timesheetId : Guid.Parse("2f65e056-01d5-ec11-a7b5-0022487fa37b"),
-                date : new(2022, 02, 15),
-                duration : 1,
-                projectName : "SomeFirstProjectName",
-                description : "Some description"),
-            new(
-                timesheetId : Guid.Parse("a5768c20-04d5-ec11-a7b5-0022487fa37b"),
-                date : new(2022, 03, 05),
-                duration : 5,
-                projectName : "SomeSecondProjectName",
-                description : null),
-        };
         Assert.Equal(expected, actual);
     }
 
     [Theory]
     [InlineData(DataverseFailureCode.Unknown, TimesheetSetGetFailureCode.Unknown)]
+    [InlineData(DataverseFailureCode.Unauthorized, TimesheetSetGetFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.Throttling, TimesheetSetGetFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.SearchableEntityNotFound, TimesheetSetGetFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.PicklistValueOutOfRange, TimesheetSetGetFailureCode.Unknown)]

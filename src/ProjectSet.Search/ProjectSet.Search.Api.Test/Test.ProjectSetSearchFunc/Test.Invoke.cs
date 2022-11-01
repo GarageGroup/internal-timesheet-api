@@ -2,6 +2,7 @@
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,11 +44,13 @@ partial class ProjectSetSearchFuncTest
         _ = await func.InvokeAsync(input, token);
 
         var expectedText = string.IsNullOrEmpty(searchText) ? "**" : "*" + searchText + "*";
+
         var expected = new DataverseSearchIn("*" + searchText + "*")
         {
             Entities = TimesheetProjectTypeDataverseApi.EntityNames,
             Top = top
         };
+
         mockDataverseApiClient.Verify(c => c.SearchAsync(expected, token), Times.Once);
     }
 
@@ -72,7 +75,7 @@ partial class ProjectSetSearchFuncTest
             extensionData: new Dictionary<string, DataverseSearchJsonValue>
             {
                 ["gg_name"] = new(JsonSerializer.SerializeToElement(secondProjectName))
-            });
+            }.ToFlatArray());
 
         var thirdProjectId = Guid.Parse("5660cb5b-e3de-465a-9c2a-5a445c1faa1a");
         var thirdProjectName = "Third Project";
@@ -84,7 +87,7 @@ partial class ProjectSetSearchFuncTest
             extensionData: new Dictionary<string, DataverseSearchJsonValue>
             {
                 ["title"] = new(JsonSerializer.SerializeToElement(thirdProjectName))
-            });
+            }.ToFlatArray());
 
         var fourthProjectId = Guid.Parse("308891d9-cdca-eb11-bacc-000d3a47050c");
 
@@ -106,7 +109,7 @@ partial class ProjectSetSearchFuncTest
             {
                 ["subject"] = new(JsonSerializer.SerializeToElement(fifthProjectName)),
                 ["companyname"] = new(JsonSerializer.SerializeToElement(fifthProjectNameCompanyName))
-            });
+            }.ToFlatArray());
 
         var sixthProjectId = Guid.Parse("07dedef2-951c-4405-8e17-4338e7408287");
         var sixthProjectName = "Some test with empty companyname";
@@ -117,7 +120,7 @@ partial class ProjectSetSearchFuncTest
             extensionData: new Dictionary<string, DataverseSearchJsonValue>
             {
                 ["subject"] = new(JsonSerializer.SerializeToElement(sixthProjectName))
-            });
+            }.ToFlatArray());
 
         var seventhProjectId = Guid.Parse("07dedef2-951c-4405-8e17-4338e7408237");
         var seventhProjectName = "Some test with empty subject";
@@ -128,7 +131,7 @@ partial class ProjectSetSearchFuncTest
             extensionData: new Dictionary<string, DataverseSearchJsonValue>
             {
                 ["companyname"] = new(JsonSerializer.SerializeToElement(seventhProjectName))
-            });
+            }.ToFlatArray());
 
         var eighthsProjectId = Guid.Parse("07dedef2-951c-4405-8e17-4338e7408238");
         var eighthsDataverseSearchItem = new DataverseSearchItem(
@@ -154,21 +157,20 @@ partial class ProjectSetSearchFuncTest
         var mockDataverseApiClient = CreateMockDataverseApiClient(dataverseOut);
         var func = CreateFunc(mockDataverseApiClient.Object);
 
-        var actualResult = await func.InvokeAsync(SomeInput, default);
+        var actual = await func.InvokeAsync(SomeInput, default);
 
-        Assert.True(actualResult.IsSuccess);
-        var actual = actualResult.SuccessOrThrow().Projects;
+        var expected = new ProjectSetSearchOut(
+            projects: new ProjectItemSearchOut[]
+            {
+                new(firstProjectId, string.Empty, TimesheetProjectType.Opportunity),
+                new(secondProjectId, secondProjectName, TimesheetProjectType.Project),
+                new(thirdProjectId, thirdProjectName, TimesheetProjectType.Incident),
+                new(fifthProjectId, $"{fifthProjectName} ({fifthProjectNameCompanyName})", TimesheetProjectType.Lead),
+                new(sixthProjectId, sixthProjectName, TimesheetProjectType.Lead),
+                new(seventhProjectId, $"({seventhProjectName})", TimesheetProjectType.Lead),
+                new(eighthsProjectId, string.Empty, TimesheetProjectType.Lead)
+            });
 
-        var expected = new ProjectItemSearchOut[]
-        {
-            new(firstProjectId, string.Empty, TimesheetProjectType.Opportunity),
-            new(secondProjectId, secondProjectName, TimesheetProjectType.Project),
-            new(thirdProjectId, thirdProjectName, TimesheetProjectType.Incident),
-            new(fifthProjectId, $"{fifthProjectName} ({fifthProjectNameCompanyName})", TimesheetProjectType.Lead),
-            new(sixthProjectId, sixthProjectName, TimesheetProjectType.Lead),
-            new(seventhProjectId, $"({seventhProjectName})", TimesheetProjectType.Lead),
-            new(eighthsProjectId, string.Empty, TimesheetProjectType.Lead)
-        };
         Assert.Equal(expected, actual);
     }
 
@@ -178,6 +180,7 @@ partial class ProjectSetSearchFuncTest
     [InlineData(DataverseFailureCode.SearchableEntityNotFound, ProjectSetSearchFailureCode.NotAllowed)]
     [InlineData(DataverseFailureCode.PicklistValueOutOfRange, ProjectSetSearchFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.RecordNotFound, ProjectSetSearchFailureCode.Unknown)]
+    [InlineData(DataverseFailureCode.Unauthorized, ProjectSetSearchFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.Unknown, ProjectSetSearchFailureCode.Unknown)]
     public async Task InvokeAsync_DataverseResultIsFailure_ExpectFailure(
         DataverseFailureCode sourceFailureCode, ProjectSetSearchFailureCode expectedFailureCode)

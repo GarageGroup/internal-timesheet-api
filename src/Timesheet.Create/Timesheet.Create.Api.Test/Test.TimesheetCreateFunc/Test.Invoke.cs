@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Xunit;
 using Moq;
 using DeepEqual.Syntax;
+using System.Linq;
 
 namespace GGroupp.Internal.Timesheet.Create.Api.Test;
 
@@ -89,7 +90,7 @@ partial class TimesheetCreateFuncTest
             new Dictionary<TimesheetChannel, int?>
             {
                 [channel] = channelCode
-            });
+            }.ToFlatArray());
 
         var success = new DataverseEntityCreateOut<TimesheetJsonOut>(default);
         var mockDataverseApiClient = CreateMockDataverseApiClient(success, IsMatchDataverseInput);
@@ -129,7 +130,7 @@ partial class TimesheetCreateFuncTest
             {
                 [channel] = null,
                 [TimesheetChannel.Telegram] = 100
-            });
+            }.ToFlatArray());
 
         var success = new DataverseEntityCreateOut<TimesheetJsonOut>(default);
         var mockDataverseApiClient = CreateMockDataverseApiClient(success, IsMatchDataverseInput);
@@ -153,13 +154,13 @@ partial class TimesheetCreateFuncTest
             Times.Once);
 
         static void IsMatchDataverseInput(DataverseEntityCreateIn<Dictionary<string, object?>> actual)
-        {
+            =>
             Assert.False(actual.EntityData.ContainsKey("gg_timesheetactivity_channel"));
-        }
     }
 
     [Theory]
     [InlineData(DataverseFailureCode.Unknown, TimesheetCreateFailureCode.Unknown)]
+    [InlineData(DataverseFailureCode.Unauthorized, TimesheetCreateFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.SearchableEntityNotFound, TimesheetCreateFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.PicklistValueOutOfRange, TimesheetCreateFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.RecordNotFound, TimesheetCreateFailureCode.NotFound)]

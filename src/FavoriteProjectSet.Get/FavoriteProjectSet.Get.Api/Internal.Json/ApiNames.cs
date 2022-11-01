@@ -1,5 +1,5 @@
 ﻿using GGroupp.Infra;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace GGroupp.Internal.Timesheet;
 
@@ -19,17 +19,17 @@ internal static class ApiNames
 
     private const string CreatedOnField = "createdon";
 
-    public static readonly ReadOnlyCollection<string> AllFields;
+    public static readonly FlatArray<string> AllFields;
 
-    public static readonly ReadOnlyCollection<DataverseOrderParameter> OrderFiels;
+    public static readonly FlatArray<DataverseOrderParameter> OrderFiels;
 
     static ApiNames()
     {
-        AllFields = new(new[] { ProjectIdField, DateField });
-        OrderFiels = new(new[]
+        AllFields = new[] { ProjectIdField, DateField };
+        OrderFiels = new[]
         {
             new DataverseOrderParameter(DateField, DataverseOrderDirection.Descending),
             new DataverseOrderParameter(CreatedOnField, DataverseOrderDirection.Descending)
-        });
+        };
     }
 }

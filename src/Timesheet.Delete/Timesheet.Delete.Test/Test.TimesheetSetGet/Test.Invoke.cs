@@ -41,6 +41,7 @@ partial class TimesheetDeleteFuncTest
         var expected = new DataverseEntityDeleteIn(
             "gg_timesheetactivities",
             new DataversePrimaryKey(timesheetId));
+
         mockDataverseApiClient.Verify(c => c.DeleteEntityAsync(expected, token), Times.Once);
     }
 
@@ -51,13 +52,14 @@ partial class TimesheetDeleteFuncTest
         var func = CreateFunc(mockDataverseApiClient.Object);
 
         var actual = await func.InvokeAsync(new TimesheetDeleteIn(Guid.Parse("e861401d-fae4-4ebc-a6ad-fbf98c482b19")), default);
-        var expected = Result.Success(Unit.Value);
+        var expected = Result.Success<Unit>(default);
 
         Assert.Equal(expected, actual);
     }
 
     [Theory]
     [InlineData(DataverseFailureCode.Unknown, TimesheetDeleteFailureCode.Unknown)]
+    [InlineData(DataverseFailureCode.Unauthorized, TimesheetDeleteFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.Throttling, TimesheetDeleteFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.SearchableEntityNotFound, TimesheetDeleteFailureCode.Unknown)]
     [InlineData(DataverseFailureCode.PicklistValueOutOfRange, TimesheetDeleteFailureCode.Unknown)]
