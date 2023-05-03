@@ -16,7 +16,7 @@ jobs:
         dotnet-version: 7.0.x
         include-prerelease: true
 
-     # Add NuGet Sources
+    # Add NuGet Sources
 
     - name: Create Local NuGet Directory
       run: mkdir ~/nuget
@@ -75,7 +75,7 @@ jobs:
     - name: Pack Contract.TimesheetSet.Get
       run: dotnet pack ./src/*/*/Contract.TimesheetSet.Get.csproj --no-restore -o ~/nuget  -c Release
 
-      # Contract.FavoriteProjectSet.Get
+    # Contract.FavoriteProjectSet.Get
 
     - name: Restore Contract.FavoriteProjectSet.Get
       run: dotnet restore ./src/*/*/Contract.FavoriteProjectSet.Get.csproj
@@ -86,7 +86,7 @@ jobs:
     - name: Pack Contract.FavoriteProjectSet.Get
       run: dotnet pack ./src/*/*/Contract.FavoriteProjectSet.Get.csproj --no-restore -o ~/nuget  -c Release
 
-      # Contract.Timesheet.Delete
+    # Contract.Timesheet.Delete
 
     - name: Restore Contract.Timesheet.Delete
       run: dotnet restore ./src/*/*/Contract.Timesheet.Delete.csproj
@@ -96,6 +96,17 @@ jobs:
 
     - name: Pack Contract.Timesheet.Delete
       run: dotnet pack ./src/*/*/Contract.Timesheet.Delete.csproj --no-restore -o ~/nuget  -c Release
+
+    # Contract
+
+    - name: Restore Contract
+      run: dotnet restore ./src/*/*/Contract.csproj
+
+    - name: Build Contract
+      run: dotnet build ./src/*/*/Contract.csproj --no-restore  -c Release
+
+    - name: Pack Contract
+      run: dotnet pack ./src/*/*/Contract.csproj --no-restore -o ~/nuget  -c Release
 
     # Api
 
