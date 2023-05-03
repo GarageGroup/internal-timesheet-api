@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <RootNamespace>GGroupp.Internal.Timesheet</RootNamespace>
+    <AssemblyName>GGroupp.Internal.Timesheet.Api.Contract</AssemblyName>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GGroupp.Internal.Timesheet.Api.Contract.FavoriteProjectSet.Get" Version="1.0.0" />
+    <PackageReference Include="GGroupp.Internal.Timesheet.Api.Contract.ProjectSet.Search" Version="1.0.0" />
+    <PackageReference Include="GGroupp.Internal.Timesheet.Api.Contract.Timesheet.Create" Version="1.0.0" />
+    <PackageReference Include="GGroupp.Internal.Timesheet.Api.Contract.Timesheet.Delete" Version="1.0.0" />
+    <PackageReference Include="GGroupp.Internal.Timesheet.Api.Contract.TimesheetSet.Get" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
