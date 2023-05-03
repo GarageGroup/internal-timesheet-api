@@ -16,7 +16,7 @@ jobs:
         dotnet-version: 7.0.x
         include-prerelease: true
 
-     # Add NuGet Sources
+    # Add NuGet Sources
 
     - name: Create Local NuGet Directory
       run: mkdir ~/nuget
@@ -25,189 +25,114 @@ jobs:
       run: dotnet nuget add source ~/nuget
 
     - name: Add GGroupp NuGet Source
-      run: dotnet nuget add source ${{ secrets.GG_NUGET_SOURCE_URL }} -n ggroupp -u ${{ secrets.GG_NUGET_SOURCE_USER_NAME }} -p ${{ secrets.GG_NUGET_SOURCE_USER_PASSWORD }} --store-password-in-clear-text
+      run: >
+        dotnet nuget add source ${{ secrets.GG_NUGET_SOURCE_URL }}
+        -n ggroupp -u ${{ secrets.GG_NUGET_SOURCE_USER_NAME }}
+        -p ${{ secrets.GG_NUGET_SOURCE_USER_PASSWORD }}
+        --store-password-in-clear-text
 
-    # Core.ProjectType
+    # Entity.TimesheetProjectType
 
-    - name: Restore Core.ProjectType
-      run: dotnet restore ./src/*/*/Core.ProjectType.csproj
+    - name: Restore Entity.TimesheetProjectType
+      run: dotnet restore ./src/*/*/Entity.TimesheetProjectType.csproj
 
-    - name: Build Core.ProjectType
-      run: dotnet build ./src/*/*/Core.ProjectType.csproj --no-restore  -c Release
+    - name: Build Entity.TimesheetProjectType
+      run: dotnet build ./src/*/*/Entity.TimesheetProjectType.csproj --no-restore  -c Release
 
-    - name: Pack Core.ProjectType
-      run: dotnet pack ./src/*/*/Core.ProjectType.csproj --no-restore -o ~/nuget  -c Release
+    - name: Pack Entity.TimesheetProjectType
+      run: dotnet pack ./src/*/*/Entity.TimesheetProjectType.csproj --no-restore -o ~/nuget  -c Release
 
-    # Core.ProjectType.Api
+    # Contract.Timesheet.Create
 
-    - name: Restore Core.ProjectType.Api
-      run: dotnet restore ./src/*/*/Core.ProjectType.Api.csproj
+    - name: Restore Contract.Timesheet.Create
+      run: dotnet restore ./src/*/*/Contract.Timesheet.Create.csproj
 
-    - name: Build Core.ProjectType.Api
-      run: dotnet build ./src/*/*/Core.ProjectType.Api.csproj --no-restore  -c Release
+    - name: Build Contract.Timesheet.Create
+      run: dotnet build ./src/*/*/Contract.Timesheet.Create.csproj --no-restore  -c Release
 
-    - name: Pack Core.ProjectType.Api
-      run: dotnet pack ./src/*/*/Core.ProjectType.Api.csproj --no-restore -o ~/nuget  -c Release
+    - name: Pack Contract.Timesheet.Create
+      run: dotnet pack ./src/*/*/Contract.Timesheet.Create.csproj --no-restore -o ~/nuget  -c Release
 
-    # Core.ProjectType.Api.Tests
+    # Contract.ProjectSet.Search
 
-    - name: Restore Core.ProjectType.Api.Test
-      run: dotnet restore ./src/*/*/Core.ProjectType.Api.Test.csproj
+    - name: Restore Contract.ProjectSet.Search
+      run: dotnet restore ./src/*/*/Contract.ProjectSet.Search.csproj
 
-    - name: Test Core.ProjectType.Api.Test
-      run: dotnet test ./src/*/*/Core.ProjectType.Api.Test.csproj --no-restore  -c Release
+    - name: Build Contract.ProjectSet.Search
+      run: dotnet build ./src/*/*/Contract.ProjectSet.Search.csproj --no-restore  -c Release
 
-    # Timesheet.Create.InOut
+    - name: Pack Contract.ProjectSet.Search
+      run: dotnet pack ./src/*/*/Contract.ProjectSet.Search.csproj --no-restore -o ~/nuget  -c Release
 
-    - name: Restore Timesheet.Create.InOut
-      run: dotnet restore ./src/*/*/Timesheet.Create.InOut.csproj
+    # Contract.TimesheetSet.Get
 
-    - name: Build Timesheet.Create.InOut
-      run: dotnet build ./src/*/*/Timesheet.Create.InOut.csproj --no-restore  -c Release
+    - name: Restore Contract.TimesheetSet.Get
+      run: dotnet restore ./src/*/*/Contract.TimesheetSet.Get.csproj
 
-    - name: Pack Timesheet.Create.InOut
-      run: dotnet pack ./src/*/*/Timesheet.Create.InOut.csproj --no-restore -o ~/nuget  -c Release
+    - name: Build Contract.TimesheetSet.Get
+      run: dotnet build ./src/*/*/Contract.TimesheetSet.Get.csproj --no-restore  -c Release
 
-    # Timesheet.Create.Api
+    - name: Pack Contract.TimesheetSet.Get
+      run: dotnet pack ./src/*/*/Contract.TimesheetSet.Get.csproj --no-restore -o ~/nuget  -c Release
 
-    - name: Restore Timesheet.Create.Api
-      run: dotnet restore ./src/*/*/Timesheet.Create.Api.csproj
+    # Contract.FavoriteProjectSet.Get
 
-    - name: Build Timesheet.Create.Api
-      run: dotnet build ./src/*/*/Timesheet.Create.Api.csproj --no-restore  -c Release
+    - name: Restore Contract.FavoriteProjectSet.Get
+      run: dotnet restore ./src/*/*/Contract.FavoriteProjectSet.Get.csproj
 
-    - name: Pack Timesheet.Create.Api
-      run: dotnet pack ./src/*/*/Timesheet.Create.Api.csproj --no-restore -o ~/nuget  -c Release
+    - name: Build Contract.FavoriteProjectSet.Get
+      run: dotnet build ./src/*/*/Contract.FavoriteProjectSet.Get.csproj --no-restore  -c Release
 
-    # Timesheet.Create.Api.Tests
+    - name: Pack Contract.FavoriteProjectSet.Get
+      run: dotnet pack ./src/*/*/Contract.FavoriteProjectSet.Get.csproj --no-restore -o ~/nuget  -c Release
 
-    - name: Restore Timesheet.Create.Api.Test
-      run: dotnet restore ./src/*/*/Timesheet.Create.Api.Test.csproj
+    # Contract.Timesheet.Delete
 
-    - name: Test Timesheet.Create.Api.Test
-      run: dotnet test ./src/*/*/Timesheet.Create.Api.Test.csproj --no-restore  -c Release
+    - name: Restore Contract.Timesheet.Delete
+      run: dotnet restore ./src/*/*/Contract.Timesheet.Delete.csproj
 
-    # ProjectSet.Search.InOut
-    
-    - name: Restore ProjectSet.Search.InOut
-      run: dotnet restore ./src/*/*/ProjectSet.Search.InOut.csproj
+    - name: Build Contract.Timesheet.Delete
+      run: dotnet build ./src/*/*/Contract.Timesheet.Delete.csproj --no-restore  -c Release
 
-    - name: Build ProjectSet.Search.InOut
-      run: dotnet build ./src/*/*/ProjectSet.Search.InOut.csproj --no-restore  -c Release
+    - name: Pack Contract.Timesheet.Delete
+      run: dotnet pack ./src/*/*/Contract.Timesheet.Delete.csproj --no-restore -o ~/nuget  -c Release
 
-    - name: Pack ProjectSet.Search.InOut
-      run: dotnet pack ./src/*/*/ProjectSet.Search.InOut.csproj --no-restore -o ~/nuget  -c Release
-      
-    # ProjectSet.Search.Api
+    # Contract
 
-    - name: Restore ProjectSet.Search.Api
-      run: dotnet restore ./src/*/*/ProjectSet.Search.Api.csproj
+    - name: Restore Contract
+      run: dotnet restore ./src/*/*/Contract.csproj
 
-    - name: Build ProjectSet.Search.Api
-      run: dotnet build ./src/*/*/ProjectSet.Search.Api.csproj --no-restore  -c Release
+    - name: Build Contract
+      run: dotnet build ./src/*/*/Contract.csproj --no-restore  -c Release
 
-    - name: Pack ProjectSet.Search.Api
-      run: dotnet pack ./src/*/*/ProjectSet.Search.Api.csproj --no-restore -o ~/nuget  -c Release
+    - name: Pack Contract
+      run: dotnet pack ./src/*/*/Contract.csproj --no-restore -o ~/nuget  -c Release
 
-    # ProjectSet.Search.Api.Tests
+    # Api
 
-    - name: Restore ProjectSet.Search.Api.Test
-      run: dotnet restore ./src/*/*/ProjectSet.Search.Api.Test.csproj
+    - name: Restore Api
+      run: dotnet restore ./src/*/*/Api.csproj
 
-    - name: Test ProjectSet.Search.Api.Test
-      run: dotnet test ./src/*/*/ProjectSet.Search.Api.Test.csproj --no-restore  -c Release
+    - name: Build Api
+      run: dotnet build ./src/*/*/Api.csproj --no-restore  -c Release
 
-    # TimesheetSet.Get.InOut
-    
-    - name: Restore TimesheetSet.Get.InOut
-      run: dotnet restore ./src/*/*/TimesheetSet.Get.InOut.csproj
+    - name: Pack Api
+      run: dotnet pack ./src/*/*/Api.csproj --no-restore -o ~/nuget  -c Release
 
-    - name: Build TimesheetSet.Get.InOut
-      run: dotnet build ./src/*/*/TimesheetSet.Get.InOut.csproj --no-restore  -c Release
+    # Api.Test
 
-    - name: Pack TimesheetSet.Get.InOut
-      run: dotnet pack ./src/*/*/TimesheetSet.Get.InOut.csproj --no-restore -o ~/nuget  -c Release
-      
-    # TimesheetSet.Get.Api
+    - name: Restore Api.Test
+      run: dotnet restore ./src/*/*/Api.Test.csproj
 
-    - name: Restore TimesheetSet.Get.Api
-      run: dotnet restore ./src/*/*/TimesheetSet.Get.Api.csproj
+    - name: Test Api.Test
+      run: dotnet test ./src/*/*/Api.Test.csproj --no-restore  -c Release
 
-    - name: Build TimesheetSet.Get.Api
-      run: dotnet build ./src/*/*/TimesheetSet.Get.Api.csproj --no-restore  -c Release
-
-    - name: Pack TimesheetSet.Get.Api
-      run: dotnet pack ./src/*/*/TimesheetSet.Get.Api.csproj --no-restore -o ~/nuget  -c Release
-
-    # TimesheetSet.Get.Api.Tests
-
-    - name: Restore TimesheetSet.Get.Api.Test
-      run: dotnet restore ./src/*/*/TimesheetSet.Get.Api.Test.csproj
-
-    - name: Test TimesheetSet.Get.Api.Test
-      run: dotnet test ./src/*/*/TimesheetSet.Get.Api.Test.csproj --no-restore  -c Release
-      
-      # FavoriteProjectSet.Get.InOut
-    
-    - name: Restore FavoriteProjectSet.Get.InOut
-      run: dotnet restore ./src/*/*/FavoriteProjectSet.Get.InOut.csproj
-
-    - name: Build FavoriteProjectSet.Get.InOut
-      run: dotnet build ./src/*/*/FavoriteProjectSet.Get.InOut.csproj --no-restore  -c Release
-
-    - name: Pack FavoriteProjectSet.Get.InOut
-      run: dotnet pack ./src/*/*/FavoriteProjectSet.Get.InOut.csproj --no-restore -o ~/nuget  -c Release
-      
-    # FavoriteProjectSet.Get.Api
-
-    - name: Restore FavoriteProjectSet.Get.Api
-      run: dotnet restore ./src/*/*/FavoriteProjectSet.Get.Api.csproj
-
-    - name: Build FavoriteProjectSet.Get.Api
-      run: dotnet build ./src/*/*/FavoriteProjectSet.Get.Api.csproj --no-restore  -c Release
-
-    - name: Pack FavoriteProjectSet.Get.Api
-      run: dotnet pack ./src/*/*/FavoriteProjectSet.Get.Api.csproj --no-restore -o ~/nuget  -c Release
-
-    # FavoriteProjectSet.Get.Api.Tests
-
-    - name: Restore FavoriteProjectSet.Get.Api.Test
-      run: dotnet restore ./src/*/*/FavoriteProjectSet.Get.Api.Test.csproj
-
-    - name: Test FavoriteProjectSet.Get.Api.Test
-      run: dotnet test ./src/*/*/FavoriteProjectSet.Get.Api.Test.csproj --no-restore  -c Release
-    
-      # Timesheet.Delete.InOut
-    
-    - name: Restore Timesheet.Delete.InOut
-      run: dotnet restore ./src/*/*/Timesheet.Delete.InOut.csproj
-
-    - name: Build Timesheet.Delete.InOut
-      run: dotnet build ./src/*/*/Timesheet.Delete.InOut.csproj --no-restore  -c Release
-
-    - name: Pack Timesheet.Delete.InOut
-      run: dotnet pack ./src/*/*/Timesheet.Delete.InOut.csproj --no-restore -o ~/nuget  -c Release
-      
-    # Timesheet.Delete.Api
-
-    - name: Restore Timesheet.Delete.Api
-      run: dotnet restore ./src/*/*/Timesheet.Delete.Api.csproj
-
-    - name: Build Timesheet.Delete.Api
-      run: dotnet build ./src/*/*/Timesheet.Delete.Api.csproj --no-restore  -c Release
-
-    - name: Pack Timesheet.Delete.Api
-      run: dotnet pack ./src/*/*/Timesheet.Delete.Api.csproj --no-restore -o ~/nuget  -c Release
-
-    # Timesheet.Delete.Api.Tests
-
-    - name: Restore Timesheet.Delete.Api.Test
-      run: dotnet restore ./src/*/*/Timesheet.Delete.Api.Test.csproj
-
-    - name: Test Timesheet.Delete.Api.Test
-      run: dotnet test ./src/*/*/Timesheet.Delete.Api.Test.csproj --no-restore  -c Release
     # Push
 
     - name: Push Packages
       if: ${{ github.ref == 'refs/heads/main' }}
-      run: dotnet nuget push "../../../nuget/*.nupkg" -s ${{ secrets.GG_NUGET_SOURCE_URL }} -k ${{ secrets.GG_NUGET_SOURCE_USER_PASSWORD }} --skip-duplicate
+      run: >
+        dotnet nuget push "../../../nuget/*.nupkg"
+        -s ${{ secrets.GG_NUGET_SOURCE_URL }}
+        -k ${{ secrets.GG_NUGET_SOURCE_USER_PASSWORD }}
+        --skip-duplicate
