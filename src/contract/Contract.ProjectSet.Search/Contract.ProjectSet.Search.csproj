@@ -6,13 +6,13 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <RootNamespace>GGroupp.Internal.Timesheet</RootNamespace>
-    <AssemblyName>GGroupp.Internal.Timesheet.Api.Contract.ProjectSet.Search</AssemblyName>
+    <RootNamespace>GarageGroup.Internal.Timesheet</RootNamespace>
+    <AssemblyName>GarageGroup.Internal.Timesheet.Api.Contract.ProjectSet.Search</AssemblyName>
     <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GGroupp.Internal.Timesheet.Api.Entity.TimesheetProjectType" Version="1.0.0" />
+    <PackageReference Include="GarageGroup.Internal.Timesheet.Api.Entity.TimesheetProjectType" Version="1.0.0" />
     <PackageReference Include="PrimeFuncPack.Core.Failure" Version="2.0.1" />
     <PackageReference Include="PrimeFuncPack.Core.FlatArray" Version="1.1.0" />
     <PackageReference Include="PrimeFuncPack.Core.Result" Version="2.0.2" />

@@ -1,6 +1,6 @@
 using System;
 
-namespace GGroupp.Internal.Timesheet;
+namespace GarageGroup.Internal.Timesheet;
 
 internal sealed class TodayProvider : ITodayProvider
 {

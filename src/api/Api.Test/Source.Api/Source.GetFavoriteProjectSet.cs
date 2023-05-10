@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using GGroupp.Infra;
 
-namespace GGroupp.Internal.Timesheet.Api.Test;
+namespace GarageGroup.Internal.Timesheet.Api.Test;
 
 partial class TimesheetApiTestSource
 {

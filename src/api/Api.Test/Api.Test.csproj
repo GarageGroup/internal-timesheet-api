@@ -7,8 +7,8 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <IsPackable>false</IsPackable>
-    <RootNamespace>GGroupp.Internal.Timesheet.Api.Test</RootNamespace>
-    <AssemblyName>GGroupp.Internal.Timesheet.Api.Test</AssemblyName>
+    <RootNamespace>GarageGroup.Internal.Timesheet.Api.Test</RootNamespace>
+    <AssemblyName>GarageGroup.Internal.Timesheet.Api.Test</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

@@ -7,7 +7,7 @@ using GGroupp.Infra;
 using Moq;
 using Xunit;
 
-namespace GGroupp.Internal.Timesheet.Api.Test;
+namespace GarageGroup.Internal.Timesheet.Api.Test;
 
 partial class TimesheetApiTest
 {

@@ -1,7 +1,7 @@
 using System;
 using GGroupp.Infra;
 
-namespace GGroupp.Internal.Timesheet;
+namespace GarageGroup.Internal.Timesheet;
 
 internal sealed partial class TimesheetApi : ITimesheetApi
 {

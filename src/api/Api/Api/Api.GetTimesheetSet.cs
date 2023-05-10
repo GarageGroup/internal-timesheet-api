@@ -1,9 +1,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using GGroupp;
 using GGroupp.Infra;
 
-namespace GGroupp.Internal.Timesheet;
+namespace GarageGroup.Internal.Timesheet;
 
 partial class TimesheetApi
 {

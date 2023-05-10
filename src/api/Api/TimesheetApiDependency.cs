@@ -4,9 +4,9 @@ using GGroupp.Infra;
 using PrimeFuncPack;
 
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-[assembly: InternalsVisibleTo("GGroupp.Internal.Timesheet.Api.Test")]
+[assembly: InternalsVisibleTo("GarageGroup.Internal.Timesheet.Api.Test")]
 
-namespace GGroupp.Internal.Timesheet;
+namespace GarageGroup.Internal.Timesheet;
 
 public static class TimesheetApiDependency
 {
