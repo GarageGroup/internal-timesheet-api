@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace GGroupp.Internal.Timesheet;
+namespace GarageGroup.Internal.Timesheet;
 
 internal sealed record class TimesheetJsonCreateIn
 {

@@ -2,7 +2,7 @@ using System;
 using System.Text.Json.Serialization;
 using GGroupp.Infra;
 
-namespace GGroupp.Internal.Timesheet;
+namespace GarageGroup.Internal.Timesheet;
 
 internal abstract record class BaseTimesheetItemJson
 {

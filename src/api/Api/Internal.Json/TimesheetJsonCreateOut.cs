@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace GGroupp.Internal.Timesheet;
+namespace GarageGroup.Internal.Timesheet;
 
 internal readonly record struct TimesheetJsonCreateOut
 {

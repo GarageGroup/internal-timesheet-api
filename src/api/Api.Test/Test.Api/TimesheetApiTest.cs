@@ -4,7 +4,7 @@ using System.Threading;
 using GGroupp.Infra;
 using Moq;
 
-namespace GGroupp.Internal.Timesheet.Api.Test;
+namespace GarageGroup.Internal.Timesheet.Api.Test;
 
 public static partial class TimesheetApiTest
 {

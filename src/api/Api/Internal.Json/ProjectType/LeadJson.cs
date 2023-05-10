@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using GGroupp.Infra;
 
-namespace GGroupp.Internal.Timesheet;
+namespace GarageGroup.Internal.Timesheet;
 
 internal sealed record class LeadJson : ITimesheetProjectType
 {

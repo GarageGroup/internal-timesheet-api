@@ -1,4 +1,4 @@
-namespace GGroupp.Internal.Timesheet;
+namespace GarageGroup.Internal.Timesheet;
 
 public interface ITimesheetApi :
     IFavoriteProjectSetGetSupplier,
