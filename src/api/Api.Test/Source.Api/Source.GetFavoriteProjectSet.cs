@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using GGroupp.Infra;
+using GarageGroup.Infra;
 
 namespace GarageGroup.Internal.Timesheet.Api.Test;
 
