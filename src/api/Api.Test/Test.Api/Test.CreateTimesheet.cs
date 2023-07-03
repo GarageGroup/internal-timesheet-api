@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using DeepEqual.Syntax;
-using GGroupp.Infra;
+using GarageGroup.Infra;
 using Moq;
 using Xunit;
 

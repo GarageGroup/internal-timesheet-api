@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using GGroupp.Infra;
+using GarageGroup.Infra;
 using Moq;
 
 namespace GarageGroup.Internal.Timesheet.Api.Test;

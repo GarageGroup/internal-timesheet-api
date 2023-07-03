@@ -1,8 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using GGroupp;
-using GGroupp.Infra;
+using GarageGroup.Infra;
 
 namespace GarageGroup.Internal.Timesheet;
 

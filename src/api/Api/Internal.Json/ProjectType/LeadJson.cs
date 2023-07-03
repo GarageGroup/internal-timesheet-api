@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
-using GGroupp.Infra;
+using GarageGroup.Infra;
 
 namespace GarageGroup.Internal.Timesheet;
 
